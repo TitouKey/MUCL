@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Education. Follow the mission from your school and become mission control: preparations, science awareness, brochures, crew t-shirts and more.') }}{% endblock %}
+{% block title %}{{ t('Education') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <section class="crew-photo crew-photo--video-64-27" role="img" aria-label="{{ t('Placeholder — education visual, ratio 21:9') }}">
+      <span class="crew-media-label">{{ t('Placeholder — education visual, ratio 21:9') }}</span>
+    </section>
+
+    <div class="crew-photo-head">
+      <h1 class="crew-photo-title">{{ t('Run the mission from your school') }}</h1>
+      <div class="crew-photo-desc">
+        <p>
+          {{ t('The mission is not limited to the desert. Schools can take part from a distance, follow the crew day by day and live the adventure in real time — because the next explorers are in today\u2019s classrooms.') }}
+        </p>
+        <p class="support-hero-link">
+          <a class="text-link pdf-download-link" href="#" aria-label="{{ t('Download the presentation brochure (PDF)') }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            {{ t('Download the presentation brochure (PDF)') }}
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <section class="section" aria-labelledby="edu-blocks-title">
+      <h2 class="edu-section-title" id="edu-blocks-title">{{ t('What the programme is about') }}</h2>
+
+      <div class="edu-quads-grid">
+        <article class="edu-quad">
+          <h3 class="edu-quad-title">{{ t('Become mission control') }}</h3>
+          <p>
+            {{ t('From their classroom, students follow the expedition as a real mission control team. They track the crew\u2019s daily life, receive field reports and witness the decisions taken on site — live, from a distance.') }}
+          </p>
+          <p>
+            {{ t('Participating remotely means understanding how a mission is prepared and conducted: the role of each member, the protocols, the communications with the base. Every class becomes part of the adventure.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad">
+          <h3 class="edu-quad-title">{{ t('The preparations') }}</h3>
+          <p>
+            {{ t('Before setting foot in the desert, the crew trains for months: scientific experiments, technical tests, simulations and safety procedures. This preparation gives schools the opportunity to follow every stage of the project.') }}
+          </p>
+          <p>
+            {{ t('Students discover what happens behind the scenes of a space mission — and that the road to Mars starts long before departure.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad">
+          <h3 class="edu-quad-title">{{ t('Raising awareness of science') }}</h3>
+          <p>
+            {{ t('The goal is simple: to spark curiosity and show that science has a place for everyone — future jurists, doctors, engineers, journalists or researchers. Space is an ever-evolving frontier open to every field.') }}
+          </p>
+          <p>
+            {{ t('By living the mission, students learn to ask questions, to experiment and to dream. The explorers of tomorrow are the children of today.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad">
+          <h3 class="edu-quad-title">{{ t('What schools receive') }}</h3>
+          <p>
+            {{ t('Every participating school receives a kit that brings the mission into the classroom: brochures presenting the project, crew t-shirts worn like the crew\u2019s, posters and educational materials to follow the expedition.') }}
+          </p>
+          <p>
+            {{ t('These goodies make the adventure tangible and give every class the feeling of truly being part of the crew.') }}
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--compact" aria-labelledby="edu-project-title">
+      <h2 class="mission-section-title" id="edu-project-title">{{ t('The project') }}</h2>
+      <div class="brochure-copy">
+        <p>
+          {{ t('MARS UCLouvain is a student-led expedition to the Mars Desert Research Station (MDRS) in Utah — one of the most faithful analogues of Mars on Earth. Every two years, a new crew of students prepares, trains and lives the mission in complete isolation.') }}
+        </p>
+        <p>
+          {{ t('Schools follow the expedition as a real mission control team: they track the crew\u2019s daily life, receive field reports and live the adventure in real time. The explorers of tomorrow are in today\u2019s classrooms.') }}
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--compact" aria-labelledby="edu-interventions-title">
+      <h2 class="mission-section-title" id="edu-interventions-title">{{ t('The interventions') }}</h2>
+      <div class="edu-quads-grid">
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('How many') }}</h3>
+          <p>
+            {{ t('Three planned sessions with the class: two before the mission — an introduction to the project, then a preparation session as the crew gets ready — and one after, to look back on the expedition together.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('How long') }}</h3>
+          <p>
+            {{ t('Each intervention lasts about a class period, with room for questions and exchange. The full programme can be concentrated in a term or stretched across the year, depending on what works best for you.') }}
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--compact" aria-labelledby="edu-content-title">
+      <h2 class="mission-section-title" id="edu-content-title">{{ t('Resources and topics covered') }}</h2>
+      <div class="edu-quads-grid">
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('Topics') }}</h3>
+          <ul class="brochure-list">
+            <li>{{ t('The red planet and its environment') }}</li>
+            <li>{{ t('Living and working in isolation') }}</li>
+            <li>{{ t('The roles of a crew — who does what') }}</li>
+            <li>{{ t('Communicating with a base, from a distance') }}</li>
+            <li>{{ t('Science in the desert: experiments in the classroom') }}</li>
+          </ul>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('Resources') }}</h3>
+          <ul class="brochure-list">
+            <li>{{ t('Brochures presenting the project') }}</li>
+            <li>{{ t('Crew t-shirts, worn like the crew\u2019s') }}</li>
+            <li>{{ t('Posters and educational activity sheets') }}</li>
+            <li>{{ t('Field reports and daily mission updates') }}</li>
+            <li>{{ t('Live sessions and Q&A with the crew') }}</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <div class="brochure-cols">
+      <section class="section section--compact" aria-labelledby="edu-time-title">
+        <h2 class="mission-section-title" id="edu-time-title">{{ t('Time and cost') }}</h2>
+        <div class="edu-quad-stack">
+          <article class="edu-quad edu-quad--plain">
+            <h3 class="edu-quad-title">{{ t('Time') }}</h3>
+            <p>
+              {{ t('A light commitment: a handful of sessions over the year, each fitting a normal class period. Teachers are accompanied every step of the way, with ready-to-use materials and no preparation burden.') }}
+            </p>
+          </article>
+
+          <article class="edu-quad edu-quad--plain">
+            <h3 class="edu-quad-title">{{ t('Cost') }}</h3>
+            <p>
+              {{ t('Thanks to our sponsors, participation stays accessible. The kit and materials are covered — only a small contribution per class may be discussed, depending on the school\u2019s situation.') }}
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section--compact" aria-labelledby="edu-gain-title">
+        <h2 class="mission-section-title" id="edu-gain-title">{{ t('What your school takes away') }}</h2>
+        <div class="edu-quad-stack">
+          <article class="edu-quad edu-quad--plain">
+            <h3 class="edu-quad-title">{{ t('For the students') }}</h3>
+            <ul class="brochure-list">
+              <li>{{ t('Curiosity for science, from every discipline') }}</li>
+              <li>{{ t('A real expedition to follow, live') }}</li>
+              <li>{{ t('The feeling of truly being part of the crew') }}</li>
+            </ul>
+          </article>
+
+          <article class="edu-quad edu-quad--plain">
+            <h3 class="edu-quad-title">{{ t('For the school') }}</h3>
+            <ul class="brochure-list">
+              <li>{{ t('Official sponsor status of the expedition') }}</li>
+              <li>{{ t('A place in our Hall of Fame') }}</li>
+              <li>{{ t('A project that brings classes together') }}</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <section class="crew-photo crew-photo--dark" role="img" aria-label="{{ t('Goodies received by schools: mission support t-shirt, mission brochures, patches and pins') }}">
+      <img class="crew-photo-img" src="{{ url_for('static', filename='img/missionshirt.png') }}" alt="">
+    </section>
+
+    <section class="section edu-schools" aria-labelledby="edu-schools-title">
+      <h2 class="edu-section-title" id="edu-schools-title">{{ t('Participating schools') }}</h2>
+
+      <div class="edu-logo-grid">
+        {% for school in schools %}
+          {% if school.website %}
+            <a class="edu-logo" href="{{ school.website }}" target="_blank" rel="noopener noreferrer" aria-label="{{ tr(school, 'name') }}">
+              {% if school.logo %}<img class="edu-logo-img" src="{{ url_for('uploaded_file', filename=school.logo) }}" alt="{{ tr(school, 'name') }}">{% else %}<span>{{ tr(school, 'name') }}</span>{% endif %}
+            </a>
+          {% else %}
+            <div class="edu-logo" role="img" aria-label="{{ tr(school, 'name') }}">
+              {% if school.logo %}<img class="edu-logo-img" src="{{ url_for('uploaded_file', filename=school.logo) }}" alt="{{ tr(school, 'name') }}">{% else %}<span>{{ tr(school, 'name') }}</span>{% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if not schools %}
+        <p class="edu-schools-empty">{{ t('No participating school yet — this list will grow with each visit.') }}</p>
+      {% endif %}
+    </section>
+
+  </main>
+
+  {% with cta_title="Bring the mission to your school", cta_aria="Contact us" %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}

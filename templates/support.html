@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Support us. Follow the global progress and support the mission — every contribution puts your name in the Hall of Fame.') }}{% endblock %}
+{% block title %}{{ t('Support us') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <div class="crew-photo crew-photo--video" aria-label="{{ t('The mission in the desert — support video') }}">
+      <video class="crew-video" autoplay muted loop playsinline preload="auto"
+        poster="{{ url_for('static', filename='img/support-poster.jpg') }}" aria-hidden="true" tabindex="-1">
+        <source src="{{ url_for('static', filename='video/support.mp4') }}" type="video/mp4">
+      </video>
+      <span class="photo-credit">{{ t('Credit: SpaceX') }}</span>
+    </div>
+
+    <div class="crew-photo-head">
+      <h1 class="crew-photo-title">
+        <a class="crew-photo-title-link" href="https://www.gofundme.com/" target="_blank" rel="noopener" aria-label="{{ t('Support the crowdfunding campaign') }}">
+          {{ t('Support us') }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 3h6v6"/>
+            <path d="M10 14 21 3"/>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          </svg>
+        </a>
+      </h1>
+      <div class="crew-photo-desc">
+        <p>
+          {{ t('Every mission is powered by the people who believe in it. Support our crew through the crowdfunding campaign — every contribution gets us one step closer to Mars, and earns you a place in our Hall of Fame.') }}
+        </p>
+        <p class="support-hero-link">
+          <a class="text-link pdf-download-link" href="{{ url_for('brochure') }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            {{ t('Discover the mission in the brochure') }}
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <section class="section support-progress" aria-labelledby="support-progress-title">
+      <div class="global-fund-head">
+        <span class="fund-raised">€0</span>
+        <span class="fund-target">{{ t('raised for the mission') }}</span>
+      </div>
+
+      <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="{{ t('Funding progress') }}">
+        <div class="progress-fill" style="width: 0%"></div>
+      </div>
+
+      <p class="progress-goal">{{ t('Objective: €30,000 – €50,000') }}</p>
+
+      <p class="progress-link">
+        <a class="text-link" href="#support-used">
+          {{ t('See how your support is used') }}
+        </a>
+      </p>
+    </section>
+
+    <section class="section hall-section" aria-labelledby="support-hall-title">
+      <h2 class="mission-section-title hall-title" id="support-hall-title">{{ t('Hall of Fame') }}</h2>
+
+      <p class="hall-intro">
+        {{ t('Every donation, every purchase, every gesture of support earns your name a place on this wall. Add yours today by') }}
+        <a class="hall-cta-link" href="https://www.gofundme.com/" target="_blank" rel="noopener">{{ t('contributing to the mission') }}</a>.
+      </p>
+
+      <div class="hall-wall">
+        {% for name in hall_names %}
+          <span class="hall-brick">{{ name }}</span>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="section support-used" id="support-used" aria-labelledby="support-used-title">
+      <div class="support-used-grid">
+
+        <div class="support-used-chart">
+          <div class="pie-detail">
+            <div class="pie-chart-col">
+              <svg class="pie-svg" viewBox="0 0 200 200" role="img" aria-label="{{ t('Cost breakdown pie chart') }}">
+                <circle class="pie-seg" data-panel="mdrs" cx="100" cy="100" r="80" fill="none" stroke="#ff7a00" stroke-width="34" stroke-dasharray="125.7 377.0" stroke-dashoffset="0" tabindex="0" aria-label="{{ t('MDRS entry, 25 percent') }}"/>
+                <circle class="pie-seg" data-panel="transport" cx="100" cy="100" r="80" fill="none" stroke="#1E6EFF" stroke-width="34" stroke-dasharray="50.3 452.4" stroke-dashoffset="-125.7" tabindex="0" aria-label="{{ t('Transport to the US, 10 percent') }}"/>
+                <circle class="pie-seg" data-panel="research" cx="100" cy="100" r="80" fill="none" stroke="#14A08A" stroke-width="34" stroke-dasharray="125.7 377.0" stroke-dashoffset="-176.0" tabindex="0" aria-label="{{ t('Research, 25 percent') }}"/>
+                <circle class="pie-seg" data-panel="education" cx="100" cy="100" r="80" fill="none" stroke="#8A4FFF" stroke-width="34" stroke-dasharray="100.5 402.1" stroke-dashoffset="-301.7" tabindex="0" aria-label="{{ t('Education, 20 percent') }}"/>
+                <circle class="pie-seg" data-panel="communication" cx="100" cy="100" r="80" fill="none" stroke="#E8499B" stroke-width="34" stroke-dasharray="75.4 427.3" stroke-dashoffset="-402.1" tabindex="0" aria-label="{{ t('Communication, 15 percent') }}"/>
+                <circle class="pie-seg" data-panel="contingencies" cx="100" cy="100" r="80" fill="none" stroke="#E8A800" stroke-width="34" stroke-dasharray="25.1 477.6" stroke-dashoffset="-477.7" tabindex="0" aria-label="{{ t('Contingencies, 5 percent') }}"/>
+              </svg>
+
+              <p class="pie-panel-hint">{{ t('Hover a segment of the chart') }}<br>{{ t('and discover the detailed breakdown.') }}</p>
+            </div>
+
+            <div class="pie-panels">
+              <div class="pie-panel active" data-panel="default">
+                <p class="pie-panel-cat">{{ t('The budget at a glance') }}</p>
+                <ul class="sub-legend">
+                  <li><span class="sub-swatch" style="background:#ff7a00"></span><span class="sub-label">{{ t('MDRS entry') }}</span><span class="sub-pct">25%</span></li>
+                  <li><span class="sub-swatch" style="background:#1E6EFF"></span><span class="sub-label">{{ t('Transport to the US') }}</span><span class="sub-pct">10%</span></li>
+                  <li><span class="sub-swatch" style="background:#14A08A"></span><span class="sub-label">{{ t('Research') }}</span><span class="sub-pct">25%</span></li>
+                  <li><span class="sub-swatch" style="background:#8A4FFF"></span><span class="sub-label">{{ t('Education') }}</span><span class="sub-pct">20%</span></li>
+                  <li><span class="sub-swatch" style="background:#E8499B"></span><span class="sub-label">{{ t('Communication') }}</span><span class="sub-pct">15%</span></li>
+                  <li><span class="sub-swatch" style="background:#E8A800"></span><span class="sub-label">{{ t('Contingencies') }}</span><span class="sub-pct">5%</span></li>
+                </ul>
+              </div>
+
+              <div class="pie-panel" data-panel="mdrs">
+                <p class="pie-panel-cat">{{ t('MDRS entry') }} <span class="pie-panel-pct">{{ t('25% of the budget') }}</span></p>
+                <div class="stacked" aria-hidden="true">
+                  <span style="width:40%"></span>
+                  <span style="width:28%"></span>
+                  <span style="width:20%"></span>
+                  <span style="width:12%"></span>
+                </div>
+                <ul class="sub-legend">
+                  <li><span class="sub-swatch" style="background:#ff7a00"></span><span class="sub-label">{{ t('Food') }}</span><span class="sub-pct">10%</span></li>
+                  <li><span class="sub-swatch" style="background:#ff9d40"></span><span class="sub-label">{{ t('Resources') }}</span><span class="sub-pct">7%</span></li>
+                  <li><span class="sub-swatch" style="background:#ffc08a"></span><span class="sub-label">{{ t('Maintenance') }}</span><span class="sub-pct">5%</span></li>
+                  <li><span class="sub-swatch" style="background:#ffd9b5"></span><span class="sub-label">{{ t('Logistics') }}</span><span class="sub-pct">3%</span></li>
+                </ul>
+              </div>
+
+              <div class="pie-panel" data-panel="transport">
+                <p class="pie-panel-cat">{{ t('Transport to the US') }} <span class="pie-panel-pct">{{ t('10% of the budget') }}</span></p>
+                <div class="stacked" aria-hidden="true">
+                  <span style="width:70%"></span>
+                  <span style="width:30%"></span>
+                </div>
+                <ul class="sub-legend">
+                  <li><span class="sub-swatch" style="background:#1E6EFF"></span><span class="sub-label">{{ t('Flight') }}</span><span class="sub-pct">7%</span></li>
+                  <li><span class="sub-swatch" style="background:#6FA0FF"></span><span class="sub-label">{{ t('Car rental') }}</span><span class="sub-pct">3%</span></li>
+                </ul>
+              </div>
+
+              <div class="pie-panel" data-panel="research">
+                <p class="pie-panel-cat">{{ t('Research') }} <span class="pie-panel-pct">{{ t('25% of the budget') }}</span></p>
+                <div class="stacked" aria-hidden="true">
+                  <span style="width:36%"></span>
+                  <span style="width:28%"></span>
+                  <span style="width:24%"></span>
+                  <span style="width:12%"></span>
+                </div>
+                <ul class="sub-legend">
+                  <li><span class="sub-swatch" style="background:#14A08A"></span><span class="sub-label">{{ t('Equipment') }}</span><span class="sub-pct">9%</span></li>
+                  <li><span class="sub-swatch" style="background:#2FBFA4"></span><span class="sub-label">{{ t('Laboratory analysis') }}</span><span class="sub-pct">7%</span></li>
+                  <li><span class="sub-swatch" style="background:#7BD4C4"></span><span class="sub-label">{{ t('Materials') }}</span><span class="sub-pct">6%</span></li>
+                  <li><span class="sub-swatch" style="background:#B9E9DF"></span><span class="sub-label">{{ t('Outreach') }}</span><span class="sub-pct">3%</span></li>
+                </ul>
+              </div>
+
+              <div class="pie-panel" data-panel="education">
+                <p class="pie-panel-cat">{{ t('Education') }} <span class="pie-panel-pct">{{ t('20% of the budget') }}</span></p>
+                <div class="stacked" aria-hidden="true">
+                  <span style="width:40%"></span>
+                  <span style="width:40%"></span>
+                  <span style="width:20%"></span>
+                </div>
+                <ul class="sub-legend">
+                  <li><span class="sub-swatch" style="background:#8A4FFF"></span><span class="sub-label">{{ t('School visits & talks') }}</span><span class="sub-pct">8%</span></li>
+                  <li><span class="sub-swatch" style="background:#A87CFF"></span><span class="sub-label">{{ t('Materials & kits') }}</span><span class="sub-pct">8%</span></li>
+                  <li><span class="sub-swatch" style="background:#C7A6FF"></span><span class="sub-label">{{ t('Mission control') }}</span><span class="sub-pct">4%</span></li>
+                </ul>
+              </div>
+
+              <div class="pie-panel" data-panel="communication">
+                <p class="pie-panel-cat">{{ t('Communication') }} <span class="pie-panel-pct">{{ t('15% of the budget') }}</span></p>
+                <div class="stacked" aria-hidden="true">
+                  <span style="width:27%"></span>
+                  <span style="width:20%"></span>
+                  <span style="width:20%"></span>
+                  <span style="width:20%"></span>
+                  <span style="width:13%"></span>
+                </div>
+                <ul class="sub-legend">
+                  <li><span class="sub-swatch" style="background:#E8499B"></span><span class="sub-label">{{ t('T-shirts') }}</span><span class="sub-pct">4%</span></li>
+                  <li><span class="sub-swatch" style="background:#F07FB8"></span><span class="sub-label">{{ t('Brochures') }}</span><span class="sub-pct">3%</span></li>
+                  <li><span class="sub-swatch" style="background:#F6B3D6"></span><span class="sub-label">{{ t('Patches & pins') }}</span><span class="sub-pct">3%</span></li>
+                  <li><span class="sub-swatch" style="background:#FAD5E8"></span><span class="sub-label">{{ t('Event logistics') }}</span><span class="sub-pct">3%</span></li>
+                  <li><span class="sub-swatch" style="background:#FDEAF4"></span><span class="sub-label">{{ t('Materials') }}</span><span class="sub-pct">2%</span></li>
+                </ul>
+                <p class="pie-panel-note">{{ t('Merchandising and events are included in communication.') }}</p>
+              </div>
+
+              <div class="pie-panel" data-panel="contingencies">
+                <p class="pie-panel-cat">{{ t('Contingencies') }} <span class="pie-panel-pct">{{ t('5% of the budget') }}</span></p>
+                <div class="stacked" aria-hidden="true">
+                  <span style="width:60%"></span>
+                  <span style="width:40%"></span>
+                </div>
+                <ul class="sub-legend">
+                  <li><span class="sub-swatch" style="background:#E8A800"></span><span class="sub-label">{{ t('Unforeseen expenses') }}</span><span class="sub-pct">3%</span></li>
+                  <li><span class="sub-swatch" style="background:#F2C04D"></span><span class="sub-label">{{ t('Medical & safety') }}</span><span class="sub-pct">2%</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="support-used-copy">
+          <h2 class="mission-section-title" id="support-used-title">{{ t('How your support is used') }}</h2>
+          <p class="support-used-desc">
+            {{ t('Every euro you give is split across the mission\u2019s pillars — the station, transport, research, education, communication and contingencies. Merchandising and events are included in communication. Hover a segment of the chart to see, percentage by percentage, exactly where your support goes. Percentages represent shares of the total mission budget.') }}
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  {% with cta_title="Give the crew a push", cta_aria="Contact us" %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    (function () {
+      var segs = document.querySelectorAll(".pie-seg");
+      var panels = document.querySelectorAll(".pie-panel");
+      function show(name) {
+        panels.forEach(function (p) {
+          p.classList.toggle("active", p.getAttribute("data-panel") === name);
+        });
+      }
+      segs.forEach(function (seg) {
+        seg.addEventListener("mouseenter", function () { show(seg.getAttribute("data-panel")); });
+        seg.addEventListener("mouseleave", function () { show("default"); });
+        seg.addEventListener("focus", function () { show(seg.getAttribute("data-panel")); });
+        seg.addEventListener("blur", function () { show("default"); });
+      });
+    })();
+  </script>
+{% endblock %}

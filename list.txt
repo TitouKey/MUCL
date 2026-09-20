@@ -1,0 +1,193 @@
+# Pool de partenaires potentiels - MARS UCLouvain
+# (liste complète pour écrémage)
+
+# ---- Instituts & labs UCLouvain ----
+Earth and Life Institute (ELI)
+Institute of Experimental and Clinical Research (IREC)
+Institute of Condensed Matter and Nanosciences (IMCN)
+Institute of Mechanics, Materials and Civil Engineering (iMMC)
+Institute of ICT, Electronics and Applied Mathematics (ICTEAM)
+Institute of Neuroscience (IONS)
+Louvain Institute of Biomolecular Science and Technology (LIBST)
+Louvain School of Engineering (EPL)
+
+# ---- Institutions & recherche belges ----
+Belspo / ESA Belgium
+Von Karman Institute (VKI)
+SCK CEN
+Royal Observatory of Belgium / STCE
+Cliniques universitaires Saint-Luc
+Euro Space Center
+Croix-Rouge de Belgique
+Planétarium de Bruxelles
+Technopolis
+Museum of Natural Sciences
+RTBF
+UCLouvain Alumni
+
+# ---- Entreprises belges & européennes ----
+# Aéro & défense
+Sonaca
+Sabca
+Redwire Belgium
+Aerospacelab
+Space Applications Services
+Antwerp Space
+ST Engineering iDirect
+
+# Santé & sciences de la vie
+UCB
+Janssen
+GSK Vaccines
+IBA
+argenx
+
+# Nutrition & alimentation
+Alpro
+Lotus Bakeries
+Delhaize
+
+# Tech & logiciel
+Odoo
+Barco
+Agfa
+Collibra
+Zora Robotics
+
+# Matériaux & industrie
+Umicore
+Syensqo
+Bekaert
+
+# Télécom & énergie
+Proximus
+Orange Belgium
+ENGIE/Luminus
+
+# Équipement & sport
+AS Adventure
+
+# Médias
+RTL Belgium
+Le Soir
+
+# ---- Assurances & services financiers ----
+Allianz
+AXA
+Zurich
+Generali
+AIG
+Chubb
+Munich Re
+Swiss Re
+Visa
+Mastercard
+American Express
+KBC
+BNP Paribas Fortis
+Ethias
+AG Insurance
+
+# ---- Marques internationales - Aérospatial & exploration ----
+Lockheed Martin
+Boeing
+Northrop Grumman
+RTX
+Blue Origin
+Rocket Lab
+Sierra Space
+MDA Space
+Telesat
+Astroscale
+ispace
+Toyota
+Mitsubishi Heavy Industries
+IHI
+Hyundai
+Kia
+Honda
+Jeep
+Land Rover
+Rivian
+
+# ---- Marques internationales - Tech & IA ----
+Google
+Microsoft
+Amazon/AWS
+Meta
+NVIDIA
+IBM
+Intel
+AMD
+Qualcomm
+Samsung Electronics
+LG
+Sony
+Panasonic
+DJI
+Insta360
+Boston Dynamics
+Anthropic
+OpenAI
+Palantir
+Logitech
+
+# ---- Marques internationales - Santé & sciences de la vie ----
+Pfizer
+Moderna
+Merck/MSD
+Johnson & Johnson
+Abbott
+Medtronic
+Thermo Fisher
+Roche
+Novartis
+Siemens Healthineers
+Philips
+
+# ---- Marques internationales - Nutrition & boissons ----
+Nestlé
+Danone
+Mars
+Kellanova
+PepsiCo
+Coca-Cola
+Red Bull
+Unilever
+Oatly
+
+# ---- Marques internationales - Équipement & outdoor ----
+The North Face
+Patagonia
+Columbia
+Salomon
+Arc'teryx
+Helly Hansen
+Osprey
+Deuter
+Katadyn
+Leatherman
+Victorinox
+Duracell
+Energizer
+Anker
+Casio
+Suunto
+
+# ---- Marques internationales - Satellite & télécom ----
+Iridium
+T-Mobile
+Verizon
+AT&T
+SES
+Eutelsat
+OneWeb
+Hughes
+
+# ---- Marques internationales - Logistique & médias ----
+DHL
+UPS
+FedEx
+National Geographic
+Netflix
+Discovery

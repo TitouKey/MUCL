@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Legal & credits. The sources and credits of the videos and images published on this website, and the legal information about the site and the association.') }}{% endblock %}
+{% block title %}{{ t('Legal & credits') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <div class="crew-photo-head">
+      <h1 class="crew-photo-title">{{ t('Legal & credits') }}</h1>
+      <div class="crew-photo-desc">
+        <p>
+          {{ t('The sources and credits of the videos, images and photographs published on this website, together with the legal information about the site and the association.') }}
+        </p>
+      </div>
+    </div>
+
+    <section class="section" aria-labelledby="legal-credits-title">
+      <h2 class="mission-section-title" id="legal-credits-title">{{ t('Sources & credits') }}</h2>
+
+      <p class="legal-lead">
+        {{ t('The videos, images and photographs published on this website come from the sources listed below. We thank their authors.') }}
+      </p>
+
+      <div class="legal-credit-grid">
+        <article class="legal-credit-item">
+          <p class="legal-credit-kind">{{ t('Mission video') }}</p>
+          <h3 class="legal-credit-name">{{ t('The mission in the desert') }}</h3>
+          <p class="legal-credit-meta">{{ t('Credit: melodysheep & protocol labs') }}</p>
+        </article>
+
+        <article class="legal-credit-item">
+          <p class="legal-credit-kind">{{ t('Education video') }}</p>
+          <h3 class="legal-credit-name">{{ t('Follow the mission from your school') }}</h3>
+          <p class="legal-credit-meta">{{ t('Credit: Apollo 13 (film)') }}</p>
+        </article>
+
+        <article class="legal-credit-item">
+          <p class="legal-credit-kind">{{ t('Support video') }}</p>
+          <h3 class="legal-credit-name">{{ t('The mission in the desert — support video') }}</h3>
+          <p class="legal-credit-meta">{{ t('Credit: SpaceX') }}</p>
+        </article>
+
+        <article class="legal-credit-item">
+          <p class="legal-credit-kind">{{ t('404 page video') }}</p>
+          <h3 class="legal-credit-name">{{ t('Houston, we have a problem') }}</h3>
+          <p class="legal-credit-meta">{{ t('Credit: Apollo 13 (film)') }}</p>
+        </article>
+
+        <article class="legal-credit-item">
+          <p class="legal-credit-kind">{{ t('Photographs') }}</p>
+          <h3 class="legal-credit-name">{{ t('Crew photographs') }}</h3>
+          <p class="legal-credit-meta">{{ t('Crew photographs belong to MARS UCLouvain.') }}</p>
+        </article>
+
+        <article class="legal-credit-item">
+          <p class="legal-credit-kind">{{ t('Fonts') }}</p>
+          <h3 class="legal-credit-name">Inter · IBM Plex Mono</h3>
+          <p class="legal-credit-meta">{{ t('Served by Google Fonts.') }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="legal-info-title">
+      <h2 class="mission-section-title" id="legal-info-title">{{ t('Legal information') }}</h2>
+
+      <p class="legal-lead">
+        {{ t('This website is published by MARS UCLouvain.') }}
+      </p>
+
+      <dl class="legal-dl">
+        <div class="legal-dl-row">
+          <dt>{{ t('Editor') }}</dt>
+          <dd>MARS UCLouvain</dd>
+        </div>
+        <div class="legal-dl-row">
+          <dt>{{ t('Postal address') }}</dt>
+          <dd>Place de l'Université 1, 1348 Louvain-la-Neuve, Belgique</dd>
+        </div>
+        <div class="legal-dl-row">
+          <dt>{{ t('Contact') }}</dt>
+          <dd><a class="legal-mail" href="mailto:mars@uclouvain.be">mars@uclouvain.be</a></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="section" aria-labelledby="legal-asbl-title">
+      <h2 class="mission-section-title" id="legal-asbl-title">{{ t('The non-profit association') }}</h2>
+
+      <p class="legal-lead">
+        {{ t('MARS UCLouvain is a student-led project carried by a non-profit association (ASBL) based in Louvain-la-Neuve, Belgium.') }}
+      </p>
+
+      <dl class="legal-dl">
+        <div class="legal-dl-row">
+          <dt>{{ t('Legal form') }}</dt>
+          <dd>{{ t('Non-profit association (ASBL)') }}</dd>
+        </div>
+        <div class="legal-dl-row">
+          <dt>{{ t('Registration') }}</dt>
+          <dd>{{ t('To be completed') }}</dd>
+        </div>
+        <div class="legal-dl-row">
+          <dt>{{ t('Postal address') }}</dt>
+          <dd>Place de l'Université 1, 1348 Louvain-la-Neuve, Belgique</dd>
+        </div>
+      </dl>
+
+      <p class="legal-note">
+        {{ t('All content (texts, images, videos, logos) belongs to their respective authors.') }}
+      </p>
+    </section>
+
+  </main>
+{% endblock %}

@@ -1,0 +1,30 @@
+<section class="cta" aria-labelledby="cta-title">
+  <div class="container">
+    <a class="cta-box" href="{{ cta_href or url_for('contact') }}" aria-label="{{ t(cta_aria) }}">
+      <div class="cta-inner">
+        <h2 class="cta-title" id="cta-title">{{ t(cta_title) }}</h2>
+        <span class="cta-link" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h6v6"/>
+            <path d="M10 14 21 3"/>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          </svg>
+        </span>
+      </div>
+    </a>
+
+    <div class="newsletter" aria-labelledby="newsletter-title">
+      <div class="newsletter-head">
+        <h2 class="newsletter-title" id="newsletter-title">{{ t('Newsletter') }}</h2>
+        <p class="newsletter-desc">{{ t('Mission updates, behind-the-scenes stories and photos from the desert — in your inbox.') }}</p>
+      </div>
+      <form class="newsletter-form" data-newsletter action="{{ url_for('newsletter') }}" method="post" novalidate>
+        <label class="visually-hidden" for="newsletter-email">{{ t('Email') }}</label>
+        <input class="newsletter-input" id="newsletter-email" type="email" name="email"
+          autocomplete="email" required placeholder="{{ t('Your email address') }}">
+        <button class="fund-button newsletter-submit" type="submit">{{ t('Subscribe') }}</button>
+      </form>
+      <p class="newsletter-msg" role="status" hidden></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Contact. Send us a message and get in touch with the program.') }}{% endblock %}
+{% block title %}{{ t('Contact') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <section class="section section--contact" aria-labelledby="contact-title">
+      <div class="crew-photo-head">
+        <h1 class="crew-photo-title" id="contact-title">{{ t('Send us a message') }}</h1>
+        <div class="crew-photo-desc">
+          <p>
+            {{ t('A question about the program, a sponsorship proposal or a school intervention — write to us at') }}
+            <a class="contact-mail" href="mailto:mars@uclouvain.be">mars@uclouvain.be</a>,
+            {{ t('or by post at Place de l\u2019Universit\u00e9 1, 1348 Louvain-la-Neuve, Belgium. We answer within a few days.') }}
+          </p>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="cf-name">{{ t('Name') }}</label>
+            <input type="text" id="cf-name" name="name" placeholder="Jane Doe" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="cf-email">{{ t('Email') }}</label>
+            <input type="email" id="cf-email" name="email" placeholder="jane@example.com" autocomplete="email" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="cf-subject">{{ t('Subject') }}</label>
+          <input type="text" id="cf-subject" name="subject" placeholder="Sponsorship, school visit, press…">
+        </div>
+
+        <div class="field">
+          <label for="cf-message">{{ t('Message') }}</label>
+          <textarea id="cf-message" name="message" placeholder="{{ t('Tell us more about your project\u2026') }}" required></textarea>
+        </div>
+
+        <div class="field field--file">
+          <label for="cf-file">{{ t('Attachment (optional)') }}</label>
+          <div class="file-picker">
+            <input type="file" id="cf-file" name="attachment">
+            <button class="file-remove" id="cf-file-remove" type="button" hidden>{{ t('Remove file') }}</button>
+          </div>
+        </div>
+
+        <button class="form-submit" type="submit">
+          {{ t('Send message') }}
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <dialog class="confirm" id="confirm-dialog" aria-labelledby="confirm-title">
+    <p class="confirm-title" id="confirm-title">{{ t('Send your message?') }}</p>
+    <p class="confirm-text">
+      {{ t('Are you sure you want to send your message to MARS UCLouvain?') }}
+    </p>
+    <div class="confirm-actions">
+      <button class="confirm-btn confirm-cancel" id="confirm-cancel" type="button">{{ t('Cancel') }}</button>
+      <button class="confirm-btn confirm-send" id="confirm-send" type="button">{{ t('Send') }}</button>
+    </div>
+  </dialog>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const form = document.getElementById("contact-form");
+    const confirmDialog = document.getElementById("confirm-dialog");
+    let pendingMailto = "";
+
+    form.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      const name = document.getElementById("cf-name").value.trim();
+      const email = document.getElementById("cf-email").value.trim();
+      const subject = document.getElementById("cf-subject").value.trim();
+      const message = document.getElementById("cf-message").value.trim();
+      const file = document.getElementById("cf-file").files[0];
+      let body = "Name: " + name + "\nEmail: " + email + "\n\n" + message;
+      if (file) {
+        body += "\n\nAttachment: " + file.name + " (" + (file.size / 1024).toFixed(1) + " KB)";
+      }
+      pendingMailto =
+        "mailto:mars@uclouvain.be" +
+        "?subject=" + encodeURIComponent(subject || "Contact — MARS UCLouvain") +
+        "&body=" + encodeURIComponent(body);
+      confirmDialog.showModal();
+    });
+
+    document.getElementById("confirm-send").addEventListener("click", () => {
+      confirmDialog.close();
+      window.location.href = pendingMailto;
+    });
+
+    document.getElementById("confirm-cancel").addEventListener("click", () => {
+      confirmDialog.close();
+    });
+
+    confirmDialog.addEventListener("click", (ev) => {
+      if (ev.target === confirmDialog) confirmDialog.close();
+    });
+
+    const fileInput = document.getElementById("cf-file");
+    const fileRemove = document.getElementById("cf-file-remove");
+    fileInput.addEventListener("change", () => {
+      fileRemove.hidden = !fileInput.files.length;
+    });
+    fileRemove.addEventListener("click", () => {
+      fileInput.value = "";
+      fileRemove.hidden = true;
+    });
+  </script>
+{% endblock %}

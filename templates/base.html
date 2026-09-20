@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="{% block meta_description %}{{ t('MARS UCLouvain — University-led space exploration program.') }}{% endblock %}">
+  <title>{% block title %}MARS UCLouvain{% endblock %}{% if self.title() != 'MARS UCLouvain' %} | MARSUCLouvain{% endif %}</title>
+
+  <link rel="icon" type="image/webp" href="{{ url_for('static', filename='img/favicon.webp') }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ============================================================
+       Navbar — logo à gauche, navigation "liquid glass" à droite
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{{ url_for('index') }}" aria-label="{{ t('MARS UCLouvain — home') }}">
+        <span class="brand-strong">MARS</span><span class="brand-rest">UCLouvain</span>
+      </a>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label="{{ t('Main navigation') }}">
+        <a href="{{ url_for('mission') }}"{% if active == 'mission' %} aria-current="page"{% endif %}>{{ t('Mission') }}</a>
+        <a href="{{ url_for('crew_page') }}"{% if active == 'crew' %} aria-current="page"{% endif %}>{{ t('Crew') }}</a>
+        <a href="{{ url_for('research') }}"{% if active == 'research' %} aria-current="page"{% endif %}>{{ t('Research') }}</a>
+        <a href="{{ url_for('education') }}"{% if active == 'education' %} aria-current="page"{% endif %}>{{ t('Education') }}</a>
+        <a href="{{ url_for('sponsors') }}"{% if active == 'sponsors' %} aria-current="page"{% endif %}>{{ t('Sponsors') }}</a>
+        <a href="{{ url_for('support') }}"{% if active == 'support' %} aria-current="page"{% endif %}>{{ t('Support us') }}</a>
+      </nav>
+
+        <div class="lang-bubble">
+        {% for code, label in LANGUAGES.items() %}
+          {% if code != lang %}
+            <a class="lang-bubble-btn" href="{{ lang_switch_url(code) }}" aria-label="{{ label }}">
+              <img class="lang-bubble-flag" src="{{ url_for('static', filename='img/flag-' ~ code ~ '.png') }}" alt="{{ label }}">
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <!-- ============================================================
+       Footer — adresse UCLouvain, drapeaux, pages, mentions légales
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+          <a class="brand" href="{{ url_for('index') }}" aria-label="{{ t('MARS UCLouvain — home') }}">
+            <span class="brand-strong">MARS</span><span class="brand-rest">UCLouvain</span>
+          </a>
+
+          <address class="footer-address">
+            <p>Université catholique de Louvain</p>
+            <p>Place de l'Université 1</p>
+            <p>1348 Louvain-la-Neuve · Belgique</p>
+            <p class="footer-mail">
+              <a href="mailto:mars@uclouvain.be">mars@uclouvain.be</a>
+            </p>
+          </address>
+
+          <div class="footer-socials">
+            <a class="footer-social" href="https://www.facebook.com/marsuclouvain/" target="_blank" rel="noopener noreferrer" aria-label="{{ t('MARS UCLouvain on Facebook') }}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+            </a>
+            <a class="footer-social" href="https://www.linkedin.com/company/marsuclouvain/posts/?feedView=all" target="_blank" rel="noopener noreferrer" aria-label="{{ t('MARS UCLouvain on LinkedIn') }}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4V9h4v1.5A6 6 0 0 1 16 8z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+            <a class="footer-social" href="https://www.instagram.com/marsuclouvain/" target="_blank" rel="noopener noreferrer" aria-label="{{ t('MARS UCLouvain on Instagram') }}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="footer-flags" aria-hidden="true">
+            <span class="flag-placeholder">BE</span>
+            <span class="flag-placeholder">EU</span>
+          </div>
+        </div>
+
+        <nav class="footer-nav" aria-label="{{ t('Main navigation') }}">
+          <ul>
+            <li><a href="{{ url_for('mission') }}">{{ t('Mission') }}</a></li>
+            <li><a href="{{ url_for('crew_page') }}">{{ t('Crew') }}</a></li>
+            <li><a href="{{ url_for('research') }}">{{ t('Research') }}</a></li>
+            <li><a href="{{ url_for('education') }}">{{ t('Education') }}</a></li>
+            <li><a href="{{ url_for('sponsors') }}">{{ t('Sponsors') }}</a></li>
+            <li><a href="{{ url_for('support') }}">{{ t('Support us') }}</a></li>
+          </ul>
+          <ul>
+            <li><a href="{{ url_for('contact') }}">{{ t('Contact') }}</a></li>
+            <li><a href="{{ url_for('support') }}">{{ t('Support') }}</a></li>
+            <li><a href="{{ url_for('join') }}">{{ t('Join us') }}</a></li>
+            <li><a href="{{ url_for('legal') }}">{{ t('Legal & credits') }}</a></li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-legal">© 2026 UCLouvain — {{ t('MARS Program. All rights reserved.') }}</p>
+        <p class="footer-legal footer-links">
+          <a href="{{ url_for('legal') }}">{{ t('Legal notice') }}</a>
+          <a href="#">{{ t('Privacy') }}</a>
+          <a href="#">{{ t('Cookies') }}</a>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/video-controls.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/newsletter.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

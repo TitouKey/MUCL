@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ crew.name }}. {{ t('Meet the crew of the') }} {{ crew.year }} {{ t('expedition.') }}{% endblock %}
+{% block title %}{{ crew.name }}{% endblock %}
+
+{% set crew_label = crew.name + ' · ' + crew.year if crew.year else crew.name %}
+
+{% block content %}
+  <main class="container">
+
+    {% set crew_photo_url = crew_photo(crew) %}
+    {% set crew_photo_pos = crew_photo_position(crew) %}
+    {% set crew_photo_size = crew_photo_size(crew) %}
+    {% if crew_photo_url %}
+    <section class="crew-photo has-photo" role="img" aria-label="{{ crew.name }} — crew photo"
+      style="background-image:url('{{ crew_photo_url }}'){% if crew_photo_pos %};background-position:center {{ crew_photo_pos }}{% endif %}{% if crew_photo_size %};background-size:{{ crew_photo_size }}{% endif %}">
+    </section>
+    {% else %}
+    <section class="crew-photo" role="img" aria-label="{{ crew.name }} — crew photo">
+      <span class="hero-media-label">Full crew · 21:9</span>
+    </section>
+    {% endif %}
+
+    <div class="crew-photo-head">
+        <h1 class="crew-photo-title">{{ crew.name }}</h1>
+      <div class="crew-photo-desc">
+        {% if crew.tagline %}
+          <p>{{ tr(crew, 'tagline') }}</p>
+        {% elif crew.description %}
+          <p>{{ tr(crew, 'description') }}</p>
+        {% endif %}
+        <p>{{ crew.year }}</p>
+      </div>
+    </div>
+
+    <section class="section crew-roster" aria-label="{{ t('Crew members') }}">
+      <div class="roster-grid">
+        {% for member in crew.members.all() %}
+          <article class="roster-card" data-member-idx="{{ loop.index0 }}">
+            <div class="roster-media{% if member.photo %} has-photo{% endif %}" role="img" aria-label="Photo of {{ member.name }}"
+              {% if member.photo %}style="background-image:url('{{ url_for('uploaded_file', filename=member.photo) }}')"{% endif %}>
+              {% if not member.photo %}<span class="flag-placeholder">{{ member.nationality }}</span>{% endif %}
+            </div>
+            <h3 class="roster-name">{{ member.name }}</h3>
+            <p class="roster-role">{{ tr(member, 'role') }}</p>
+            <p class="roster-studies">{{ tr(member, 'studies') }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    {% if researches %}
+    <section class="section crew-research" aria-labelledby="crew-research-title">
+      <h2 class="crew-history-title" id="crew-research-title">{{ t('Research') }}</h2>
+
+      <div class="db" role="region" aria-label="{{ t('Crew research database') }}">
+        <div class="db-head" aria-hidden="true">
+          <span>{{ t('Experiment') }}</span>
+          <span>{{ t('Authors') }}</span>
+          <span>{{ t('Year') }}</span>
+        </div>
+        {% for r in researches %}
+          <div class="db-row" data-research-idx="{{ loop.index0 }}" data-cat="{{ r.category }}">
+            <span class="db-experiment">{{ tr(r, 'title') }}</span>
+            <span>{{ r.display_authors }}</span>
+            <span>{{ r.year }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+  </main>
+
+  {% with cta_title="Get in touch", cta_aria="Contact us" %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    window.MARS_RESEARCHES = [
+      {% for r in researches %}
+      {
+        title: {{ tr(r, 'title')|tojson }},
+        authors: {{ r.display_authors|tojson }},
+        year: {{ r.year|tojson }},
+        mission: {{ (r.crew_ref.name if r.crew_ref else r.mission)|tojson }},
+        category: {{ r.category|tojson }},
+        category_label: {{ r.category_label|tojson }},
+        disciplines: {{ r.discipline_list|tojson }},
+        description: {{ tr(r, 'description')|tojson }},
+        pdf: {{ (url_for('uploaded_file', filename=r.pdf) if r.pdf else '')|tojson }},
+        links: {{ r.link_list|tojson }},
+        members: [
+          {% for m in r.members %}
+          { name: {{ m.name|tojson }}, href: "{{ url_for('crew_detail', slug=crew.slug) }}?m={{ m.slug }}" },
+          {% endfor %}
+        ],
+        partners: [
+          {% for p in r.partners %}
+          { name: {{ (p.full_name or p.name)|tojson }}, href: "{{ url_for('partner', slug=p.slug) }}" },
+          {% endfor %}
+        ]
+      },
+      {% endfor %}
+    ];
+    window.MARS_RESEARCH_SLUGS = [{% for r in researches %}{{ r.slug|tojson }},{% endfor %}];
+  </script>
+  {% include "_research_modal.html" %}
+  <script>
+    window.MARS_MEMBERS = [
+      {% for m in crew.members.all() %}
+      {
+        name: {{ m.name|tojson }},
+        role: {{ tr(m, 'role')|tojson }},
+        studies: {{ tr(m, 'studies')|tojson }},
+        nationality: {{ m.nationality|tojson }},
+        nation: {{ m.nation|tojson }},
+        slug: {{ m.slug|tojson }},
+        crew: {{ crew_label|tojson }},
+        photo: {{ (url_for('uploaded_file', filename=m.photo) if m.photo else '')|tojson }},
+        socials: {{ m.social_list|tojson }},
+        research: [
+          {% for r in m.researches %}
+          { label: {{ tr(r, 'title')|tojson }}, href: "{{ url_for('research') }}?r={{ r.slug }}" },
+          {% endfor %}
+        ],
+        description: {{ tr(m, 'description')|tojson }}
+      },
+      {% endfor %}
+    ];
+  </script>
+  {% include "_member_modal.html" %}
+{% endblock %}

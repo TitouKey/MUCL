@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t('Page not found') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <!-- ============================================================
+         Placeholder — visuel 404 (vidéo retirée)
+         ============================================================ -->
+    <section class="crew-photo crew-photo--video-64-27" role="img" aria-label="{{ t('Placeholder — 404 visual') }}">
+      <span class="crew-media-label">{{ t('Placeholder — 404 visual') }}</span>
+    </section>
+
+    <div class="crew-photo-head" aria-labelledby="nf-title">
+      <div class="nf-title-col" id="nf-title">
+        <h1 class="crew-photo-title">{{ t('Hum, Houston — we have a problem.') }}<span class="nf-error">404</span></h1>
+      </div>
+      <div class="crew-photo-desc nf-desc-right">
+        <p class="nf-note">{{ t('The page you\u2019re looking for doesn\u2019t exist.') }}</p>
+        <a class="fund-button" href="{{ url_for('index') }}">{{ t('Back to the homepage') }}</a>
+      </div>
+    </div>
+
+  </main>
+{% endblock %}

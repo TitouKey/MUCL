@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Mission brochure. Discover the MARS UCLouvain project: the mission, the crew, the science and how to take part.') }}{% endblock %}
+{% block title %}{{ t('Mission brochure') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <section class="crew-photo" role="img" aria-label="{{ t('Placeholder — brochure visual, ratio 21:9') }}">
+      <span class="hero-media-label">Brochure · 21:9</span>
+    </section>
+
+    <div class="crew-photo-head">
+      <h1 class="crew-photo-title">{{ t('The mission brochure') }}</h1>
+      <div class="crew-photo-desc">
+        <p>
+          {{ t('Everything you need to understand the project in a few pages: the mission, the crew, the science, the education programme and how to be part of the adventure.') }}
+        </p>
+      </div>
+    </div>
+
+    <section class="section section--brochure" aria-labelledby="brochure-title">
+      <h2 class="mission-section-title" id="brochure-title">{{ t('Coming soon') }}</h2>
+      <p class="brochure-note">
+        {{ t('This page will present the full mission brochure — objectives, the MDRS station, the crew\u2019s experiments, the schools programme and the ways to support the expedition. It is being prepared and will be published here shortly.') }}
+      </p>
+      <a class="fund-button" href="{{ url_for('contact') }}">
+        {{ t('Get in touch') }}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14"/>
+          <path d="m12 5 7 7-7 7"/>
+        </svg>
+      </a>
+    </section>
+
+  </main>
+
+  {% with cta_title="Be part of the mission", cta_aria="Contact us" %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Mission. A student mission at the Mars Desert Research Station.') }}{% endblock %}
+{% block title %}{{ t('Mission') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <!-- ============================================================
+         Vidéo de la mission — ratio 64:27, boucle à 1 min 59
+         ============================================================ -->
+    <section class="crew-photo crew-photo--video-64-27" aria-label="MARS UCLouvain — mission">
+      <video class="crew-video" autoplay muted loop playsinline preload="auto"
+        poster="{{ url_for('static', filename='img/mission-poster.jpg') }}" aria-hidden="true" tabindex="-1">
+        <source src="{{ url_for('static', filename='video/mission.mp4') }}" type="video/mp4">
+      </video>
+      <span class="photo-credit">{{ t('Credit: melodysheep & protocol labs') }}</span>
+    </section>
+
+    <div class="crew-photo-head">
+      <h1 class="crew-photo-title">{{ t('Our mission') }}</h1>
+      <div class="crew-photo-desc">
+        <p>
+          {{ t('MARS UCLouvain sends student crews into one of the best Mars-simulation environments on Earth — the Mars Desert Research Station — where they live, work and research in isolation for two weeks.') }}
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         Manifeste — bien plus qu'une mission analogue
+         ============================================================ -->
+    <section class="section msn-manifesto" aria-labelledby="msn-manifesto-title">
+      <p class="msn-manifesto-eyebrow" id="msn-manifesto-title">{{ t('More than an analogue mission') }}</p>
+      <p class="msn-manifesto-text">
+        {{ t('An analogue mission is not a rehearsal. It is a small piece of the future played for real — under the red sun of the Utah desert, in the silence of a habitat, in the light of two moons.') }}
+      </p>
+      <p class="msn-manifesto-text msn-manifesto-text--accent">
+        {{ t('To reduce it to an exercise would be to miss its meaning.') }}
+      </p>
+      <p class="msn-manifesto-text">
+        {{ t('MARS UCLouvain is above all a mission of inspiration, of demonstration and of communication — three ambitions carried by the same crew, for the public, for science and for the generations to come.') }}
+      </p>
+    </section>
+
+    <!-- ============================================================
+         Trois visages d'une même mission
+         ============================================================ -->
+    <section class="section msn-pillars" aria-labelledby="msn-pillars-title">
+      <h2 class="mission-section-title" id="msn-pillars-title">{{ t('Three faces of one mission') }}</h2>
+
+      <div class="msn-pillar-grid">
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">01</span>
+          <h3 class="msn-pillar-title">{{ t('A mission of inspiration') }}</h3>
+          <p>
+            {{ t('Space has always been a promise: to go further, to understand more, to dream bigger. When students live and research in a habitat in the desert, when the door opens on a landscape that resembles Mars, the promise becomes visible. For a pupil, for a student, seeing a university crew leave for the red planet is living proof that the extraordinary is possible — and that it begins here, today. Inspiration is not a side effect of the mission; it is its first goal.') }}
+          </p>
+        </article>
+
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">02</span>
+          <h3 class="msn-pillar-title">{{ t('A mission of demonstration') }}</h3>
+          <p>
+            {{ t('The mission is also a laboratory in action. Every experiment is designed, conducted and interpreted in the conditions of the field, live, as research really happens — with its doubts, its adjustments, its successes. Science leaves the pages of papers and becomes tangible: a habitat, spacesuits, a crew testing what a university does with knowledge. To present research is to show what it is worth: the power to turn ideas into progress.') }}
+          </p>
+        </article>
+
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">03</span>
+          <h3 class="msn-pillar-title">{{ t('An instrument of communication') }}</h3>
+          <p>
+            {{ t('Because it is realistic, the mission carries an exceptional power of communication. It gives a face to research, a story to science, a body to the values of UCLouvain and of its sponsors. Every expedition echoes far beyond the desert — in classrooms, in the media, in the public space — and repeats one conviction: exploring is learning, and learning is moving forward.') }}
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section mission" aria-labelledby="mission-about-title">
+      <h2 class="mission-section-title" id="mission-about-title">{{ t('The mission') }}</h2>
+
+      <div class="mission-grid">
+        <div class="mission-block">
+          <h3 class="mission-block-title">{{ t('A multifaceted mission') }}</h3>
+          <p>
+            {{ t('The mission is multiple. Academically, it carries research across a wide range of fields — health and biology, geology, physics and technology. For many crew members, it is a first taste of real academic research: experiments are designed, prepared and supervised like genuine scientific projects, under the guidance of UCLouvain researchers. Some students continue this work within a Master\u2019s thesis or a PhD, making the desert a starting point for their academic career.') }}
+          </p>
+          <p>
+            {{ t('Personally, it is a demanding experience that pushes every crew member to grow, to overcome their limits and to discover what they are capable of. Living and working in isolation, as a team, teaches responsibility, leadership, rigor and humility — skills that remain long after the mission is over.') }}
+          </p>
+          <p>
+            {{ t('Pedagogically, it raises awareness, runs activities and inspires the next generation. It shows that our sponsors, by funding and supporting us, care about education and research — because the future of humanity matters. To better understand where we are going, we must first understand where we come from.') }}
+          </p>
+        </div>
+
+        <div class="mission-block">
+          <h3 class="mission-block-title">{{ t('A vision beyond Mars') }}</h3>
+          <p>
+            {{ t('Although the programme focuses on Mars, it is really about space as a whole. Mars is not an end in itself — it is the horizon that drives every step we take forward.') }}
+          </p>
+          <p>
+            {{ t('Every field trip, every experiment and every workshop is a milestone on a longer road. The technologies tested in the desert — habitats, life support, navigation, robotics, geology — find applications far beyond space, in medicine, energy, materials and the environment.') }}
+          </p>
+          <p>
+            {{ t('If the ambition is to reach Mars, we will accomplish a great deal along the way. Always aim for the Moon — even if you miss, you land among the stars.') }}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mission-pedagogy" aria-labelledby="mission-pedagogy-title">
+      <h2 class="mission-section-title" id="mission-pedagogy-title">{{ t('A pedagogical dimension') }}</h2>
+
+      <div class="mission-grid">
+        <p>
+          {{ t('Beyond the desert, the mission continues in classrooms. We design activities, talks and workshops that bring space, science and engineering to students of every age.') }}
+        </p>
+        <p>
+          {{ t('From primary schools to universities, our crews share what they lived: how an experiment is built, how a crew works, how decisions are made in isolation. Pupils follow the mission live, ask their questions and sometimes hold the models we built in the desert.') }}
+        </p>
+        <p>
+          {{ t('Teachers receive ready-to-use materials that connect the curriculum to the adventure — physics through flight, chemistry through life support, biology through astronaut health. Education becomes a launch pad.') }}
+        </p>
+        <p>
+          {{ t('Every intervention is a chance to spark curiosity — because the explorers of tomorrow are the children of today.') }}
+        </p>
+      </div>
+
+      <p class="mission-link">
+        <a class="text-link" href="{{ url_for('education') }}">
+          <span>{{ t('Discover our school programme') }}</span>
+        </a>
+      </p>
+    </section>
+
+    <section class="section mdrs" aria-labelledby="mdrs-title">
+      <div class="crew-grid">
+
+        <div class="crew-content">
+          <div class="crew-top">
+            <h2 class="crew-title" id="mdrs-title">{{ t('Mars Desert Research Station') }}</h2>
+            <a class="text-link" href="https://mdrs.marssociety.org" target="_blank" rel="noopener">
+              mdrs.marssociety.org
+            </a>
+          </div>
+          <div class="crew-desc">
+            <p>
+              {{ t('Located in the Utah desert, the Mars Desert Research Station is one of the best Mars-simulation environments on Earth. For two weeks, our crew lives, works and carries out experiments there — exactly as a crew will one day do on Mars.') }}
+            </p>
+          </div>
+        </div>
+
+        {% if static_exists('img/mission/mission2.png') %}
+        <img class="crew-media mdrs-media mdrs-photo" src="{{ url_for('static', filename='img/mission/mission2.png') }}" alt="{{ t('3D illustration of the MDRS base') }}">
+        {% else %}
+        <div class="crew-media mdrs-media" role="img" aria-label="{{ t('Placeholder — 3D illustration of the MDRS base') }}">
+          <span class="crew-media-label">3D · MDRS base</span>
+        </div>
+        {% endif %}
+
+      </div>
+    </section>
+
+  </main>
+
+  {% with cta_title="Join the mission", cta_aria="Contact us" %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}

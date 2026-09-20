@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Research. Interdisciplinary projects and laboratories preparing human presence on Mars.') }}{% endblock %}
+{% block title %}{{ t('Research') }}{% endblock %}
+
+{% block content %}
+  <main class="container rf">
+
+    <div class="rf-side">
+      <h1 class="rf-title">{{ t('Research') }}</h1>
+
+      <div class="rf-blocks">
+        <p class="rf-block">
+          <span class="research-count">{{ research_count }}</span> {{ t('research projects have already been conducted since 2013. Everything is involved — from law and literature to the purest sciences we know, from experimentation to analysis.') }}
+        </p>
+        <p class="rf-block">
+          {{ t('Each expedition turns the Mars Desert Research Station into a laboratory. Experiments are designed by our crew members — most of them students — under the guidance of UCLouvain researchers, a first step into real academic research.') }}
+        </p>
+        <p class="rf-block">
+          {{ t('The projects behind each line below are listed by mission and year. Click a line to discover the full story of an experiment.') }}
+        </p>
+      </div>
+    </div>
+
+    <div class="rf-media">
+      {% if crew %}
+      <div class="db-context">
+        <p class="db-context-title">{{ crew.name }} · {{ crew.year }}</p>
+        <a class="text-link" href="{{ url_for('research') }}"><span>{{ t('All researches') }}</span></a>
+      </div>
+      {% endif %}
+      <div class="db" role="region" aria-label="{{ t('Experiments database') }}">
+
+        <div class="db-head" aria-hidden="true">
+          <span>{{ t('Experiment') }}</span>
+          <span>{{ t('Authors') }}</span>
+          <span>{{ t('Year') }}</span>
+          <span>{{ t('Mission') }}</span>
+        </div>
+
+        {% for r in researches %}
+          <div class="db-row" data-research-idx="{{ loop.index0 }}" data-cat="{{ r.category }}">
+            <span class="db-experiment">{{ tr(r, 'title') }}</span>
+            <span>{{ r.display_authors }}</span>
+            <span>{{ r.year }}</span>
+            <span>{% if r.crew_ref %}{{ r.crew_ref.name }}{% else %}{{ r.mission }}{% endif %}</span>
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+  </main>
+
+  {% with cta_title="Contribute to the research", cta_aria="Contact us" %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    window.MARS_RESEARCHES = [
+      {% for r in researches %}
+      {
+        title: {{ tr(r, 'title')|tojson }},
+        authors: {{ r.display_authors|tojson }},
+        year: {{ r.year|tojson }},
+        mission: {{ (r.crew_ref.name if r.crew_ref else r.mission)|tojson }},
+        category: {{ r.category|tojson }},
+        category_label: {{ r.category_label|tojson }},
+        disciplines: {{ r.discipline_list|tojson }},
+        description: {{ tr(r, 'description')|tojson }},
+        pdf: {{ (url_for('uploaded_file', filename=r.pdf) if r.pdf else '')|tojson }},
+        links: {{ r.link_list|tojson }},
+        members: [
+          {% for m in r.members %}
+          { name: {{ m.name|tojson }}, href: "{{ url_for('crew_page') }}?m={{ m.slug }}" },
+          {% endfor %}
+        ],
+        partners: [
+          {% for p in r.partners %}
+          { name: {{ (p.full_name or p.name)|tojson }}, href: "{{ url_for('partner', slug=p.slug) }}" },
+          {% endfor %}
+        ]
+      },
+      {% endfor %}
+    ];
+    window.MARS_RESEARCH_SLUGS = [{% for r in researches %}{{ r.slug|tojson }},{% endfor %}];
+  </script>
+  {% include "_research_modal.html" %}
+{% endblock %}

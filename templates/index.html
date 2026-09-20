@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('MARS UCLouvain — University-led space exploration program. Engineering, science and education united to prepare human presence on Mars.') }}{% endblock %}
+{% block title %}MARS UCLouvain{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <!-- ============================================================
+         Visuel large — ratio 13:4, placeholder gris
+         ============================================================ -->
+    <section class="hero">
+      <div class="hero-media{% if static_exists('img/home/index1.jpg') %} hero-media--img{% endif %}" role="img" aria-label="MARS UCLouvain — {{ t('mission') }}"
+        {% if static_exists('img/home/index1.jpg') %}style="background-image:url('{{ url_for('static', filename='img/home/index1.jpg') }}')"{% endif %}>
+        {% if not static_exists('img/home/index1.jpg') %}<span class="hero-media-label">Image placeholder · 13:4</span>{% endif %}
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-title">
+          <h1 class="hero-title-h1">
+            {{ t('Space exploration') }}<br>{{ t('begins here.') }}
+          </h1>
+          <a class="btn" href="{{ url_for('mission') }}">
+            {{ t('Discover the project') }}
+          </a>
+        </div>
+
+        <div class="hero-desc">
+          <p>
+            {{ t('MARS UCLouvain is a university-led project preparing human exploration of space — through research, technology development and a mission of awareness that inspires the next generation.') }}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Crew — texte à gauche, photo à droite
+         ============================================================ -->
+    <section class="section crew" aria-labelledby="crew-title">
+      <div class="crew-grid">
+
+        <div class="crew-content">
+          <div class="crew-top">
+            <h2 class="crew-title" id="crew-title">{{ t('Meet the crew') }}</h2>
+            <a class="text-link" href="{{ url_for('crew_page') }}">
+              {{ t('Learn more') }}
+            </a>
+          </div>
+          <div class="crew-desc">
+            <p>
+              {{ t('Different backgrounds, disciplines and horizons — yet united by a single will: to push past our limits, explore and discover.') }}
+            </p>
+            <p>
+              {{ t('From right to left, top to bottom: J. Dupont — Commander · M. Lefèvre — Executive Officer · A. Martin — Crew Geologist · S. Bernard — Health & Safety Officer') }}
+            </p>
+          </div>
+        </div>
+
+        <div class="crew-media crew-media--img" role="img" aria-label="MARS UCLouvain — {{ current_crew.name if current_crew else t('crew') }}"
+          {% if current_crew and crew_photo(current_crew) %}style="background-image:url('{{ crew_photo(current_crew) }}');background-size:auto 100%;background-position:right center"{% endif %}>
+          {% if not current_crew or not crew_photo(current_crew) %}<span class="crew-media-label">{{ t('Crew photo') }}</span>{% endif %}
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         Research & Education — titre à gauche, blocs à droite,
+         deux placeholders pleine largeur en dessous
+         ============================================================ -->
+    <section class="section research" aria-labelledby="research-title">
+      <div class="research-grid">
+        <h2 class="research-title" id="research-title">{{ t('What we do') }}</h2>
+
+        <div class="research-blocks">
+          <article class="research-block">
+            <div class="research-block-head">
+              <p class="research-block-label">{{ t('Research') }}</p>
+              <a class="text-link" href="{{ url_for('research') }}">
+                {{ t('Learn more') }}
+              </a>
+            </div>
+            <p>
+              {{ t('In the harsh conditions of the Mars Desert Research Station, our crews turn ideas into experiments.') }}
+              <span class="research-count">{{ research_count }}</span>
+              {{ t('research projects have already been conducted since 2013, from health and biology to geology, physics and technology.') }}
+            </p>
+          </article>
+          <article class="research-block">
+            <div class="research-block-head">
+              <p class="research-block-label">{{ t('Education') }}</p>
+              <a class="text-link" href="{{ url_for('education') }}">
+                {{ t('Learn more') }}
+              </a>
+            </div>
+            <p>
+              {{ t('Our crews bring the mission back to Earth — talks, workshops and visits for schools, so the next generation discovers science, engineering and exploration.') }}
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div class="research-media-grid">
+        <div class="research-media{% if static_exists('img/home/index3.webp') %} research-media--img{% endif %}" role="img" aria-label="MARS UCLouvain — research"
+          {% if static_exists('img/home/index3.webp') %}style="background-image:url('{{ url_for('static', filename='img/home/index3.webp') }}')"{% endif %}>
+          {% if not static_exists('img/home/index3.webp') %}<span class="research-media-label">{{ t('Research') }}</span>{% endif %}
+        </div>
+        <div class="research-media" role="img" aria-label="Placeholder — education">
+          <span class="research-media-label">{{ t('Education') }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+          Partenaires — titre, description, grille bento des logos
+          ============================================================ -->
+    <section class="section partners" aria-labelledby="partners-title">
+      <div class="partners-head">
+        <h2 class="partners-title" id="partners-title">{{ t('Sponsors') }}</h2>
+        <div class="partners-desc">
+          <p>
+            {{ t('Alone we go faster — together, we go further. Every expedition is carried by the sponsors whose support, technology and expertise give the project its full meaning.') }}
+          </p>
+          <a class="text-link" href="{{ url_for('sponsors') }}">
+            {{ t('Learn more') }}
+          </a>
+        </div>
+      </div>
+
+      <div class="bento">
+        <div class="bento-cell bento-preview">{{ t('Coming soon') }}</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       CTA placeholder — "Get in touch." + bouton contact
+       ============================================================ -->
+  {% with cta_title="Support the mission", cta_aria="Support the mission", cta_href=url_for('support') %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}

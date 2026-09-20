@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Join us. Apply to take part in the next expedition and send your application.') }}{% endblock %}
+{% block title %}{{ t('Join us') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <section class="section section--join" aria-labelledby="join-title">
+      <div class="crew-photo-head">
+        <h1 class="crew-photo-title" id="join-title">{{ t('Join the crew') }}</h1>
+        <div class="crew-photo-desc">
+          <p>
+            {{ t('Every two years we recruit students from every faculty to design, build and fly a mission to the MDRS station. Tell us who you are — we would love to meet you.') }}
+          </p>
+        </div>
+      </div>
+
+      <form class="contact-form" id="join-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="jf-first">{{ t('First name') }}</label>
+            <input type="text" id="jf-first" name="first" placeholder="Jane" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="jf-last">{{ t('Last name') }}</label>
+            <input type="text" id="jf-last" name="last" placeholder="Doe" autocomplete="family-name" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="jf-email">{{ t('Email') }}</label>
+            <input type="email" id="jf-email" name="email" placeholder="jane@example.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="jf-birth">{{ t('Year of birth') }}</label>
+            <input type="number" id="jf-birth" name="birth" placeholder="2003" min="1960" max="2012" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="jf-address">{{ t('Address') }}</label>
+          <input type="text" id="jf-address" name="address" placeholder="{{ t('Street, city, country') }}" autocomplete="street-address" required>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="jf-faculty">{{ t('Faculty') }}</label>
+            <select id="jf-faculty" name="faculty" required>
+              <option value="" selected disabled>{{ t('Select your faculty') }}</option>
+              <option>{{ t('Louvain School of Engineering (EPL)') }}</option>
+              <option>{{ t('Louvain School of Management (LSM)') }}</option>
+              <option>{{ t('Sciences (SC)') }}</option>
+              <option>{{ t('Bioengineering (AGRO)') }}</option>
+              <option>{{ t('Medicine and Dentistry (MEDE)') }}</option>
+              <option>{{ t('Law and Criminology (DRT)') }}</option>
+              <option>{{ t('Economic, Social, Political and Communication Sciences (ESPO)') }}</option>
+              <option>{{ t('Philosophy, Arts and Letters (FIAL)') }}</option>
+              <option>{{ t('Psychology and Educational Sciences (PSP)') }}</option>
+              <option>{{ t('Architecture, Architectural Engineering and Urbanism (LOCI)') }}</option>
+              <option>{{ t('Other') }}</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="jf-year">{{ t('Year of study') }}</label>
+            <select id="jf-year" name="year" required>
+              <option value="" selected disabled>{{ t('Select your year') }}</option>
+              <option>{{ t('1st bachelor') }}</option>
+              <option>{{ t('2nd bachelor') }}</option>
+              <option>{{ t('3rd bachelor') }}</option>
+              <option>{{ t('1st master') }}</option>
+              <option>{{ t('2nd master') }}</option>
+              <option>{{ t('PhD') }}</option>
+              <option>{{ t('Alumni / Professional') }}</option>
+              <option>{{ t('Other') }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="jf-gender">{{ t('Gender') }}</label>
+            <select id="jf-gender" name="gender" required>
+              <option value="" selected disabled>{{ t('Select') }}</option>
+              <option>{{ t('Female') }}</option>
+              <option>{{ t('Male') }}</option>
+              <option>{{ t('Non-binary') }}</option>
+              <option>{{ t('Prefer not to say') }}</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="jf-english">{{ t('English level') }}</label>
+            <select id="jf-english" name="english" required>
+              <option value="" selected disabled>{{ t('Select your level') }}</option>
+              <option>A1 — {{ t('Beginner') }}</option>
+              <option>A2 — {{ t('Elementary') }}</option>
+              <option>B1 — {{ t('Intermediate') }}</option>
+              <option>B2 — {{ t('Upper intermediate') }}</option>
+              <option>C1 — {{ t('Advanced') }}</option>
+              <option>C2 — {{ t('Proficient') }}</option>
+              <option>{{ t('Native speaker') }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="jf-role">{{ t('Desired role') }}</label>
+          <select id="jf-role" name="role" required>
+            <option value="" selected disabled>{{ t('Select the role you are applying for') }}</option>
+            <option>{{ t('Mechanical / Aerospace engineering') }}</option>
+            <option>{{ t('Software development') }}</option>
+            <option>{{ t('Electronics / IoT') }}</option>
+            <option>{{ t('Life sciences / Astrobiology') }}</option>
+            <option>{{ t('Medicine / Health') }}</option>
+            <option>{{ t('Communication / Social media') }}</option>
+            <option>{{ t('Photography / Videography') }}</option>
+            <option>{{ t('Design / 3D modeling') }}</option>
+            <option>{{ t('Project management') }}</option>
+            <option>{{ t('Logistics / Operations') }}</option>
+            <option>{{ t('Sponsorship') }}</option>
+            <option>{{ t('Education / Outreach') }}</option>
+            <option>{{ t('Other') }}</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="jf-visa">{{ t('Possibility of a US visa') }}</label>
+          <select id="jf-visa" name="visa" required>
+            <option value="" selected disabled>{{ t('Select your situation') }}</option>
+            <option>{{ t('I have a valid US visa') }}</option>
+            <option>{{ t('I can obtain a US visa') }}</option>
+            <option>{{ t('Not currently, but possible') }}</option>
+            <option>{{ t('No') }}</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="field field--file">
+            <label for="jf-cv">CV</label>
+            <div class="file-picker">
+              <input type="file" id="jf-cv" name="cv" required>
+              <button class="file-remove" type="button" hidden>{{ t('Remove file') }}</button>
+            </div>
+          </div>
+          <div class="field field--file">
+            <label for="jf-letter">{{ t('Cover letter') }}</label>
+            <div class="file-picker">
+              <input type="file" id="jf-letter" name="letter" required>
+              <button class="file-remove" type="button" hidden>{{ t('Remove file') }}</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="jf-experience">{{ t('Proposed experiment') }}</label>
+          <textarea id="jf-experience" name="experience" placeholder="{{ t('Describe the experiment you would like to run during the mission\u2026') }}" required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="jf-extra">{{ t('Additional information (optional)') }}</label>
+          <textarea id="jf-extra" name="extra" placeholder="{{ t('Anything else we should know about you\u2026') }}"></textarea>
+        </div>
+
+        <button class="form-submit" type="submit">
+          {{ t('Send application') }}
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <dialog class="confirm" id="confirm-dialog" aria-labelledby="confirm-title">
+    <p class="confirm-title" id="confirm-title">{{ t('Send your application?') }}</p>
+    <p class="confirm-text">
+      {{ t('Are you sure you want to send your application to MARS UCLouvain?') }}
+    </p>
+    <div class="confirm-actions">
+      <button class="confirm-btn confirm-cancel" id="confirm-cancel" type="button">{{ t('Cancel') }}</button>
+      <button class="confirm-btn confirm-send" id="confirm-send" type="button">{{ t('Send') }}</button>
+    </div>
+  </dialog>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const form = document.getElementById("join-form");
+    const confirmDialog = document.getElementById("confirm-dialog");
+    let pendingMailto = "";
+
+    function attachRemove(input, button) {
+      input.addEventListener("change", () => {
+        button.hidden = !input.files.length;
+      });
+      button.addEventListener("click", () => {
+        input.value = "";
+        button.hidden = true;
+      });
+    }
+    attachRemove(document.getElementById("jf-cv"), document.getElementById("jf-cv").nextElementSibling);
+    attachRemove(document.getElementById("jf-letter"), document.getElementById("jf-letter").nextElementSibling);
+
+    form.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      const val = (id) => (document.getElementById(id).value || "").trim();
+      const lines = [];
+      lines.push("First name: " + val("jf-first"));
+      lines.push("Last name: " + val("jf-last"));
+      lines.push("Email: " + val("jf-email"));
+      lines.push("Address: " + val("jf-address"));
+      lines.push("Faculty: " + val("jf-faculty"));
+      lines.push("Year of study: " + val("jf-year"));
+      lines.push("Gender: " + val("jf-gender"));
+      lines.push("Year of birth: " + val("jf-birth"));
+      lines.push("English level: " + val("jf-english"));
+      lines.push("Desired role: " + val("jf-role"));
+      lines.push("US visa: " + val("jf-visa"));
+      lines.push("");
+      lines.push("Proposed experiment:");
+      lines.push(val("jf-experience"));
+      const extra = val("jf-extra");
+      if (extra) {
+        lines.push("");
+        lines.push("Additional information:");
+        lines.push(extra);
+      }
+      const cv = document.getElementById("jf-cv").files[0];
+      const letter = document.getElementById("jf-letter").files[0];
+      if (cv || letter) {
+        lines.push("");
+        lines.push("Attachments:");
+        if (cv) lines.push("- CV: " + cv.name + " (" + (cv.size / 1024).toFixed(1) + " KB)");
+        if (letter) lines.push("- Cover letter: " + letter.name + " (" + (letter.size / 1024).toFixed(1) + " KB)");
+      }
+      const subject = "Application — " + val("jf-first") + " " + val("jf-last") + " — " + val("jf-role");
+      pendingMailto =
+        "mailto:mars@uclouvain.be" +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(lines.join("\n"));
+      confirmDialog.showModal();
+    });
+
+    document.getElementById("confirm-send").addEventListener("click", () => {
+      confirmDialog.close();
+      window.location.href = pendingMailto;
+    });
+
+    document.getElementById("confirm-cancel").addEventListener("click", () => {
+      confirmDialog.close();
+    });
+
+    confirmDialog.addEventListener("click", (ev) => {
+      if (ev.target === confirmDialog) confirmDialog.close();
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,44 @@
+Subject: The computer a kid codes on at school is the same one that flies on the ISS. Send it to Mars with us.
+
+Dear Raspberry Pi team,
+
+There is a computer that lives in a million classrooms. A kid opens it, writes
+a few lines, watches a light blink, and something clicks: *I can do this.*
+The same small board, meanwhile, is running experiments 400 kilometres above
+their head — Astro Pi on the International Space Station, letting school
+children send code into orbit. No other computer in history serves that
+purpose: the most unpretentious machine ever made, quietly turning the people
+who use it into the people who build it.
+
+That is the most powerful thing you have ever shipped. Not the chip — the
+permission. You did not make computing cheap; you made it *yours*.
+
+We are MARS UCLouvain, a student space programme from UCLouvain in Belgium.
+Every two years, we send a crew of students to the Mars Desert Research
+Station in the Utah desert — one of the most faithful Mars analogues on Earth.
+For two weeks they live in isolation, run real experiments in health, biology,
+geology and technology, and bring the mission back to classrooms across the
+country. Since 2013, dozens of research projects have crossed the Atlantic
+with us. And like you, we do not believe research belongs to institutions. Our
+experiments are designed and built by students, with their own hands.
+
+In the desert, a Raspberry Pi is the natural heart of the mission. Weather
+stations in the red dust, soil and radiation sensors, timelapse cameras
+watching the sky, a data logger keeping the crew's measurements alive, radio
+links to mission control. One small board, doing what you taught the world
+boards can do: everything. And when we come home, the same board becomes a
+classroom lesson — because the machine our crew used in the desert is the
+same machine a nine-year-old can program.
+
+Our challenge to you: put Raspberry Pis at the centre of our mission, and put
+your name on our mission jersey. Let a crew of students build the sensors,
+run the code, and bring the whole story back to classrooms across the country
+— proof, from the red desert, that the computer in every school can go
+anywhere. You brought computing to the ISS through Astro Pi. Help us bring it
+to the most Mars-like place on Earth, and tell a generation: if you can build
+it, you can send it anywhere.
+
+A small board. A huge idea. A mission. Let's build it.
+
+[Your name] — MARS UCLouvain
+mars@uclouvain.be · Place de l'Université 1, 1348 Louvain-la-Neuve, Belgium

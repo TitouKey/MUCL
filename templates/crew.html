@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Crew. Meet the multidisciplinary crew preparing human presence on Mars.') }}{% endblock %}
+{% block title %}{{ t('Crew') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <!-- ============================================================
+         Grande photo de l'équipage — ratio 21:9, placeholder gris
+         ============================================================ -->
+    {% if current_crew %}
+    {% set crew_photo_url = crew_photo(current_crew) %}
+    {% set crew_photo_pos = crew_photo_position(current_crew) %}
+    {% set crew_photo_size = crew_photo_size(current_crew) %}
+    {% if crew_photo_url %}
+    <section class="crew-photo has-photo" role="img" aria-label="{{ current_crew.name }} — crew photo"
+      style="background-image:url('{{ crew_photo_url }}'){% if crew_photo_pos %};background-position:center {{ crew_photo_pos }}{% endif %}{% if crew_photo_size %};background-size:{{ crew_photo_size }}{% endif %}">
+    </section>
+    {% else %}
+    <section class="crew-photo" role="img" aria-label="{{ current_crew.name }} — crew photo">
+      <span class="hero-media-label">Full crew · 21:9</span>
+    </section>
+    {% endif %}
+
+    <div class="crew-photo-head">
+      <h1 class="crew-photo-title">
+        <a class="crew-photo-title-link" href="{{ url_for('crew_detail', slug=current_crew.slug) }}">
+          {{ current_crew.name }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 3h6v6"/>
+            <path d="M10 14 21 3"/>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          </svg>
+        </a>
+      </h1>
+      <div class="crew-photo-desc">
+        {% if current_crew.tagline %}
+          <p>{{ tr(current_crew, 'tagline') }}</p>
+        {% else %}
+          <p>{{ tr(current_crew, 'description') }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <section class="section crew-roster" aria-label="{{ t('Crew members') }}">
+      <div class="roster-grid">
+        {% for member in current_crew.members.all() %}
+          <article class="roster-card" data-member-idx="{{ loop.index0 }}">
+            <div class="roster-media{% if member.photo %} has-photo{% endif %}" role="img" aria-label="Photo of {{ member.name }}"
+              {% if member.photo %}style="background-image:url('{{ url_for('uploaded_file', filename=member.photo) }}')"{% endif %}>
+              {% if not member.photo %}<span class="flag-placeholder">{{ member.nationality }}</span>{% endif %}
+            </div>
+            <h3 class="roster-name">{{ member.name }}</h3>
+            <p class="roster-role">{{ tr(member, 'role') }}</p>
+            <p class="roster-studies">{{ tr(member, 'studies') }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+    {% else %}
+    <section class="crew-photo" role="img" aria-label="{{ t('Placeholder — full crew photo, ratio 21:9') }}">
+      <span class="hero-media-label">Full crew · 21:9</span>
+    </section>
+    <div class="crew-photo-head">
+      <h1 class="crew-photo-title">{{ t('Crew') }}</h1>
+      <div class="crew-photo-desc"><p>{{ t('No crew yet — add one from the admin area.') }}</p></div>
+    </div>
+    {% endif %}
+
+    <!-- ============================================================
+         Crews — nom, année.
+         Clic sur une ligne → page du crew sélectionné.
+         ============================================================ -->
+    <section class="section crew-history" aria-labelledby="history-title">
+      <h2 class="crew-history-title" id="history-title">{{ t('Previous crews') }}</h2>
+
+      <div class="db db-crew" role="region" aria-label="{{ t('Previous crews database') }}">
+
+        <div class="db-head" aria-hidden="true">
+          <span>{{ t('Crew') }}</span>
+          <span>{{ t('Year') }}</span>
+        </div>
+
+        {% for crew in crews %}
+          <a class="db-row db-row-link" href="{{ url_for('crew_detail', slug=crew.slug) }}">
+            <span class="db-experiment">{{ crew.name }}{% if crew.is_current %}<span class="db-badge">{{ t('current') }}</span>{% endif %}</span>
+            <span>{{ crew.year }}</span>
+          </a>
+        {% endfor %}
+
+      </div>
+
+    </section>
+
+  </main>
+
+  {% with cta_title="Get in touch", cta_aria="Contact us" %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}
+
+{% block scripts %}
+  {% if current_crew %}
+  {% set crew_label = current_crew.name + ' · ' + current_crew.year if current_crew.year else current_crew.name %}
+  <script>
+    window.MARS_MEMBERS = [
+      {% for m in current_crew.members.all() %}
+      {
+        name: {{ m.name|tojson }},
+        role: {{ tr(m, 'role')|tojson }},
+        studies: {{ tr(m, 'studies')|tojson }},
+        nationality: {{ m.nationality|tojson }},
+        nation: {{ m.nation|tojson }},
+        slug: {{ m.slug|tojson }},
+        crew: {{ crew_label|tojson }},
+        photo: {{ (url_for('uploaded_file', filename=m.photo) if m.photo else '')|tojson }},
+        socials: {{ m.social_list|tojson }},
+        research: [
+          {% for r in m.researches %}
+          { label: {{ tr(r, 'title')|tojson }}, href: "{{ url_for('research') }}?r={{ r.slug }}" },
+          {% endfor %}
+        ],
+        description: {{ tr(m, 'description')|tojson }}
+      },
+      {% endfor %}
+    ];
+  </script>
+  {% endif %}
+  {% include "_member_modal.html" %}
+{% endblock %}

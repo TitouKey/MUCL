@@ -1,0 +1,115 @@
+<!-- ============================================================
+     Pop-up membre — profil type "LinkedIn"
+     ============================================================ -->
+<dialog class="modal" id="member-modal" aria-labelledby="member-title">
+  <div class="modal-banner">
+    <div class="modal-banner-top">
+      <span class="modal-banner-tag" id="member-crew"></span>
+      <button class="modal-close" type="button" aria-label="{{ t('Close') }}">&times;</button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="modal-top">
+      <div class="modal-left">
+        <div class="modal-profile">
+          <div class="modal-avatar" id="member-avatar" role="img" aria-label="{{ t('Profile photo placeholder') }}"></div>
+          <div class="modal-profile-info">
+            <h2 class="modal-title" id="member-title">
+              <span id="member-title-text"></span>
+              <span class="flag-placeholder modal-title-flag" id="member-flag"></span>
+            </h2>
+            <p class="modal-role" id="member-role"></p>
+            <div class="modal-socials" id="member-socials"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-right">
+        <p class="modal-studies"></p>
+      </div>
+    </div>
+    <p class="modal-desc" id="member-desc"></p>
+    <div class="modal-research" id="member-research">
+      <span class="modal-label">{{ t('Research') }}</span>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  (function () {
+    const members = window.MARS_MEMBERS || [];
+    const modal = document.getElementById("member-modal");
+    if (!modal || !members.length) return;
+    const cards = document.querySelectorAll(".roster-card[data-member-idx]");
+
+    function openMemberModal(i) {
+      const m = members[i];
+      if (!m) return;
+      modal.querySelector("#member-crew").textContent = m.crew;
+      modal.querySelector("#member-flag").textContent = m.nationality;
+      modal.querySelector("#member-title-text").textContent = m.name;
+      modal.querySelector("#member-role").textContent = m.role;
+      modal.querySelector(".modal-studies").textContent = m.studies;
+
+      const avatar = modal.querySelector("#member-avatar");
+      if (m.photo) {
+        avatar.style.backgroundImage = "url('" + m.photo + "')";
+      } else {
+        avatar.style.backgroundImage = "";
+      }
+
+      const socials = modal.querySelector("#member-socials");
+      socials.innerHTML = "";
+      m.socials.forEach((s) => {
+        const a = document.createElement("a");
+        a.className = "modal-social";
+        a.href = s.href;
+        a.textContent = s.label;
+        socials.appendChild(a);
+      });
+
+      const research = modal.querySelector("#member-research");
+      research.querySelectorAll(".modal-research-link").forEach((n) => n.remove());
+      if (m.research.length === 0) {
+        research.hidden = true;
+      } else {
+        research.hidden = false;
+        m.research.forEach((r) => {
+          const a = document.createElement("a");
+          a.className = "modal-research-link";
+          a.href = r.href;
+          a.textContent = r.label;
+          research.appendChild(a);
+        });
+      }
+
+      modal.querySelector("#member-desc").textContent = m.description;
+      modal.showModal();
+    }
+
+    cards.forEach((card) => {
+      const i = parseInt(card.dataset.memberIdx, 10);
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("aria-haspopup", "dialog");
+      card.addEventListener("click", () => openMemberModal(i));
+      card.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          openMemberModal(i);
+        }
+      });
+    });
+
+    modal.querySelector(".modal-close").addEventListener("click", () => modal.close());
+    modal.addEventListener("click", (ev) => {
+      if (ev.target === modal) modal.close();
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const mSlug = params.get("m");
+    if (mSlug) {
+      const idx = members.findIndex((mm) => mm.slug === mSlug);
+      if (idx >= 0) openMemberModal(idx);
+    }
+  })();
+</script>

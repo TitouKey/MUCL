@@ -1,0 +1,161 @@
+<!-- ============================================================
+     Pop-up expérience — profil type "LinkedIn"
+     Utilise window.MARS_RESEARCHES (défini par la page appelante)
+     ============================================================ -->
+<dialog class="modal" id="exp-modal" aria-labelledby="exp-title">
+  <div class="modal-banner" id="exp-banner">
+    <div class="modal-banner-top">
+      <span class="modal-banner-tag" id="exp-mission"></span>
+      <button class="modal-close" type="button" aria-label="{{ t('Close') }}">&times;</button>
+    </div>
+    <div class="modal-banner-actions">
+      <span class="modal-category" id="exp-category"></span>
+      <a class="modal-pdf" href="#" download hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        {{ t('Download PDF') }}
+      </a>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="modal-top">
+      <div class="modal-left">
+        <h2 class="modal-title" id="exp-title"></h2>
+        <div class="modal-tags"></div>
+        <div class="modal-members"></div>
+      </div>
+      <div class="modal-right">
+        <p class="modal-authors"></p>
+        <p class="modal-year"></p>
+        <p class="modal-partners">
+          <span class="modal-label">{{ t('Collaborators & institutes') }}</span>
+          <strong></strong>
+        </p>
+      </div>
+    </div>
+    <p class="modal-desc"></p>
+    <div class="modal-links" id="exp-links">
+      <span class="modal-label">{{ t('Links & resources') }}</span>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  (function () {
+    const experiments = window.MARS_RESEARCHES || [];
+    const modal = document.getElementById("exp-modal");
+    if (!modal || !experiments.length) return;
+    const rows = document.querySelectorAll(".db-row[data-research-idx]");
+
+    function openModal(i) {
+      const e = experiments[i];
+      if (!e) return;
+      const banner = modal.querySelector(".modal-banner");
+      const palettes = {
+        tech: ["#e63900", "#ff7a00", "#ffb300"],
+        health: ["#0f8f46", "#16a34a", "#4ade80"],
+        science: ["#1d4ed8", "#2563eb", "#38bdf8"],
+        other: ["#a21caf", "#d946ef", "#f472b6"]
+      };
+      const c = palettes[e.category] || palettes.other;
+      banner.style.background =
+        "radial-gradient(120% 140% at 85% 10%, rgba(255, 255, 255, 0.16), transparent 55%), " +
+        "linear-gradient(135deg, " + c.join(", ") + ")";
+      modal.querySelector(".modal-banner-tag").textContent = e.mission;
+      modal.querySelector("#exp-category").textContent = e.category_label;
+      modal.querySelector(".modal-title").textContent = e.title;
+
+      const tags = modal.querySelector(".modal-tags");
+      tags.innerHTML = "";
+      e.disciplines.forEach((d) => {
+        const t = document.createElement("span");
+        t.className = "modal-tag";
+        t.textContent = d;
+        tags.appendChild(t);
+      });
+
+      const members = modal.querySelector(".modal-members");
+      members.innerHTML = "";
+      e.members.forEach((m) => {
+        const a = document.createElement("a");
+        a.className = "modal-research-link";
+        a.href = m.href;
+        a.textContent = m.name;
+        members.appendChild(a);
+      });
+
+      modal.querySelector(".modal-authors").textContent = e.authors;
+      modal.querySelector(".modal-year").textContent = e.year;
+
+      const partners = modal.querySelector(".modal-partners");
+      const partnersStrong = partners.querySelector("strong");
+      partnersStrong.innerHTML = "";
+      if (e.partners.length === 0) {
+        partners.hidden = true;
+      } else {
+        partners.hidden = false;
+        e.partners.forEach((p, idx) => {
+          if (idx > 0) partnersStrong.append(" · ");
+          const a = document.createElement("a");
+          a.href = p.href;
+          a.textContent = p.name;
+          partnersStrong.appendChild(a);
+        });
+      }
+
+      modal.querySelector(".modal-desc").textContent = e.description;
+
+      const links = modal.querySelector("#exp-links");
+      links.querySelectorAll(".modal-research-link").forEach((n) => n.remove());
+      if (!e.links || e.links.length === 0) {
+        links.hidden = true;
+      } else {
+        links.hidden = false;
+        e.links.forEach((l) => {
+          const a = document.createElement("a");
+          a.className = "modal-research-link";
+          a.href = l.href;
+          a.textContent = l.label;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          links.appendChild(a);
+        });
+      }
+
+      const pdf = modal.querySelector(".modal-pdf");
+      pdf.hidden = !e.pdf;
+      if (e.pdf) pdf.href = e.pdf;
+      modal.showModal();
+    }
+
+    rows.forEach((row) => {
+      const i = parseInt(row.dataset.researchIdx, 10);
+      row.setAttribute("role", "button");
+      row.setAttribute("tabindex", "0");
+      row.setAttribute("aria-haspopup", "dialog");
+      row.addEventListener("click", () => openModal(i));
+      row.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          openModal(i);
+        }
+      });
+    });
+
+    modal.querySelector(".modal-close").addEventListener("click", () => modal.close());
+    modal.addEventListener("click", (ev) => {
+      if (ev.target === modal) modal.close();
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const rSlug = params.get("r");
+    if (rSlug) {
+      const slugs = (window.MARS_RESEARCH_SLUGS || []).map((s) => s);
+      const idx = slugs.indexOf(rSlug);
+      if (idx >= 0) openModal(idx);
+    }
+  })();
+</script>

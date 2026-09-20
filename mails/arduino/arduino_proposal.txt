@@ -1,0 +1,45 @@
+Subject: The board that taught a generation "I built that." The desert is waiting.
+
+Dear Arduino team,
+
+Somewhere in a classroom, a student connects a board to a breadboard, a
+sensor and a motor. A few minutes later, the motor turns. The student looks
+up and says something they have never said before: *I built that.* That moment
+happened in a design studio in Italy first — where Arduino was born not as a
+product, but as a gift to students who wanted to control the physical world
+without an engineering degree. Then it spread to every corner of the planet.
+
+Arduino did not just make electronics. You made electronics *honest*: open
+schematics, open code, no black boxes. You gave a generation permission to
+open things, understand them, and make their own. The first robot, the first
+sensor, the first time a young person made the physical world obey a line of
+code — that is your legacy, and it is the same legacy we are building.
+
+We are MARS UCLouvain, a student space programme from UCLouvain in Belgium.
+Every two years, we send a crew of students to the Mars Desert Research
+Station in the Utah desert — one of the most faithful Mars analogues on Earth.
+For two weeks they live in isolation, run real experiments in health, biology,
+geology and technology, and bring the mission back to classrooms across the
+country. Since 2013, dozens of research projects have crossed the Atlantic
+with us. Our crew is not a team of electronics engineers — it is a team of
+students from every faculty, which is exactly why we need a platform anyone
+can pick up.
+
+In the desert, Arduino is where our ideas become instruments. Soil probes
+measuring the ground that mimics Mars, sensors tracking temperature and dust,
+small robots crawling the red terrain, data loggers keeping watch while the
+crew sleeps. Open hardware, in the most open place a student can reach — and
+when the mission ends, every circuit comes home and becomes a lesson: the
+same board, back in a classroom, doing science again.
+
+Our challenge to you: put Arduinos at the heart of our mission and put your
+name on our mission jersey. Let our students build the desert's instruments,
+let the boards survive the dust and the cold, and let us bring the story back
+to schools across the country — telling every kid the words you gave the
+world: *you can build that.* You started with students in a design studio in
+Italy. Help us continue that story in a desert that looks like Mars.
+
+Open hardware. Open minds. A mission. Let's make it together.
+
+[Your name] — MARS UCLouvain
+mars@uclouvain.be · Place de l'Université 1, 1348 Louvain-la-Neuve, Belgium

@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Sponsor brochure. Discover how your company can be part of the mission: visibility on the mission jersey, in schools and throughout the expedition.') }}{% endblock %}
+{% block title %}{{ t('Sponsor brochure') }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <div class="crew-photo-head">
+      <h1 class="crew-photo-title">{{ t('Join and support the mission') }}</h1>
+      <div class="crew-photo-desc">
+        <p>
+          {{ t('Every expedition stands on the shoulders of the companies and institutions that believe in it. This brochure explains the project and what your logo can achieve with us.') }}
+        </p>
+        <p class="support-hero-link">
+          <a class="text-link pdf-download-link" href="#" aria-label="{{ t('Download the sponsor brochure (PDF)') }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            {{ t('Download the sponsor brochure (PDF)') }}
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <section class="section section--compact" aria-labelledby="sp-inspire-title">
+      <h2 class="mission-section-title" id="sp-inspire-title">{{ t('A mission that pushes science') }}</h2>
+      <div class="brochure-copy">
+        <p>
+          {{ t('Since 2013, MARS UCLouvain has been sending a crew of students to the Mars Desert Research Station in Utah. For two weeks, they live in isolation in a Martian-analog habitat and run real research — on biology, health, geology and technology — designed hand in hand with UCLouvain researchers.') }}
+        </p>
+      </div>
+      <ul class="brochure-list">
+        <li>{{ t('Real research: experiments in biology, health, geology and technology, supervised by UCLouvain researchers') }}</li>
+        <li>{{ t('A crew of UCLouvain students, selected and trained for the expedition') }}</li>
+        <li>{{ t('Two weeks of isolation in the Utah desert, in one of the most faithful Mars analog habitats on Earth') }}</li>
+        <li>{{ t('An educational dimension: participating schools follow the mission and welcome the crew into their classrooms') }}</li>
+        <li>{{ t('A mission that grows every year, with each expedition building on the previous one') }}</li>
+      </ul>
+    </section>
+
+    <section class="section section--compact" aria-labelledby="sp-about-title">
+      <h2 class="mission-section-title" id="sp-about-title">{{ t('What can you do to help us?') }}</h2>
+      <div class="brochure-copy">
+        <p>
+          {{ t('There is no small support. Every contribution — logistic, material, software or financial — carries the mission a step closer to the desert.') }}
+        </p>
+      </div>
+
+      <div class="edu-quads-grid">
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('Logistic support') }}</h3>
+          <p>
+            {{ t('Transport to the Utah desert, shipping of equipment, accommodation or field coordination: logistic sponsors give the expedition the means to reach the other side of the Atlantic and to operate safely on site.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('Material support') }}</h3>
+          <p>
+            {{ t('Habitats, scientific instruments, clothing, food or expedition gear: equipment sponsors put real, reliable hardware in the hands of the crew — the same kind that will one day be needed on Mars.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('Software support') }}</h3>
+          <p>
+            {{ t('Mission control software, data analysis tools, simulation or communication platforms: software sponsors give the crew the digital backbone of the mission, from preparation to the desert.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('Financial support') }}</h3>
+          <p>
+            {{ t('Financial sponsors give the mission room to breathe. Their contribution funds the expedition, the research and the school programme — and guarantees that every student can take part, whatever their background.') }}
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--compact" aria-labelledby="sp-levels-title">
+      <h2 class="mission-section-title" id="sp-levels-title">{{ t('The sponsorship levels') }}</h2>
+      <div class="brochure-copy">
+        <p>
+          {{ t('Three levels of sponsorship, from in-kind support to full visibility. Every sponsor receives a surprise at the end of the mission, proportional to their level.') }}
+        </p>
+      </div>
+
+      <div class="msn-pillar-grid">
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">01</span>
+          <h3 class="msn-pillar-title">{{ t('Official Support') }}</h3>
+          <p class="sp-level-price">{{ t('In-kind or below €2,000') }}</p>
+          <p>{{ t('Local visibility: your logo on our website, on every mission support and at our events — with opportunities to take the floor.') }}</p>
+        </article>
+
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">02</span>
+          <h3 class="msn-pillar-title">{{ t('Main Support') }}</h3>
+          <p class="sp-level-price">{{ t('From €2,000 to €5,000') }}</p>
+          <p>{{ t('Broad visibility across our website, the schools and social media, with a mention at every presentation.') }}</p>
+        </article>
+
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">03</span>
+          <h3 class="msn-pillar-title">{{ t('Premium Support') }}</h3>
+          <p class="sp-level-price">{{ t('From €5,000') }}</p>
+          <p>{{ t('Maximum visibility: your logo on the mission jersey, the Pioneer option and a premium surprise pack after the mission.') }}</p>
+        </article>
+      </div>
+
+      <div class="sp-table-wrap">
+        <table class="sp-levels-table">
+          <caption class="sp-table-caption">{{ t('Comparison of the three sponsorship levels') }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ t('What you get') }}</th>
+              <th scope="col">
+                {{ t('Official Support') }}
+                <span class="sp-table-price">{{ t('In-kind or below €2,000') }}</span>
+              </th>
+              <th scope="col">
+                {{ t('Main Support') }}
+                <span class="sp-table-price">{{ t('From €2,000 to €5,000') }}</span>
+              </th>
+              <th scope="col">
+                {{ t('Premium Support') }}
+                <span class="sp-table-price">{{ t('From €5,000') }}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">{{ t('Your logo on our website') }}</th>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('Your logo on every mission support') }}</th>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('A presence on our social media, proportional to the chosen level') }}</th>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('A surprise pack after the mission') }}</th>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('A mention at every presentation') }}</th>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('A dedicated page on our website') }}</th>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('Your logo on the schools’ mission-support t-shirts') }}</th>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('Attendance at our events and speaking opportunities') }}</th>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('A company visit and co-created content') }}</th>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('The Pioneer option') }}</th>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ t('Your logo on the mission jersey, worn at the Mars Desert Research Station') }}</th>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-no" aria-label="{{ t('Not included') }}">—</span></td>
+              <td><span class="sp-check" aria-label="{{ t('Included') }}">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sp-custom-mention">
+        <p>
+          {{ t('You do not find what suits you? Let us talk it through and find what works best for both of us.') }}
+          <a class="text-link" href="{{ url_for('contact') }}">{{ t('Let’s discuss it together') }}</a>
+        </p>
+        <p class="sp-agreement-note">
+          {{ t('A simple written agreement is all it takes to formalise your support — no fees, no red tape.') }}
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--compact" aria-labelledby="sp-pioneer-title">
+      <h2 class="mission-section-title" id="sp-pioneer-title">{{ t('The Pioneer option') }}</h2>
+      <div class="brochure-copy">
+        <p>
+          {{ t('Every great project needs pioneers — the ones who see its potential before it becomes obvious. The Pioneer option is obtained in two ways: it comes with the Premium level, which blocks exclusive access to your sector, or — for every level — through a recurring investment over several years. Same name, two distinct characteristics. In both cases, it must be signed before the mission kick-off.') }}
+        </p>
+      </div>
+
+      <div class="msn-pillar-grid">
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">01</span>
+          <h3 class="msn-pillar-title">{{ t('Pioneer with Premium') }}</h3>
+          <p>{{ t('Included in the Premium level, the Pioneer option blocks exclusive access to your sector: no other company from your field joins the expedition.') }}</p>
+        </article>
+
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">02</span>
+          <h3 class="msn-pillar-title">{{ t('Pioneer through a recurring investment') }}</h3>
+          <p>{{ t('Whatever your level, committing to a recurring investment over several years also grants you the Pioneer option.') }}</p>
+        </article>
+
+        <article class="msn-pillar">
+          <span class="msn-pillar-index">03</span>
+          <h3 class="msn-pillar-title">{{ t('A reservation clause') }}</h3>
+          <p>{{ t('Whatever the path, if the project no longer lives up to expectations, a reservation clause lets you withdraw from the sponsorship.') }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--compact" aria-labelledby="sp-benefits-title">
+      <h2 class="mission-section-title" id="sp-benefits-title">{{ t('The benefits of the sponsorship') }}</h2>
+
+      <div class="edu-quads-grid">
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('Research collaboration') }}</h3>
+          <p>
+            {{ t('Work hand in hand with students and UCLouvain researchers on cutting-edge experiments run at the Mars Desert Research Station. A direct window into frontier research, and a say in the questions it asks.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('The mission jersey') }}</h3>
+          <p>
+            {{ t('Designed like a Formula 1 team jersey, worn by the crew through the desert and into the media. Your logo travels with them — photographed, filmed and followed every day of the expedition.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('On social media') }}</h3>
+          <p>
+            {{ t('A presence on our networks, proportional to the level you choose: the higher your level, the more your brand appears in our publications, stories and videos.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('During school interventions') }}</h3>
+          <p>
+            {{ t('The crew brings the mission into classrooms across the country. During these interventions, your brand is introduced to students and teachers — connecting your name to science and inspiration.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('On the schools\u2019 mission-support t-shirts') }}</h3>
+          <p>
+            {{ t('Every participating school wears the mission on its t-shirts. Your logo appears on the mission-support t-shirts of the schools, reaching classrooms across the country.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('At our events, and speaking opportunities') }}</h3>
+          <p>
+            {{ t('Come to our events and take the floor. Your brand is presented at our events, and you are welcome to speak in front of the students, the public and the other sponsors.') }}
+          </p>
+        </article>
+
+        <article class="edu-quad edu-quad--plain">
+          <h3 class="edu-quad-title">{{ t('Visibility in a dynamic student city full of talent') }}</h3>
+          <p>
+            {{ t('MARS UCLouvain is based in Louvain-la-Neuve, a dynamic student city full of future talent. Through the mission, your brand gains visibility on campus and in the city — in front of thousands of students, researchers and entrepreneurs.') }}
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="crew-photo crew-photo--dark" role="img" aria-label="{{ t('The mission jersey, with sponsor logo placeholders') }}">
+      <img class="crew-photo-img" src="{{ url_for('static', filename='img/missionshirt.png') }}" alt="">
+    </section>
+
+  </main>
+
+  {% with cta_title="Be part of the mission", cta_aria="Contact us" %}{% include "_cta.html" %}{% endwith %}
+{% endblock %}
