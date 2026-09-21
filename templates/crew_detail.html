@@ -95,11 +95,7 @@
           { name: {{ m.name|tojson }}, href: "{{ url_for('crew_detail', slug=crew.slug) }}?m={{ m.slug }}" },
           {% endfor %}
         ],
-        partners: [
-          {% for p in r.partners %}
-          { name: {{ (p.full_name or p.name)|tojson }}, href: "{{ url_for('partner', slug=p.slug) }}" },
-          {% endfor %}
-        ]
+        partners: []
       },
       {% endfor %}
     ];

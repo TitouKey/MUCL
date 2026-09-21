@@ -30,10 +30,7 @@
       <div class="modal-right">
         <p class="modal-authors"></p>
         <p class="modal-year"></p>
-        <p class="modal-partners">
-          <span class="modal-label">{{ t('Collaborators & institutes') }}</span>
-          <strong></strong>
-        </p>
+  
       </div>
     </div>
     <p class="modal-desc"></p>
@@ -90,20 +87,6 @@
       modal.querySelector(".modal-authors").textContent = e.authors;
       modal.querySelector(".modal-year").textContent = e.year;
 
-      const partners = modal.querySelector(".modal-partners");
-      const partnersStrong = partners.querySelector("strong");
-      partnersStrong.innerHTML = "";
-      if (e.partners.length === 0) {
-        partners.hidden = true;
-      } else {
-        partners.hidden = false;
-        e.partners.forEach((p, idx) => {
-          if (idx > 0) partnersStrong.append(" · ");
-          const a = document.createElement("a");
-          a.href = p.href;
-          a.textContent = p.name;
-          partnersStrong.appendChild(a);
-        });
       }
 
       modal.querySelector(".modal-desc").textContent = e.description;
