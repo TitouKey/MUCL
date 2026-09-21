@@ -75,18 +75,6 @@
       </div>
     </section>
 
-    <section class="section section--compact" aria-labelledby="edu-project-title">
-      <h2 class="mission-section-title" id="edu-project-title">{{ t('The project') }}</h2>
-      <div class="brochure-copy">
-        <p>
-          {{ t('MARS UCLouvain is a student-led expedition to the Mars Desert Research Station (MDRS) in Utah — one of the most faithful analogues of Mars on Earth. Every two years, a new crew of students prepares, trains and lives the mission in complete isolation.') }}
-        </p>
-        <p>
-          {{ t('Schools follow the expedition as a real mission control team: they track the crew\u2019s daily life, receive field reports and live the adventure in real time. The explorers of tomorrow are in today\u2019s classrooms.') }}
-        </p>
-      </div>
-    </section>
-
     <section class="section section--compact" aria-labelledby="edu-interventions-title">
       <h2 class="mission-section-title" id="edu-interventions-title">{{ t('The interventions') }}</h2>
       <div class="edu-quads-grid">
@@ -106,33 +94,6 @@
       </div>
     </section>
 
-    <section class="section section--compact" aria-labelledby="edu-content-title">
-      <h2 class="mission-section-title" id="edu-content-title">{{ t('Resources and topics covered') }}</h2>
-      <div class="edu-quads-grid">
-        <article class="edu-quad edu-quad--plain">
-          <h3 class="edu-quad-title">{{ t('Topics') }}</h3>
-          <ul class="brochure-list">
-            <li>{{ t('The red planet and its environment') }}</li>
-            <li>{{ t('Living and working in isolation') }}</li>
-            <li>{{ t('The roles of a crew — who does what') }}</li>
-            <li>{{ t('Communicating with a base, from a distance') }}</li>
-            <li>{{ t('Science in the desert: experiments in the classroom') }}</li>
-          </ul>
-        </article>
-
-        <article class="edu-quad edu-quad--plain">
-          <h3 class="edu-quad-title">{{ t('Resources') }}</h3>
-          <ul class="brochure-list">
-            <li>{{ t('Brochures presenting the project') }}</li>
-            <li>{{ t('Crew t-shirts, worn like the crew\u2019s') }}</li>
-            <li>{{ t('Posters and educational activity sheets') }}</li>
-            <li>{{ t('Field reports and daily mission updates') }}</li>
-            <li>{{ t('Live sessions and Q&A with the crew') }}</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
     <div class="brochure-cols">
       <section class="section section--compact" aria-labelledby="edu-time-title">
         <h2 class="mission-section-title" id="edu-time-title">{{ t('Time and cost') }}</h2>
@@ -147,7 +108,7 @@
           <article class="edu-quad edu-quad--plain">
             <h3 class="edu-quad-title">{{ t('Cost') }}</h3>
             <p>
-              {{ t('Thanks to our sponsors, participation stays accessible. The kit and materials are covered — only a small contribution per class may be discussed, depending on the school\u2019s situation.') }}
+              {{ t('Thanks to our sponsors, participation is fully free of charge') }}
             </p>
           </article>
         </div>
@@ -176,10 +137,6 @@
         </div>
       </section>
     </div>
-
-    <section class="crew-photo crew-photo--dark" role="img" aria-label="{{ t('Goodies received by schools: mission support t-shirt, mission brochures, patches and pins') }}">
-      <img class="crew-photo-img" src="{{ url_for('static', filename='img/missionshirt.png') }}" alt="">
-    </section>
 
     <section class="section edu-schools" aria-labelledby="edu-schools-title">
       <h2 class="edu-section-title" id="edu-schools-title">{{ t('Participating schools') }}</h2>

@@ -1238,12 +1238,6 @@ ol {
   gap: clamp(14px, 2vw, 24px);
 }
 
-.edu-quad {
-  padding: clamp(20px, 3vw, 34px);
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(10, 10, 10, 0.09);
-}
 
 .edu-quad--plain {
   padding: 0;

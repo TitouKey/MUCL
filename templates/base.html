@@ -35,16 +35,6 @@
         <a href="{{ url_for('sponsors') }}"{% if active == 'sponsors' %} aria-current="page"{% endif %}>{{ t('Sponsors') }}</a>
         <a href="{{ url_for('support') }}"{% if active == 'support' %} aria-current="page"{% endif %}>{{ t('Support us') }}</a>
       </nav>
-
-        <div class="lang-bubble">
-        {% for code, label in LANGUAGES.items() %}
-          {% if code != lang %}
-            <a class="lang-bubble-btn" href="{{ lang_switch_url(code) }}" aria-label="{{ label }}">
-              <img class="lang-bubble-flag" src="{{ url_for('static', filename='img/flag-' ~ code ~ '.png') }}" alt="{{ label }}">
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
     </div>
   </header>
 
