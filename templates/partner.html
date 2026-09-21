@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block meta_description %}{{ t('Discover the company behind our mission.') }}{% endblock %}
+{% block title %}{{ sponsor.name }}{% endblock %}
+
+{% block content %}
+  <main class="container">
+
+    <!-- ============================================================
+         En-tête partenaire — retour, visuel 21:9, nom, tagline
+         ============================================================ -->
+    <section class="partner-head">
+
+      <div class="partner-media{% if sponsor.image %} has-photo{% endif %}{% if sponsor.logo_light %} partner-media--dark{% endif %}" role="img"
+        {% if sponsor.image %}style="background-image:url('{{ url_for('uploaded_file', filename=sponsor.image) }}')"{% endif %}>
+        {% if sponsor.logo and not sponsor.image %}
+          <img class="partner-media-logo" src="{{ url_for('static', filename=sponsor.logo) }}" alt="{{ sponsor.name }}">
+        {% else %}
+          <span class="partner-logo-text">{{ sponsor.name }}</span>
+        {% endif %}
+      </div>
+
+      <div class="partner-head-row">
+        <h1 class="partner-title">
+          {{ sponsor.name }}
+          {% if sponsor.website %}
+            <a class="partner-site" href="{{ sponsor.website }}" target="_blank" rel="noopener" aria-label="{{ t('Visit website') }} {{ sponsor.name }}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 3h6v6"/>
+                <path d="M10 14 21 3"/>
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              </svg>
+            </a>
+          {% endif %}
+        </h1>
+        {% set paragraphs = sponsor.description_paragraphs_fr if lang == 'fr' else sponsor.description_paragraphs %}
+        {% if paragraphs %}
+          <p class="partner-tagline">{{ paragraphs[0] }}</p>
+        {% endif %}
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         À propos — présentation du partenaire
+         ============================================================ -->
+    {% if paragraphs | length > 1 %}
+      <section class="section partner-about" aria-labelledby="partner-about-title">
+        <h2 class="partner-section-title" id="partner-about-title">{{ t('About.') }}</h2>
+        <div class="partner-about-grid">
+          {% for p in paragraphs[1:] %}
+            <p>{{ p }}</p>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    <!-- ============================================================
+         Comment ils aident — ce que le partenaire rend possible
+         ============================================================ -->
+    {% set support_paras = sponsor.support_paragraphs_fr if lang == 'fr' else sponsor.support_paragraphs %}
+    {% if support_paras %}
+      <section class="section partner-about" aria-labelledby="partner-support-title">
+        <h2 class="partner-section-title" id="partner-support-title">{{ t('How they help us') }}</h2>
+        <div class="partner-about-grid">
+          {% for p in support_paras %}
+            <p>{{ p }}</p>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    <!-- ============================================================
+         Recherches soutenues — projets liés au partenaire
+         ============================================================ -->
+    {% if sponsor.researches %}
+      <section class="section partner-about" aria-labelledby="partner-research-title">
+        <h2 class="partner-section-title" id="partner-research-title">{{ t('Research supported by') }} {{ sponsor.name }}</h2>
+        <div class="partner-about-grid">
+          <p>
+            {% for r in sponsor.researches %}
+              <a class="text-link" href="{{ url_for('research') }}?r={{ r.slug }}">{{ tr(r, 'title') }}</a>{% if not loop.last %}<br><br>{% endif %}
+            {% endfor %}
+          </p>
+        </div>
+      </section>
+    {% endif %}
+
+  </main>
+{% endblock %}

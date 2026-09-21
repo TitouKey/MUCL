@@ -15,6 +15,7 @@ from models import (
     Crew,
     PartnerSchool,
     Research,
+    Sponsor,
     Subscriber,
     db,
 )
@@ -150,6 +151,18 @@ def research():
 def education():
     schools = PartnerSchool.query.order_by(PartnerSchool.order_index.asc()).all()
     return render_template("education.html", active="education", schools=schools)
+
+
+@app.route("/sponsors")
+def sponsors():
+    sponsors = Sponsor.query.order_by(Sponsor.priority.asc(), Sponsor.id.asc()).all()
+    return render_template("sponsors.html", active="sponsors", sponsors=sponsors)
+
+
+@app.route("/partner/<slug>")
+def partner(slug):
+    sponsor = Sponsor.query.filter_by(slug=slug).first_or_404()
+    return render_template("partner.html", active="sponsors", sponsor=sponsor)
 
 
 @app.route("/brochure")

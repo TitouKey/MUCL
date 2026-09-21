@@ -32,6 +32,7 @@
         <a href="{{ url_for('crew_page') }}"{% if active == 'crew' %} aria-current="page"{% endif %}>{{ t('Crew') }}</a>
         <a href="{{ url_for('research') }}"{% if active == 'research' %} aria-current="page"{% endif %}>{{ t('Research') }}</a>
         <a href="{{ url_for('education') }}"{% if active == 'education' %} aria-current="page"{% endif %}>Education</a>
+        <a href="{{ url_for('sponsors') }}"{% if active == 'sponsors' %} aria-current="page"{% endif %}>Sponsors</a>
         <a href="{{ url_for('support') }}"{% if active == 'support' %} aria-current="page"{% endif %}>Support us</a>
       </nav>
     </div>
@@ -95,6 +96,7 @@
             <li><a href="{{ url_for('crew_page') }}">{{ t('Crew') }}</a></li>
             <li><a href="{{ url_for('research') }}">{{ t('Research') }}</a></li>
             <li><a href="{{ url_for('education') }}">Education</a></li>
+            <li><a href="{{ url_for('sponsors') }}">Sponsors</a></li>
             <li><a href="{{ url_for('support') }}">Support us</a></li>
           </ul>
           <ul>

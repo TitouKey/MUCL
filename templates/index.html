@@ -111,6 +111,27 @@
       </div>
     </section>
 
+    <!-- ============================================================
+          Partenaires — titre, description, grille bento des logos
+          ============================================================ -->
+    <section class="section partners" aria-labelledby="partners-title">
+      <div class="partners-head">
+        <h2 class="partners-title" id="partners-title">{{ t('Sponsors') }}</h2>
+        <div class="partners-desc">
+          <p>
+            {{ t('Alone we go faster — together, we go further. Every expedition is carried by the sponsors whose support, technology and expertise give the project its full meaning.') }}
+          </p>
+          <a class="text-link" href="{{ url_for('sponsors') }}">
+            {{ t('Learn more') }}
+          </a>
+        </div>
+      </div>
+
+      <div class="bento">
+        <div class="bento-cell bento-preview">{{ t('Coming soon') }}</div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ============================================================
