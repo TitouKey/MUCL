@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block title %}{{ t('Login') }}{% endblock %}
+
+{% block content %}
+
+<main class="login-page">
+  <div class="container">
+    <div class="login-card">
+      <div class="login-header">
+        <h1>{{ t('Login') }}</h1>
+        <p>{{ t('Please enter your credentials to access the admin panel') }}</p>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('login') }}" class="login-form">
+        <div class="form-group">
+          <label for="username">{{ t('Username') }}</label>
+          <input type="text" id="username" name="username" required autocomplete="username" placeholder="{{ t('Enter your username') }}">
+        </div>
+
+        <div class="form-group">
+          <label for="password">{{ t('Password') }}</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="{{ t('Enter your password') }}">
+        </div>
+
+        <div class="form-group form-check">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">{{ t('Remember me') }}</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">{{ t('Login') }}</button>
+      </form>
+
+      <div class="login-footer">
+        <p><a href="{{ url_for('index') }}">{{ t('Back to home') }}</a></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+<style>
+  .login-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
+  .login-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .login-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+  }
+
+  .login-header p {
+    color: #666;
+    font-size: 0.95rem;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="password"] {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input[type="text"]:focus,
+  .form-group input[type="password"]:focus {
+    outline: none;
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  }
+
+  .form-group.form-check {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .form-group.form-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #ff6b35;
+  }
+
+  .form-group.form-check label {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .btn {
+    padding: 0.875rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #e55a2b 0%, #e08918 100%);
+    transform: translateY(-1px);
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+
+  .alert {
+    padding: 0.875rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .alert-error {
+    background: #fee;
+    border: 2px solid #fcc;
+    color: #c33;
+  }
+
+  .alert-success {
+    background: #efe;
+    border: 2px solid #cfc;
+    color: #393;
+  }
+
+  .alert-info {
+    background: #eef;
+    border: 2px solid #ccf;
+    color: #369;
+  }
+
+  .login-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .login-footer a {
+    color: #ff6b35;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .login-footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+{% endblock %}

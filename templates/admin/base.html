@@ -1,0 +1,419 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - {{ self.title()|default('MARS UCLouvain') }}{% endblock %}
+
+{% block head %}
+<style>
+  .admin-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    padding: 1rem 0;
+    border-bottom: 3px solid #ff6b35;
+  }
+
+  .admin-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .admin-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+  }
+
+  .admin-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .admin-user-info {
+    text-align: right;
+  }
+
+  .admin-user-name {
+    font-weight: 600;
+    color: white;
+  }
+
+  .admin-user-role {
+    font-size: 0.85rem;
+    color: #ff6b35;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .admin-nav-main {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .admin-nav-link {
+    padding: 0.5rem 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 0.9rem;
+  }
+
+  .admin-nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .admin-nav-link.active {
+    background: #ff6b35;
+    color: white;
+  }
+
+  .admin-content {
+    padding: 2rem 0;
+    min-height: 70vh;
+  }
+
+  .admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .admin-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .admin-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .admin-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+
+  .admin-card-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #e55a2b 0%, #e08918 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  }
+
+  .btn-secondary {
+    background: #f5f5f5;
+    color: #333;
+    border: 2px solid #e0e0e0;
+  }
+
+  .btn-secondary:hover {
+    background: #e8e8e8;
+    border-color: #ccc;
+  }
+
+  .btn-danger {
+    background: #dc3545;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #c82333;
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  tr:hover {
+    background: #f8f9fa;
+  }
+
+  .alert {
+    padding: 0.875rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .alert-success {
+    background: #d4edda;
+    border: 2px solid #c3e6cb;
+    color: #155724;
+  }
+
+  .alert-error {
+    background: #f8d7da;
+    border: 2px solid #f5c6cb;
+    color: #721c24;
+  }
+
+  .alert-info {
+    background: #d1ecf1;
+    border: 2px solid #bee5eb;
+    color: #0c5460;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="password"],
+  .form-group input[type="email"],
+  .form-group input[type="number"],
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #ff6b35;
+  }
+
+  .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .form-check label {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-success {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .badge-warning {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .badge-danger {
+    background: #f8d7da;
+    color: #721c24;
+  }
+
+  .badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .pagination a,
+  .pagination span {
+    padding: 0.5rem 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #666;
+    transition: all 0.2s;
+  }
+
+  .pagination a:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+  }
+
+  .pagination .active {
+    background: #ff6b35;
+    border-color: #ff6b35;
+    color: white;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #999;
+  }
+
+  .empty-state h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #666;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.25rem;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-card .stat-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="admin-header">
+  <div class="admin-container">
+    <nav class="admin-nav">
+      <a href="{{ url_for('admin_dashboard') }}" class="admin-brand">
+        <span>MARS Admin</span>
+      </a>
+      
+      <div class="admin-nav-main">
+        <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link {% if active == 'admin' %}active{% endif %}">Dashboard</a>
+        <a href="{{ url_for('admin_crews') }}" class="admin-nav-link {% if active == 'crews' %}active{% endif %}">Crews</a>
+        <a href="{{ url_for('admin_members') }}" class="admin-nav-link {% if active == 'members' %}active{% endif %}">Members</a>
+        <a href="{{ url_for('admin_researches') }}" class="admin-nav-link {% if active == 'researches' %}active{% endif %}">Research</a>
+        <a href="{{ url_for('admin_sponsors') }}" class="admin-nav-link {% if active == 'sponsors' %}active{% endif %}">Sponsors</a>
+        <a href="{{ url_for('admin_users') }}" class="admin-nav-link {% if active == 'users' %}active{% endif %}">Users</a>
+        <a href="{{ url_for('admin_logs') }}" class="admin-nav-link {% if active == 'logs' %}active{% endif %}">Logs</a>
+      </div>
+      
+      <div class="admin-user">
+        <div class="admin-user-info">
+          <div class="admin-user-name">{{ current_user.username }}</div>
+          <div class="admin-user-role">{% if current_user.is_admin %}Admin{% else %}User{% endif %}</div>
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="admin-content">
+  <div class="admin-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    {% block admin_content %}{% endblock %}
+  </div>
+</main>
+{% endblock %}

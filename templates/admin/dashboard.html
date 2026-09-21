@@ -1,0 +1,103 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block admin_content %}
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-value">{{ crew_count }}</div>
+    <div class="stat-label">Crews</div>
+  </div>
+  <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+    <div class="stat-value">{{ member_count }}</div>
+    <div class="stat-label">Members</div>
+  </div>
+  <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+    <div class="stat-value">{{ research_count }}</div>
+    <div class="stat-label">Researches</div>
+  </div>
+  <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+    <div class="stat-value">{{ sponsor_count }}</div>
+    <div class="stat-label">Sponsors</div>
+  </div>
+  <div class="stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+    <div class="stat-value">{{ user_count }}</div>
+    <div class="stat-label">Users</div>
+  </div>
+</div>
+
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2 class="admin-card-title">Recent Activity</h2>
+    <a href="{{ url_for('admin_logs') }}" class="btn btn-secondary">View All Logs</a>
+  </div>
+  
+  {% if recent_logs %}
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>User</th>
+          <th>Action</th>
+          <th>Entity</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in recent_logs %}
+        <tr>
+          <td>{{ log.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+          <td>
+            {% if log.user %}
+              {{ log.user.username }}
+              {% if log.user.is_admin %}<span class="badge badge-info">Admin</span>{% endif %}
+            {% else %}
+              <span style="color: #999;">System</span>
+            {% endif %}
+          </td>
+          <td>
+            <span class="badge badge-{{ {'login': 'success', 'logout': 'info', 'create': 'success', 'update': 'info', 'delete': 'danger'}[log.action] }}">
+              {{ log.action }}
+            </span>
+          </td>
+          <td>{{ log.entity_type }}</td>
+          <td>{{ log.details }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>No recent activity</h3>
+    <p>Activity logs will appear here</p>
+  </div>
+  {% endif %}
+</div>
+
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2 class="admin-card-title">Quick Actions</h2>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+    <a href="{{ url_for('admin_crews') }}" class="btn btn-primary" style="justify-content: center;">
+      Manage Crews
+    </a>
+    <a href="{{ url_for('admin_members') }}" class="btn btn-primary" style="justify-content: center;">
+      Manage Members
+    </a>
+    <a href="{{ url_for('admin_researches') }}" class="btn btn-primary" style="justify-content: center;">
+      Manage Research
+    </a>
+    <a href="{{ url_for('admin_sponsors') }}" class="btn btn-primary" style="justify-content: center;">
+      Manage Sponsors
+    </a>
+    <a href="{{ url_for('admin_users') }}" class="btn btn-secondary" style="justify-content: center;">
+      Manage Users
+    </a>
+  </div>
+</div>
+
+{% endblock %}

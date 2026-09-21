@@ -1,0 +1,69 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Research{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2 class="admin-card-title">Researches</h2>
+    <a href="{{ url_for('admin_research_edit') }}" class="btn btn-primary">
+      <span>+</span> Add Research
+    </a>
+  </div>
+  
+  {% if researches %}
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Year</th>
+          <th>Crew</th>
+          <th>Category</th>
+          <th>Order</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for research in researches %}
+        <tr>
+          <td>
+            <strong>{{ research.title }}</strong>
+            {% if research.slug %}<br><small style="color: #999;">{{ research.slug }}</small>{% endif %}
+          </td>
+          <td>{{ research.year }}</td>
+          <td>
+            {% if research.crew_ref %}
+              {{ research.crew_ref.name }}
+            {% else %}
+              <span style="color: #999;">None</span>
+            {% endif %}
+          </td>
+          <td>
+            <span class="badge" style="background: {{ CATEGORY_COLORS.get(research.category, '#ccc') }}; color: white;">
+              {{ research.category_label }}
+            </span>
+          </td>
+          <td>{{ research.order_index }}</td>
+          <td>
+            <a href="{{ url_for('admin_research_edit', research_id=research.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+            <form action="{{ url_for('admin_research_delete', research_id=research.id) }}" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this research?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <h3>No researches found</h3>
+    <p>Start by creating your first research</p>
+    <a href="{{ url_for('admin_research_edit') }}" class="btn btn-primary">Add Research</a>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

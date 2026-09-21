@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Activity Logs{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2 class="admin-card-title">Activity Logs</h2>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+  
+  {% if logs.items %}
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>User</th>
+          <th>Action</th>
+          <th>Entity</th>
+          <th>Entity ID</th>
+          <th>Details</th>
+          <th>IP Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs.items %}
+        <tr>
+          <td>{{ log.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+          <td>
+            {% if log.user %}
+              {{ log.user.username }}
+              {% if log.user.is_admin %}<br><span class="badge badge-info">Admin</span>{% endif %}
+            {% else %}
+              <span style="color: #999;">System</span>
+            {% endif %}
+          </td>
+          <td>
+            <span class="badge badge-{{ {'login': 'success', 'logout': 'info', 'create': 'success', 'update': 'info', 'delete': 'danger'}[log.action] }}">
+              {{ log.action }}
+            </span>
+          </td>
+          <td>{{ log.entity_type }}</td>
+          <td>{{ log.entity_id or '-' }}</td>
+          <td>{{ log.details or '-' }}</td>
+          <td><small>{{ log.ip_address }}</small></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  {% if logs.pages > 1 %}
+  <div class="pagination">
+    {% if logs.has_prev %}
+      <a href="{{ url_for('admin_logs', page=logs.prev_num) }}">&laquo; Previous</a>
+    {% else %}
+      <span class="disabled">&laquo; Previous</span>
+    {% endif %}
+    
+    {% for page_num in logs.iter_pages() %}
+      {% if page_num %}
+        {% if page_num == logs.page %}
+          <span class="active">{{ page_num }}</span>
+        {% else %}
+          <a href="{{ url_for('admin_logs', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        <span>...</span>
+      {% endif %}
+    {% endfor %}
+    
+    {% if logs.has_next %}
+      <a href="{{ url_for('admin_logs', page=logs.next_num) }}">Next &raquo;</a>
+    {% else %}
+      <span class="disabled">Next &raquo;</span>
+    {% endif %}
+  </div>
+  {% endif %}
+  
+  {% else %}
+  <div class="empty-state">
+    <h3>No logs found</h3>
+    <p>Activity logs will appear here as users perform actions</p>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

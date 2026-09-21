@@ -1,0 +1,101 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if sponsor %}Edit Sponsor{% else %}Add Sponsor{% endif %}{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2 class="admin-card-title">{% if sponsor %}Edit Sponsor{% else %}Add Sponsor{% endif %}</h2>
+    <a href="{{ url_for('admin_sponsors') }}" class="btn btn-secondary">Back to Sponsors</a>
+  </div>
+  
+  <form method="POST" enctype="multipart/form-data">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+      <div>
+        <div class="form-group">
+          <label for="name">Name *</label>
+          <input type="text" id="name" name="name" value="{{ sponsor.name if sponsor else '' }}" required placeholder="Sponsor name">
+        </div>
+        
+        <div class="form-group">
+          <label for="full_name">Full Name (EN)</label>
+          <input type="text" id="full_name" name="full_name" value="{{ sponsor.full_name if sponsor else '' }}" placeholder="Full company name">
+        </div>
+        
+        <div class="form-group">
+          <label for="full_name_fr">Full Name (FR)</label>
+          <input type="text" id="full_name_fr" name="full_name_fr" value="{{ sponsor.full_name_fr if sponsor else '' }}" placeholder="Nom complet de l'entreprise">
+        </div>
+        
+        <div class="form-group">
+          <label for="slug">Slug *</label>
+          <input type="text" id="slug" name="slug" value="{{ sponsor.slug if sponsor else '' }}" required placeholder="sponsor-slug">
+          <small style="color: #999;">Used in URLs, must be unique</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="website">Website</label>
+          <input type="url" id="website" name="website" value="{{ sponsor.website if sponsor else '' }}" placeholder="https://example.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="priority">Priority</label>
+          <input type="number" id="priority" name="priority" value="{{ sponsor.priority if sponsor else 100 }}" placeholder="100">
+          <small style="color: #999;">Lower numbers appear first</small>
+        </div>
+      </div>
+      
+      <div>
+        <div class="form-group">
+          <label for="has_page">
+            <div class="form-check">
+              <input type="checkbox" id="has_page" name="has_page" {% if sponsor and sponsor.has_page %}checked{% endif %}>
+              <label for="has_page">Has Dedicated Page</label>
+            </div>
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <label for="logo_light">
+            <div class="form-check">
+              <input type="checkbox" id="logo_light" name="logo_light" {% if sponsor and sponsor.logo_light %}checked{% endif %}>
+              <label for="logo_light">Light Logo (for dark backgrounds)</label>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description (EN)</label>
+      <textarea id="description" name="description" placeholder="Sponsor description...">{{ sponsor.description if sponsor else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="description_fr">Description (FR)</label>
+      <textarea id="description_fr" name="description_fr" placeholder="Description du sponsor...">{{ sponsor.description_fr if sponsor else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="support">Support Text (EN)</label>
+      <textarea id="support" name="support" placeholder="How they support us..." rows="3">{{ sponsor.support if sponsor else '' }}</textarea>
+      <small style="color: #999;">Separate paragraphs with double newlines</small>
+    </div>
+    
+    <div class="form-group">
+      <label for="support_fr">Support Text (FR)</label>
+      <textarea id="support_fr" name="support_fr" placeholder="Comment ils nous soutiennent..." rows="3">{{ sponsor.support_fr if sponsor else '' }}</textarea>
+      <small style="color: #999;">Separate paragraphs with double newlines</small>
+    </div>
+    
+    <div class="form-group" style="margin-top: 2rem;">
+      <button type="submit" class="btn btn-primary">
+        {% if sponsor %}Update Sponsor{% else %}Create Sponsor{% endif %}
+      </button>
+      <a href="{{ url_for('admin_sponsors') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

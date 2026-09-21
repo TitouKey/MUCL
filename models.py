@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -37,12 +38,45 @@ research_partners = db.Table(
 )
 
 
-class Admin(UserMixin, db.Model):
-    __tablename__ = "admin"
+class User(UserMixin, db.Model):
+    __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
+    is_active = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_login = db.Column(db.DateTime)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f"<User {self.username}>"
+
+
+class Log(db.Model):
+    __tablename__ = "log"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="SET NULL"), nullable=True)
+    action = db.Column(db.String(50), nullable=False)  # login, logout, create, update, delete
+    entity_type = db.Column(db.String(50), nullable=False)  # crew, member, research, sponsor, user
+    entity_id = db.Column(db.Integer, nullable=True)
+    details = db.Column(db.Text, default="")
+    ip_address = db.Column(db.String(45), default="")
+    user_agent = db.Column(db.String(255), default="")
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("User", backref="logs")
+
+    def __repr__(self):
+        return f"<Log {self.action} {self.entity_type} {self.created_at}>"
 
 
 class Crew(db.Model):

@@ -1,0 +1,102 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if member %}Edit Member{% else %}Add Member{% endif %}{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2 class="admin-card-title">{% if member %}Edit Member{% else %}Add Member{% endif %}</h2>
+    <a href="{{ url_for('admin_members') }}" class="btn btn-secondary">Back to Members</a>
+  </div>
+  
+  <form method="POST" enctype="multipart/form-data">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+      <div>
+        <div class="form-group">
+          <label for="name">Name *</label>
+          <input type="text" id="name" name="name" value="{{ member.name if member else '' }}" required placeholder="Member name">
+        </div>
+        
+        <div class="form-group">
+          <label for="slug">Slug *</label>
+          <input type="text" id="slug" name="slug" value="{{ member.slug if member else '' }}" required placeholder="member-slug">
+          <small style="color: #999;">Used in URLs, must be unique</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="crew_id">Crew</label>
+          <select id="crew_id" name="crew_id">
+            <option value="">None</option>
+            {% for crew in crews %}
+            <option value="{{ crew.id }}" {% if member and member.crew_id == crew.id %}selected{% endif %}>{{ crew.name }} ({{ crew.year }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="role">Role (EN)</label>
+          <input type="text" id="role" name="role" value="{{ member.role if member else '' }}" placeholder="Commander">
+        </div>
+        
+        <div class="form-group">
+          <label for="role_fr">Role (FR)</label>
+          <input type="text" id="role_fr" name="role_fr" value="{{ member.role_fr if member else '' }}" placeholder="Commandant">
+        </div>
+      </div>
+      
+      <div>
+        <div class="form-group">
+          <label for="studies">Studies (EN)</label>
+          <input type="text" id="studies" name="studies" value="{{ member.studies if member else '' }}" placeholder="Mechanical Engineering">
+        </div>
+        
+        <div class="form-group">
+          <label for="studies_fr">Studies (FR)</label>
+          <input type="text" id="studies_fr" name="studies_fr" value="{{ member.studies_fr if member else '' }}" placeholder="Ingénierie mécanique">
+        </div>
+        
+        <div class="form-group">
+          <label for="nationality">Nationality</label>
+          <input type="text" id="nationality" name="nationality" value="{{ member.nationality if member else 'BE' }}" placeholder="BE" maxlength="4">
+        </div>
+        
+        <div class="form-group">
+          <label for="nation">Nation</label>
+          <input type="text" id="nation" name="nation" value="{{ member.nation if member else '' }}" placeholder="Belgium">
+        </div>
+        
+        <div class="form-group">
+          <label for="order_index">Order Index</label>
+          <input type="number" id="order_index" name="order_index" value="{{ member.order_index if member else 0 }}" placeholder="0">
+          <small style="color: #999;">Lower numbers appear first</small>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description (EN)</label>
+      <textarea id="description" name="description" placeholder="Member description...">{{ member.description if member else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="description_fr">Description (FR)</label>
+      <textarea id="description_fr" name="description_fr" placeholder="Description du membre...">{{ member.description_fr if member else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="socials">Social Media (JSON)</label>
+      <textarea id="socials" name="socials" placeholder='[{"platform": "linkedin", "url": "..."}]'>{{ member.socials if member else '[]' }}</textarea>
+      <small style="color: #999;">Enter as JSON array</small>
+    </div>
+    
+    <div class="form-group" style="margin-top: 2rem;">
+      <button type="submit" class="btn btn-primary">
+        {% if member %}Update Member{% else %}Create Member{% endif %}
+      </button>
+      <a href="{{ url_for('admin_members') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
