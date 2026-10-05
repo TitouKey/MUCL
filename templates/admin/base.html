@@ -330,6 +330,7 @@
       <div class="nav-section">
         <a href="{{ url_for('admin_crews') }}" {% if request.path.startswith('/admin/crews') %}class="active"{% endif %}>Crews</a>
         <a href="{{ url_for('admin_members') }}" {% if request.path.startswith('/admin/members') %}class="active"{% endif %}>Members</a>
+        <a href="{{ url_for('admin_experiences') }}" {% if request.path.startswith('/admin/experiences') %}class="active"{% endif %}>Experiences</a>
         <a href="{{ url_for('admin_sponsors') }}" {% if request.path.startswith('/admin/sponsors') %}class="active"{% endif %}>Sponsors</a>
         <a href="{{ url_for('admin_schools') }}" {% if request.path.startswith('/admin/schools') %}class="active"{% endif %}>Schools</a>
       </div>

@@ -15,6 +15,10 @@
     <div class="label">Members</div>
   </div>
   <div class="stat-card">
+    <div class="number">{{ experience_count }}</div>
+    <div class="label">Experiences</div>
+  </div>
+  <div class="stat-card">
     <div class="number">{{ sponsor_count }}</div>
     <div class="label">Sponsors</div>
   </div>
@@ -34,6 +38,7 @@
   <div class="admin-actions" style="margin-top: 20px; flex-wrap: wrap;">
     <a href="{{ url_for('admin_crews_add') }}" class="btn btn-primary">Add Crew</a>
     <a href="{{ url_for('admin_members_add') }}" class="btn btn-primary">Add Member</a>
+    <a href="{{ url_for('admin_experiences_add') }}" class="btn btn-primary">Add Experience</a>
     <a href="{{ url_for('admin_sponsors_add') }}" class="btn btn-primary">Add Sponsor</a>
     <a href="{{ url_for('admin_schools_add') }}" class="btn btn-primary">Add School</a>
   </div>

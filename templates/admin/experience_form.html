@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>{% if experience %}Edit Experience{% else %}Add Experience{% endif %}</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_experiences') }}" class="btn btn-secondary">Back to Experiences</a>
+  </div>
+</div>
+
+<div class="card">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="title">Title *</label>
+      <input type="text" id="title" name="title" value="{{ experience.title if experience else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="slug">Slug</label>
+      <input type="text" id="slug" name="slug" value="{{ experience.slug if experience else '' }}" placeholder="Auto-generated from title">
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description">{{ experience.description if experience else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="year">Year</label>
+      <input type="text" id="year" name="year" value="{{ experience.year if experience else '' }}" placeholder="e.g., 2024">
+    </div>
+    
+    <div class="form-group">
+      <label for="date">Date</label>
+      <input type="text" id="date" name="date" value="{{ experience.date if experience else '' }}" placeholder="e.g., January 15, 2024">
+    </div>
+    
+    <div class="form-group">
+      <label for="crew_id">Crew</label>
+      <select id="crew_id" name="crew_id">
+        <option value="">No crew</option>
+        {% for crew in crews %}
+        <option value="{{ crew.id }}" {% if experience and experience.crew_id == crew.id %}selected{% endif %}>{{ crew.display_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select id="category" name="category">
+        <option value="tech" {% if experience and experience.category == 'tech' %}selected{% endif %}>Technology</option>
+        <option value="health" {% if experience and experience.category == 'health' %}selected{% endif %}>Health & Biology</option>
+        <option value="science" {% if experience and experience.category == 'science' %}selected{% endif %}>Geology, Physics & Sciences</option>
+        <option value="other" {% if experience and experience.category == 'other' %}selected{% endif %}>Other</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="order_index">Order Index</label>
+      <input type="number" id="order_index" name="order_index" value="{{ experience.order_index if experience else 0 }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="photo">Main Photo</label>
+      <input type="file" id="photo" name="photo">
+      {% if experience and experience.photo %}
+      <div style="margin-top: 10px;">
+        <img src="{{ url_for('uploaded_file', filename=experience.photo) }}" alt="Current photo" class="image-preview">
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <label for="gallery">Gallery Images (Multiple)</label>
+      <input type="file" id="gallery" name="gallery" multiple>
+      {% if experience and experience.gallery_list %}
+      <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
+        {% for image in experience.gallery_list %}
+        <img src="{{ url_for('uploaded_file', filename=image) }}" alt="Gallery image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save Experience</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

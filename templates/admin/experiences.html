@@ -1,0 +1,48 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>Experiences</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_experiences_add') }}" class="btn btn-primary">Add Experience</a>
+  </div>
+</div>
+
+<div class="card">
+  {% if experiences %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Year</th>
+        <th>Date</th>
+        <th>Crew</th>
+        <th>Category</th>
+        <th>Photo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for experience in experiences %}
+      <tr>
+        <td>{{ experience.title }}</td>
+        <td>{{ experience.year }}</td>
+        <td>{{ experience.date }}</td>
+        <td>{% if experience.crew %}{{ experience.crew.display_name }}{% endif %}</td>
+        <td>{{ experience.category_label }}</td>
+        <td>{% if experience.photo %}Yes{% else %}No{% endif %}</td>
+        <td>
+          <a href="{{ url_for('admin_experiences_edit', id=experience.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+          <form action="{{ url_for('admin_experiences_delete', id=experience.id) }}" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No experiences yet. <a href="{{ url_for('admin_experiences_add') }}">Add your first experience</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

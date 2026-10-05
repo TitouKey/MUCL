@@ -18,6 +18,7 @@ from werkzeug.utils import secure_filename
 from models import (
     Admin,
     Crew,
+    Experience,
     Member,
     PartnerSchool,
     Research,
@@ -287,6 +288,7 @@ def admin_dashboard():
     sponsor_count = Sponsor.query.count()
     school_count = PartnerSchool.query.count()
     research_count = Research.query.count()
+    experience_count = Experience.query.count()
     
     return render_template(
         "admin/dashboard.html",
@@ -294,7 +296,8 @@ def admin_dashboard():
         member_count=member_count,
         sponsor_count=sponsor_count,
         school_count=school_count,
-        research_count=research_count
+        research_count=research_count,
+        experience_count=experience_count
     )
 
 
@@ -718,6 +721,133 @@ def admin_schools_delete(id):
     db.session.commit()
     flash("School deleted successfully!", "success")
     return redirect(url_for('admin_schools'))
+
+
+# Experience CRUD
+@app.route("/admin/experiences/")
+@login_required
+def admin_experiences():
+    experiences = Experience.query.order_by(Experience.order_index.desc(), Experience.year.desc()).all()
+    return render_template("admin/experiences.html", experiences=experiences)
+
+
+@app.route("/admin/experiences/add", methods=["GET", "POST"])
+@login_required
+def admin_experiences_add():
+    crews = Crew.query.order_by(Crew.name).all()
+    
+    if request.method == "POST":
+        title = request.form.get("title")
+        slug = request.form.get("slug") or slugify(title)
+        description = request.form.get("description", "")
+        year = request.form.get("year", "")
+        date = request.form.get("date", "")
+        crew_id = request.form.get("crew_id")
+        category = request.form.get("category", "science")
+        order_index = int(request.form.get("order_index", 0))
+        
+        photo = None
+        if 'photo' in request.files:
+            file = request.files['photo']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                photo = f"experience-{slug}-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], photo))
+        
+        gallery = []
+        if 'gallery' in request.files:
+            files = request.files.getlist('gallery')
+            for file in files:
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    gallery.append(f"experience-{slug}-gallery-{filename}")
+                    file.save(os.path.join(app.config["UPLOAD_FOLDER"], f"experience-{slug}-gallery-{filename}"))
+        
+        experience = Experience(
+            title=title,
+            slug=slug,
+            description=description,
+            year=year,
+            date=date,
+            crew_id=int(crew_id) if crew_id else None,
+            category=category,
+            photo=photo,
+            gallery=gallery,
+            order_index=order_index
+        )
+        db.session.add(experience)
+        db.session.commit()
+        flash("Experience added successfully!", "success")
+        return redirect(url_for('admin_experiences'))
+    
+    return render_template("admin/experience_form.html", experience=None, crews=crews)
+
+
+@app.route("/admin/experiences/<int:id>/edit", methods=["GET", "POST"])
+@login_required
+def admin_experiences_edit(id):
+    experience = Experience.query.get_or_404(id)
+    crews = Crew.query.order_by(Crew.name).all()
+    
+    if request.method == "POST":
+        experience.title = request.form.get("title")
+        experience.slug = request.form.get("slug") or slugify(experience.title)
+        experience.description = request.form.get("description", "")
+        experience.year = request.form.get("year", "")
+        experience.date = request.form.get("date", "")
+        experience.crew_id = int(request.form.get("crew_id")) if request.form.get("crew_id") else None
+        experience.category = request.form.get("category", "science")
+        experience.order_index = int(request.form.get("order_index", 0))
+        
+        if 'photo' in request.files:
+            file = request.files['photo']
+            if file and allowed_file(file.filename):
+                if experience.photo:
+                    old_path = os.path.join(app.config["UPLOAD_FOLDER"], experience.photo)
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                filename = secure_filename(file.filename)
+                experience.photo = f"experience-{experience.slug}-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], experience.photo))
+        
+        gallery = []
+        if 'gallery' in request.files:
+            files = request.files.getlist('gallery')
+            for file in files:
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    gallery.append(f"experience-{experience.slug}-gallery-{filename}")
+                    file.save(os.path.join(app.config["UPLOAD_FOLDER"], f"experience-{experience.slug}-gallery-{filename}"))
+        
+        experience.gallery = gallery
+        
+        db.session.commit()
+        flash("Experience updated successfully!", "success")
+        return redirect(url_for('admin_experiences'))
+    
+    return render_template("admin/experience_form.html", experience=experience, crews=crews)
+
+
+@app.route("/admin/experiences/<int:id>/delete", methods=["POST"])
+@login_required
+def admin_experiences_delete(id):
+    experience = Experience.query.get_or_404(id)
+    
+    if experience.photo:
+        photo_path = os.path.join(app.config["UPLOAD_FOLDER"], experience.photo)
+        if os.path.exists(photo_path):
+            os.remove(photo_path)
+    
+    if experience.gallery_list:
+        for image in experience.gallery_list:
+            image_path = os.path.join(app.config["UPLOAD_FOLDER"], image)
+            if os.path.exists(image_path):
+                os.remove(image_path)
+    
+    db.session.delete(experience)
+    db.session.commit()
+    flash("Experience deleted successfully!", "success")
+    return redirect(url_for('admin_experiences'))
 
 
 # ---------------------------------------------------------------------------

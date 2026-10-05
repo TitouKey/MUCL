@@ -204,6 +204,32 @@ class PartnerSchool(db.Model):
     order_index = db.Column(db.Integer, default=0)
 
 
+class Experience(db.Model):
+    __tablename__ = "experience"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(300), nullable=False)
+    slug = db.Column(db.String(300), unique=True, nullable=False)
+    description = db.Column(db.Text, default="")
+    year = db.Column(db.String(40), default="")
+    date = db.Column(db.String(100), default="")
+    crew_id = db.Column(db.Integer, db.ForeignKey("crew.id", ondelete="SET NULL"), nullable=True)
+    category = db.Column(db.String(20), default="science")
+    photo = db.Column(db.String(255))
+    gallery = db.Column(db.JSON, default=list)
+    order_index = db.Column(db.Integer, default=0)
+
+    @property
+    def category_label(self):
+        return dict(CATEGORIES).get(self.category, self.category)
+
+    @property
+    def gallery_list(self):
+        if isinstance(self.gallery, list):
+            return self.gallery
+        return []
+
+
 class Subscriber(db.Model):
     __tablename__ = "subscriber"
 
