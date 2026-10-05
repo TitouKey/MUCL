@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>Partner Schools</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_schools_add') }}" class="btn btn-primary">Add School</a>
+  </div>
+</div>
+
+<div class="card">
+  {% if schools %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Name (FR)</th>
+        <th>Website</th>
+        <th>Logo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for school in schools %}
+      <tr>
+        <td>{{ school.name }}</td>
+        <td>{{ school.name_fr }}</td>
+        <td><a href="{{ school.website }}" target="_blank">{{ school.website if school.website else 'N/A' }}</a></td>
+        <td>{% if school.logo %}Yes{% else %}No{% endif %}</td>
+        <td>
+          <a href="{{ url_for('admin_schools_edit', id=school.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+          <form action="{{ url_for('admin_schools_delete', id=school.id) }}" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No schools yet. <a href="{{ url_for('admin_schools_add') }}">Add your first school</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

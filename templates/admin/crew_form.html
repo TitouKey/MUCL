@@ -1,0 +1,75 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>{% if crew %}Edit Crew{% else %}Add Crew{% endif %}</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_crews') }}" class="btn btn-secondary">Back to Crews</a>
+  </div>
+</div>
+
+<div class="card">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" value="{{ crew.name if crew else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="slug">Slug</label>
+      <input type="text" id="slug" name="slug" value="{{ crew.slug if crew else '' }}" placeholder="Auto-generated from name">
+    </div>
+    
+    <div class="form-group">
+      <label for="year">Year</label>
+      <input type="text" id="year" name="year" value="{{ crew.year if crew else '' }}" placeholder="e.g., 2024-2025">
+    </div>
+    
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="is_current" name="is_current" {% if crew and crew.is_current %}checked{% endif %}>
+        <label for="is_current">Is Current Crew</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="order_index">Order Index</label>
+      <input type="number" id="order_index" name="order_index" value="{{ crew.order_index if crew else 0 }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="tagline">Tagline (EN)</label>
+      <input type="text" id="tagline" name="tagline" value="{{ crew.tagline if crew else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="tagline_fr">Tagline (FR)</label>
+      <input type="text" id="tagline_fr" name="tagline_fr" value="{{ crew.tagline_fr if crew else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description (EN)</label>
+      <textarea id="description" name="description">{{ crew.description if crew else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="description_fr">Description (FR)</label>
+      <textarea id="description_fr" name="description_fr">{{ crew.description_fr if crew else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="photo">Photo</label>
+      <input type="file" id="photo" name="photo">
+      {% if crew and crew.photo %}
+      <div style="margin-top: 10px;">
+        <img src="{{ url_for('uploaded_file', filename=crew.photo) }}" alt="Current photo" class="image-preview">
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save Crew</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

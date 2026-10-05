@@ -1,0 +1,48 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>{% if school %}Edit School{% else %}Add School{% endif %}</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_schools') }}" class="btn btn-secondary">Back to Schools</a>
+  </div>
+</div>
+
+<div class="card">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" value="{{ school.name if school else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="name_fr">Name (FR)</label>
+      <input type="text" id="name_fr" name="name_fr" value="{{ school.name_fr if school else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" value="{{ school.website if school else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="order_index">Order Index</label>
+      <input type="number" id="order_index" name="order_index" value="{{ school.order_index if school else 0 }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="logo">Logo</label>
+      <input type="file" id="logo" name="logo">
+      {% if school and school.logo %}
+      <div style="margin-top: 10px;">
+        <img src="{{ url_for('uploaded_file', filename=school.logo) }}" alt="Current logo" class="image-preview">
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save School</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

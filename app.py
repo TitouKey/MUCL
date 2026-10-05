@@ -3,6 +3,7 @@ import re
 
 from flask import (
     Flask,
+    flash,
     g,
     redirect,
     render_template,
@@ -10,9 +11,14 @@ from flask import (
     send_from_directory,
     url_for,
 )
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 
 from models import (
+    Admin,
     Crew,
+    Member,
     PartnerSchool,
     Research,
     Sponsor,
@@ -34,6 +40,33 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(INSTANCE_FOLDER, exist_ok=True)
 
 db.init_app(app)
+
+# Flask-Login setup
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'admin_login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Admin.query.get(int(user_id))
+
+
+# Helper function for slug generation
+def slugify(text):
+    import re
+    text = text.lower().strip()
+    text = re.sub(r'[^\w\s-]', '', text)
+    text = re.sub(r'[\s_]+', '-', text)
+    text = re.sub(r'-+', '-', text)
+    return text
+
+
+# Allowed file extensions for uploads
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.template_global()
@@ -211,6 +244,507 @@ def join():
 @app.route("/uploads/<path:filename>")
 def uploaded_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+
+
+# ---------------------------------------------------------------------------
+# Admin Routes
+# ---------------------------------------------------------------------------
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if current_user.is_authenticated:
+        return redirect(url_for('admin_dashboard'))
+    
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        user = Admin.query.filter_by(username=username).first()
+        
+        if user and check_password_hash(user.password_hash, password):
+            login_user(user)
+            flash("Logged in successfully!", "success")
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash("Invalid username or password", "error")
+    
+    return render_template("admin/login.html")
+
+
+@app.route("/admin/logout")
+@login_required
+def admin_logout():
+    logout_user()
+    flash("You have been logged out.", "success")
+    return redirect(url_for('admin_login'))
+
+
+@app.route("/admin/")
+@login_required
+def admin_dashboard():
+    crew_count = Crew.query.count()
+    member_count = Member.query.count()
+    sponsor_count = Sponsor.query.count()
+    school_count = PartnerSchool.query.count()
+    research_count = Research.query.count()
+    
+    return render_template(
+        "admin/dashboard.html",
+        crew_count=crew_count,
+        member_count=member_count,
+        sponsor_count=sponsor_count,
+        school_count=school_count,
+        research_count=research_count
+    )
+
+
+# Crew CRUD
+@app.route("/admin/crews/")
+@login_required
+def admin_crews():
+    crews = Crew.query.order_by(Crew.order_index.desc(), Crew.year.desc()).all()
+    return render_template("admin/crews.html", crews=crews)
+
+
+@app.route("/admin/crews/add", methods=["GET", "POST"])
+@login_required
+def admin_crews_add():
+    if request.method == "POST":
+        name = request.form.get("name")
+        slug = request.form.get("slug") or slugify(name)
+        year = request.form.get("year", "")
+        is_current = request.form.get("is_current") == "on"
+        tagline = request.form.get("tagline", "")
+        tagline_fr = request.form.get("tagline_fr", "")
+        description = request.form.get("description", "")
+        description_fr = request.form.get("description_fr", "")
+        order_index = int(request.form.get("order_index", 0))
+        
+        photo = None
+        if 'photo' in request.files:
+            file = request.files['photo']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                photo = f"crew-{slug}-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], photo))
+        
+        crew = Crew(
+            name=name,
+            slug=slug,
+            year=year,
+            is_current=is_current,
+            tagline=tagline,
+            tagline_fr=tagline_fr,
+            description=description,
+            description_fr=description_fr,
+            photo=photo,
+            order_index=order_index
+        )
+        db.session.add(crew)
+        db.session.commit()
+        flash("Crew added successfully!", "success")
+        return redirect(url_for('admin_crews'))
+    
+    return render_template("admin/crew_form.html", crew=None)
+
+
+@app.route("/admin/crews/<int:id>/edit", methods=["GET", "POST"])
+@login_required
+def admin_crews_edit(id):
+    crew = Crew.query.get_or_404(id)
+    
+    if request.method == "POST":
+        crew.name = request.form.get("name")
+        crew.slug = request.form.get("slug") or slugify(crew.name)
+        crew.year = request.form.get("year", "")
+        crew.is_current = request.form.get("is_current") == "on"
+        crew.tagline = request.form.get("tagline", "")
+        crew.tagline_fr = request.form.get("tagline_fr", "")
+        crew.description = request.form.get("description", "")
+        crew.description_fr = request.form.get("description_fr", "")
+        crew.order_index = int(request.form.get("order_index", 0))
+        
+        if 'photo' in request.files:
+            file = request.files['photo']
+            if file and allowed_file(file.filename):
+                if crew.photo:
+                    old_path = os.path.join(app.config["UPLOAD_FOLDER"], crew.photo)
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                filename = secure_filename(file.filename)
+                crew.photo = f"crew-{crew.slug}-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], crew.photo))
+        
+        db.session.commit()
+        flash("Crew updated successfully!", "success")
+        return redirect(url_for('admin_crews'))
+    
+    return render_template("admin/crew_form.html", crew=crew)
+
+
+@app.route("/admin/crews/<int:id>/delete", methods=["POST"])
+@login_required
+def admin_crews_delete(id):
+    crew = Crew.query.get_or_404(id)
+    
+    if crew.photo:
+        photo_path = os.path.join(app.config["UPLOAD_FOLDER"], crew.photo)
+        if os.path.exists(photo_path):
+            os.remove(photo_path)
+    
+    db.session.delete(crew)
+    db.session.commit()
+    flash("Crew deleted successfully!", "success")
+    return redirect(url_for('admin_crews'))
+
+
+# Member CRUD
+@app.route("/admin/members/")
+@login_required
+def admin_members():
+    members = Member.query.order_by(Member.crew_id, Member.order_index).all()
+    crews = Crew.query.order_by(Crew.name).all()
+    return render_template("admin/members.html", members=members, crews=crews)
+
+
+@app.route("/admin/members/add", methods=["GET", "POST"])
+@login_required
+def admin_members_add():
+    crews = Crew.query.order_by(Crew.name).all()
+    
+    if request.method == "POST":
+        name = request.form.get("name")
+        slug = request.form.get("slug") or slugify(name)
+        crew_id = request.form.get("crew_id")
+        role = request.form.get("role", "")
+        role_fr = request.form.get("role_fr", "")
+        studies = request.form.get("studies", "")
+        studies_fr = request.form.get("studies_fr", "")
+        nationality = request.form.get("nationality", "BE")
+        nation = request.form.get("nation", "")
+        description = request.form.get("description", "")
+        description_fr = request.form.get("description_fr", "")
+        order_index = int(request.form.get("order_index", 0))
+        
+        socials = []
+        for i in range(1, 6):
+            platform = request.form.get(f"social_platform_{i}")
+            url = request.form.get(f"social_url_{i}")
+            if platform and url:
+                socials.append({"platform": platform, "url": url})
+        
+        photo = None
+        if 'photo' in request.files:
+            file = request.files['photo']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                photo = f"member-{slug}-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], photo))
+        
+        member = Member(
+            name=name,
+            slug=slug,
+            crew_id=int(crew_id) if crew_id else None,
+            role=role,
+            role_fr=role_fr,
+            studies=studies,
+            studies_fr=studies_fr,
+            nationality=nationality,
+            nation=nation,
+            description=description,
+            description_fr=description_fr,
+            photo=photo,
+            socials=socials,
+            order_index=order_index
+        )
+        db.session.add(member)
+        db.session.commit()
+        flash("Member added successfully!", "success")
+        return redirect(url_for('admin_members'))
+    
+    return render_template("admin/member_form.html", member=None, crews=crews)
+
+
+@app.route("/admin/members/<int:id>/edit", methods=["GET", "POST"])
+@login_required
+def admin_members_edit(id):
+    member = Member.query.get_or_404(id)
+    crews = Crew.query.order_by(Crew.name).all()
+    
+    if request.method == "POST":
+        member.name = request.form.get("name")
+        member.slug = request.form.get("slug") or slugify(member.name)
+        member.crew_id = int(request.form.get("crew_id")) if request.form.get("crew_id") else None
+        member.role = request.form.get("role", "")
+        member.role_fr = request.form.get("role_fr", "")
+        member.studies = request.form.get("studies", "")
+        member.studies_fr = request.form.get("studies_fr", "")
+        member.nationality = request.form.get("nationality", "BE")
+        member.nation = request.form.get("nation", "")
+        member.description = request.form.get("description", "")
+        member.description_fr = request.form.get("description_fr", "")
+        member.order_index = int(request.form.get("order_index", 0))
+        
+        socials = []
+        for i in range(1, 6):
+            platform = request.form.get(f"social_platform_{i}")
+            url = request.form.get(f"social_url_{i}")
+            if platform and url:
+                socials.append({"platform": platform, "url": url})
+        member.socials = socials
+        
+        if 'photo' in request.files:
+            file = request.files['photo']
+            if file and allowed_file(file.filename):
+                if member.photo:
+                    old_path = os.path.join(app.config["UPLOAD_FOLDER"], member.photo)
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                filename = secure_filename(file.filename)
+                member.photo = f"member-{member.slug}-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], member.photo))
+        
+        db.session.commit()
+        flash("Member updated successfully!", "success")
+        return redirect(url_for('admin_members'))
+    
+    return render_template("admin/member_form.html", member=member, crews=crews)
+
+
+@app.route("/admin/members/<int:id>/delete", methods=["POST"])
+@login_required
+def admin_members_delete(id):
+    member = Member.query.get_or_404(id)
+    
+    if member.photo:
+        photo_path = os.path.join(app.config["UPLOAD_FOLDER"], member.photo)
+        if os.path.exists(photo_path):
+            os.remove(photo_path)
+    
+    db.session.delete(member)
+    db.session.commit()
+    flash("Member deleted successfully!", "success")
+    return redirect(url_for('admin_members'))
+
+
+# Sponsor CRUD
+@app.route("/admin/sponsors/")
+@login_required
+def admin_sponsors():
+    sponsors = Sponsor.query.order_by(Sponsor.priority, Sponsor.name).all()
+    return render_template("admin/sponsors.html", sponsors=sponsors)
+
+
+@app.route("/admin/sponsors/add", methods=["GET", "POST"])
+@login_required
+def admin_sponsors_add():
+    if request.method == "POST":
+        name = request.form.get("name")
+        full_name = request.form.get("full_name", "")
+        full_name_fr = request.form.get("full_name_fr", "")
+        slug = request.form.get("slug") or slugify(name)
+        website = request.form.get("website", "")
+        priority = int(request.form.get("priority", 100))
+        has_page = request.form.get("has_page") == "on"
+        logo_light = request.form.get("logo_light") == "on"
+        description = request.form.get("description", "")
+        description_fr = request.form.get("description_fr", "")
+        support = request.form.get("support", "")
+        support_fr = request.form.get("support_fr", "")
+        
+        logo = None
+        image = None
+        
+        if 'logo' in request.files:
+            file = request.files['logo']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                logo = f"sponsor-{slug}-logo-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], logo))
+        
+        if 'image' in request.files:
+            file = request.files['image']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                image = f"sponsor-{slug}-image-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
+        
+        sponsor = Sponsor(
+            name=name,
+            full_name=full_name,
+            full_name_fr=full_name_fr,
+            slug=slug,
+            website=website,
+            priority=priority,
+            has_page=has_page,
+            logo=logo,
+            logo_light=logo_light,
+            image=image,
+            description=description,
+            description_fr=description_fr,
+            support=support,
+            support_fr=support_fr
+        )
+        db.session.add(sponsor)
+        db.session.commit()
+        flash("Sponsor added successfully!", "success")
+        return redirect(url_for('admin_sponsors'))
+    
+    return render_template("admin/sponsor_form.html", sponsor=None)
+
+
+@app.route("/admin/sponsors/<int:id>/edit", methods=["GET", "POST"])
+@login_required
+def admin_sponsors_edit(id):
+    sponsor = Sponsor.query.get_or_404(id)
+    
+    if request.method == "POST":
+        sponsor.name = request.form.get("name")
+        sponsor.full_name = request.form.get("full_name", "")
+        sponsor.full_name_fr = request.form.get("full_name_fr", "")
+        sponsor.slug = request.form.get("slug") or slugify(sponsor.name)
+        sponsor.website = request.form.get("website", "")
+        sponsor.priority = int(request.form.get("priority", 100))
+        sponsor.has_page = request.form.get("has_page") == "on"
+        sponsor.logo_light = request.form.get("logo_light") == "on"
+        sponsor.description = request.form.get("description", "")
+        sponsor.description_fr = request.form.get("description_fr", "")
+        sponsor.support = request.form.get("support", "")
+        sponsor.support_fr = request.form.get("support_fr", "")
+        
+        if 'logo' in request.files:
+            file = request.files['logo']
+            if file and allowed_file(file.filename):
+                if sponsor.logo:
+                    old_path = os.path.join(app.config["UPLOAD_FOLDER"], sponsor.logo)
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                filename = secure_filename(file.filename)
+                sponsor.logo = f"sponsor-{sponsor.slug}-logo-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], sponsor.logo))
+        
+        if 'image' in request.files:
+            file = request.files['image']
+            if file and allowed_file(file.filename):
+                if sponsor.image:
+                    old_path = os.path.join(app.config["UPLOAD_FOLDER"], sponsor.image)
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                filename = secure_filename(file.filename)
+                sponsor.image = f"sponsor-{sponsor.slug}-image-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], sponsor.image))
+        
+        db.session.commit()
+        flash("Sponsor updated successfully!", "success")
+        return redirect(url_for('admin_sponsors'))
+    
+    return render_template("admin/sponsor_form.html", sponsor=sponsor)
+
+
+@app.route("/admin/sponsors/<int:id>/delete", methods=["POST"])
+@login_required
+def admin_sponsors_delete(id):
+    sponsor = Sponsor.query.get_or_404(id)
+    
+    if sponsor.logo:
+        logo_path = os.path.join(app.config["UPLOAD_FOLDER"], sponsor.logo)
+        if os.path.exists(logo_path):
+            os.remove(logo_path)
+    
+    if sponsor.image:
+        image_path = os.path.join(app.config["UPLOAD_FOLDER"], sponsor.image)
+        if os.path.exists(image_path):
+            os.remove(image_path)
+    
+    db.session.delete(sponsor)
+    db.session.commit()
+    flash("Sponsor deleted successfully!", "success")
+    return redirect(url_for('admin_sponsors'))
+
+
+# Partner School CRUD
+@app.route("/admin/schools/")
+@login_required
+def admin_schools():
+    schools = PartnerSchool.query.order_by(PartnerSchool.order_index, PartnerSchool.name).all()
+    return render_template("admin/schools.html", schools=schools)
+
+
+@app.route("/admin/schools/add", methods=["GET", "POST"])
+@login_required
+def admin_schools_add():
+    if request.method == "POST":
+        name = request.form.get("name")
+        name_fr = request.form.get("name_fr", "")
+        website = request.form.get("website", "")
+        order_index = int(request.form.get("order_index", 0))
+        
+        logo = None
+        if 'logo' in request.files:
+            file = request.files['logo']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                logo = f"school-{slugify(name)}-logo-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], logo))
+        
+        school = PartnerSchool(
+            name=name,
+            name_fr=name_fr,
+            website=website,
+            logo=logo,
+            order_index=order_index
+        )
+        db.session.add(school)
+        db.session.commit()
+        flash("School added successfully!", "success")
+        return redirect(url_for('admin_schools'))
+    
+    return render_template("admin/school_form.html", school=None)
+
+
+@app.route("/admin/schools/<int:id>/edit", methods=["GET", "POST"])
+@login_required
+def admin_schools_edit(id):
+    school = PartnerSchool.query.get_or_404(id)
+    
+    if request.method == "POST":
+        school.name = request.form.get("name")
+        school.name_fr = request.form.get("name_fr", "")
+        school.website = request.form.get("website", "")
+        school.order_index = int(request.form.get("order_index", 0))
+        
+        if 'logo' in request.files:
+            file = request.files['logo']
+            if file and allowed_file(file.filename):
+                if school.logo:
+                    old_path = os.path.join(app.config["UPLOAD_FOLDER"], school.logo)
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                filename = secure_filename(file.filename)
+                school.logo = f"school-{slugify(school.name)}-logo-{filename}"
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], school.logo))
+        
+        db.session.commit()
+        flash("School updated successfully!", "success")
+        return redirect(url_for('admin_schools'))
+    
+    return render_template("admin/school_form.html", school=school)
+
+
+@app.route("/admin/schools/<int:id>/delete", methods=["POST"])
+@login_required
+def admin_schools_delete(id):
+    school = PartnerSchool.query.get_or_404(id)
+    
+    if school.logo:
+        logo_path = os.path.join(app.config["UPLOAD_FOLDER"], school.logo)
+        if os.path.exists(logo_path):
+            os.remove(logo_path)
+    
+    db.session.delete(school)
+    db.session.commit()
+    flash("School deleted successfully!", "success")
+    return redirect(url_for('admin_schools'))
 
 
 # ---------------------------------------------------------------------------

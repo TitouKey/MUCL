@@ -1,0 +1,102 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>{% if sponsor %}Edit Sponsor{% else %}Add Sponsor{% endif %}</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_sponsors') }}" class="btn btn-secondary">Back to Sponsors</a>
+  </div>
+</div>
+
+<div class="card">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" value="{{ sponsor.name if sponsor else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="full_name">Full Name (EN)</label>
+      <input type="text" id="full_name" name="full_name" value="{{ sponsor.full_name if sponsor else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="full_name_fr">Full Name (FR)</label>
+      <input type="text" id="full_name_fr" name="full_name_fr" value="{{ sponsor.full_name_fr if sponsor else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="slug">Slug</label>
+      <input type="text" id="slug" name="slug" value="{{ sponsor.slug if sponsor else '' }}" placeholder="Auto-generated from name">
+    </div>
+    
+    <div class="form-group">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" value="{{ sponsor.website if sponsor else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <input type="number" id="priority" name="priority" value="{{ sponsor.priority if sponsor else 100 }}">
+    </div>
+    
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="has_page" name="has_page" {% if sponsor and sponsor.has_page %}checked{% endif %}>
+        <label for="has_page">Has Dedicated Page</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="logo_light" name="logo_light" {% if sponsor and sponsor.logo_light %}checked{% endif %}>
+        <label for="logo_light">Logo Light Version</label>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description (EN)</label>
+      <textarea id="description" name="description">{{ sponsor.description if sponsor else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="description_fr">Description (FR)</label>
+      <textarea id="description_fr" name="description_fr">{{ sponsor.description_fr if sponsor else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="support">Support Description (EN)</label>
+      <textarea id="support" name="support">{{ sponsor.support if sponsor else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="support_fr">Support Description (FR)</label>
+      <textarea id="support_fr" name="support_fr">{{ sponsor.support_fr if sponsor else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="logo">Logo</label>
+      <input type="file" id="logo" name="logo">
+      {% if sponsor and sponsor.logo %}
+      <div style="margin-top: 10px;">
+        <img src="{{ url_for('uploaded_file', filename=sponsor.logo) }}" alt="Current logo" class="image-preview">
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <label for="image">Image (for dedicated page)</label>
+      <input type="file" id="image" name="image">
+      {% if sponsor and sponsor.image %}
+      <div style="margin-top: 10px;">
+        <img src="{{ url_for('uploaded_file', filename=sponsor.image) }}" alt="Current image" class="image-preview">
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save Sponsor</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>Sponsors</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_sponsors_add') }}" class="btn btn-primary">Add Sponsor</a>
+  </div>
+</div>
+
+<div class="card">
+  {% if sponsors %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Priority</th>
+        <th>Has Page</th>
+        <th>Logo</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sponsor in sponsors %}
+      <tr>
+        <td>{{ sponsor.name }}</td>
+        <td>{{ sponsor.priority }}</td>
+        <td>{% if sponsor.has_page %}Yes{% else %}No{% endif %}</td>
+        <td>{% if sponsor.logo %}Yes{% else %}No{% endif %}</td>
+        <td>
+          <a href="{{ url_for('admin_sponsors_edit', id=sponsor.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+          <form action="{{ url_for('admin_sponsors_delete', id=sponsor.id) }}" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No sponsors yet. <a href="{{ url_for('admin_sponsors_add') }}">Add your first sponsor</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

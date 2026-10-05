@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>Crews</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_crews_add') }}" class="btn btn-primary">Add Crew</a>
+  </div>
+</div>
+
+<div class="card">
+  {% if crews %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Year</th>
+        <th>Current</th>
+        <th>Members</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for crew in crews %}
+      <tr>
+        <td>{{ crew.display_name }}</td>
+        <td>{{ crew.year }}</td>
+        <td>{% if crew.is_current %}Yes{% else %}No{% endif %}</td>
+        <td>{{ crew.member_count }}</td>
+        <td>
+          <a href="{{ url_for('admin_crews_edit', id=crew.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+          <form action="{{ url_for('admin_crews_delete', id=crew.id) }}" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No crews yet. <a href="{{ url_for('admin_crews_add') }}">Add your first crew</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

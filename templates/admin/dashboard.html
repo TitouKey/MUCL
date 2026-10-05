@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>Dashboard</h1>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="number">{{ crew_count }}</div>
+    <div class="label">Crews</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ member_count }}</div>
+    <div class="label">Members</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ sponsor_count }}</div>
+    <div class="label">Sponsors</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ school_count }}</div>
+    <div class="label">Schools</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">{{ research_count }}</div>
+    <div class="label">Researches</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Quick Actions</h2>
+  <p>Manage your content:</p>
+  <div class="admin-actions" style="margin-top: 20px; flex-wrap: wrap;">
+    <a href="{{ url_for('admin_crews_add') }}" class="btn btn-primary">Add Crew</a>
+    <a href="{{ url_for('admin_members_add') }}" class="btn btn-primary">Add Member</a>
+    <a href="{{ url_for('admin_sponsors_add') }}" class="btn btn-primary">Add Sponsor</a>
+    <a href="{{ url_for('admin_schools_add') }}" class="btn btn-primary">Add School</a>
+  </div>
+</div>
+{% endblock %}

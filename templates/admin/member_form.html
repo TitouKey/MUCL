@@ -1,0 +1,122 @@
+{% extends "admin/base.html" %}
+
+{% block admin_content %}
+<div class="admin-header">
+  <h1>{% if member %}Edit Member{% else %}Add Member{% endif %}</h1>
+  <div class="admin-actions">
+    <a href="{{ url_for('admin_members') }}" class="btn btn-secondary">Back to Members</a>
+  </div>
+</div>
+
+<div class="card">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" value="{{ member.name if member else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="slug">Slug</label>
+      <input type="text" id="slug" name="slug" value="{{ member.slug if member else '' }}" placeholder="Auto-generated from name">
+    </div>
+    
+    <div class="form-group">
+      <label for="crew_id">Crew</label>
+      <select id="crew_id" name="crew_id">
+        <option value="">No crew</option>
+        {% for crew in crews %}
+        <option value="{{ crew.id }}" {% if member and member.crew_id == crew.id %}selected{% endif %}>{{ crew.display_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="role">Role (EN)</label>
+      <input type="text" id="role" name="role" value="{{ member.role if member else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="role_fr">Role (FR)</label>
+      <input type="text" id="role_fr" name="role_fr" value="{{ member.role_fr if member else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="studies">Studies (EN)</label>
+      <input type="text" id="studies" name="studies" value="{{ member.studies if member else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="studies_fr">Studies (FR)</label>
+      <input type="text" id="studies_fr" name="studies_fr" value="{{ member.studies_fr if member else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="nationality">Nationality</label>
+      <input type="text" id="nationality" name="nationality" value="{{ member.nationality if member else 'BE' }}" maxlength="4" placeholder="e.g., BE, FR, US">
+    </div>
+    
+    <div class="form-group">
+      <label for="nation">Nation</label>
+      <input type="text" id="nation" name="nation" value="{{ member.nation if member else '' }}">
+    </div>
+    
+    <div class="form-group">
+      <label for="description">Description (EN)</label>
+      <textarea id="description" name="description">{{ member.description if member else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="description_fr">Description (FR)</label>
+      <textarea id="description_fr" name="description_fr">{{ member.description_fr if member else '' }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="order_index">Order Index</label>
+      <input type="number" id="order_index" name="order_index" value="{{ member.order_index if member else 0 }}">
+    </div>
+    
+    <div class="form-group">
+      <label>Social Media</label>
+      <div class="social-inputs" id="social-inputs">
+        {% if member and member.social_list %}
+          {% for i in range(1, 6) %}
+            {% if i-1 < member.social_list|length %}
+              {% set social = member.social_list[i-1] %}
+            <div class="social-row">
+              <input type="text" name="social_platform_{{ i }}" placeholder="Platform (e.g., linkedin)" value="{{ social.platform if social else '' }}">
+              <input type="text" name="social_url_{{ i }}" placeholder="URL" value="{{ social.url if social else '' }}">
+            </div>
+            {% else %}
+            <div class="social-row">
+              <input type="text" name="social_platform_{{ i }}" placeholder="Platform (e.g., linkedin)">
+              <input type="text" name="social_url_{{ i }}" placeholder="URL">
+            </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for i in range(1, 6) %}
+          <div class="social-row">
+            <input type="text" name="social_platform_{{ i }}" placeholder="Platform (e.g., linkedin)">
+            <input type="text" name="social_url_{{ i }}" placeholder="URL">
+          </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="photo">Photo</label>
+      <input type="file" id="photo" name="photo">
+      {% if member and member.photo %}
+      <div style="margin-top: 10px;">
+        <img src="{{ url_for('uploaded_file', filename=member.photo) }}" alt="Current photo" class="image-preview">
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save Member</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
