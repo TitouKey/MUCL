@@ -315,9 +315,7 @@ def admin_crews_add():
         year = request.form.get("year", "")
         is_current = request.form.get("is_current") == "on"
         tagline = request.form.get("tagline", "")
-        tagline_fr = request.form.get("tagline_fr", "")
         description = request.form.get("description", "")
-        description_fr = request.form.get("description_fr", "")
         order_index = int(request.form.get("order_index", 0))
         
         photo = None
@@ -334,9 +332,7 @@ def admin_crews_add():
             year=year,
             is_current=is_current,
             tagline=tagline,
-            tagline_fr=tagline_fr,
             description=description,
-            description_fr=description_fr,
             photo=photo,
             order_index=order_index
         )
@@ -359,9 +355,7 @@ def admin_crews_edit(id):
         crew.year = request.form.get("year", "")
         crew.is_current = request.form.get("is_current") == "on"
         crew.tagline = request.form.get("tagline", "")
-        crew.tagline_fr = request.form.get("tagline_fr", "")
         crew.description = request.form.get("description", "")
-        crew.description_fr = request.form.get("description_fr", "")
         crew.order_index = int(request.form.get("order_index", 0))
         
         if 'photo' in request.files:
@@ -417,13 +411,10 @@ def admin_members_add():
         slug = request.form.get("slug") or slugify(name)
         crew_id = request.form.get("crew_id")
         role = request.form.get("role", "")
-        role_fr = request.form.get("role_fr", "")
         studies = request.form.get("studies", "")
-        studies_fr = request.form.get("studies_fr", "")
         nationality = request.form.get("nationality", "BE")
         nation = request.form.get("nation", "")
         description = request.form.get("description", "")
-        description_fr = request.form.get("description_fr", "")
         order_index = int(request.form.get("order_index", 0))
         
         socials = []
@@ -446,13 +437,10 @@ def admin_members_add():
             slug=slug,
             crew_id=int(crew_id) if crew_id else None,
             role=role,
-            role_fr=role_fr,
             studies=studies,
-            studies_fr=studies_fr,
             nationality=nationality,
             nation=nation,
             description=description,
-            description_fr=description_fr,
             photo=photo,
             socials=socials,
             order_index=order_index
@@ -476,13 +464,10 @@ def admin_members_edit(id):
         member.slug = request.form.get("slug") or slugify(member.name)
         member.crew_id = int(request.form.get("crew_id")) if request.form.get("crew_id") else None
         member.role = request.form.get("role", "")
-        member.role_fr = request.form.get("role_fr", "")
         member.studies = request.form.get("studies", "")
-        member.studies_fr = request.form.get("studies_fr", "")
         member.nationality = request.form.get("nationality", "BE")
         member.nation = request.form.get("nation", "")
         member.description = request.form.get("description", "")
-        member.description_fr = request.form.get("description_fr", "")
         member.order_index = int(request.form.get("order_index", 0))
         
         socials = []
@@ -541,16 +526,13 @@ def admin_sponsors_add():
     if request.method == "POST":
         name = request.form.get("name")
         full_name = request.form.get("full_name", "")
-        full_name_fr = request.form.get("full_name_fr", "")
         slug = request.form.get("slug") or slugify(name)
         website = request.form.get("website", "")
         priority = int(request.form.get("priority", 100))
         has_page = request.form.get("has_page") == "on"
         logo_light = request.form.get("logo_light") == "on"
         description = request.form.get("description", "")
-        description_fr = request.form.get("description_fr", "")
         support = request.form.get("support", "")
-        support_fr = request.form.get("support_fr", "")
         
         logo = None
         image = None
@@ -572,7 +554,6 @@ def admin_sponsors_add():
         sponsor = Sponsor(
             name=name,
             full_name=full_name,
-            full_name_fr=full_name_fr,
             slug=slug,
             website=website,
             priority=priority,
@@ -581,9 +562,7 @@ def admin_sponsors_add():
             logo_light=logo_light,
             image=image,
             description=description,
-            description_fr=description_fr,
-            support=support,
-            support_fr=support_fr
+            support=support
         )
         db.session.add(sponsor)
         db.session.commit()
@@ -601,16 +580,13 @@ def admin_sponsors_edit(id):
     if request.method == "POST":
         sponsor.name = request.form.get("name")
         sponsor.full_name = request.form.get("full_name", "")
-        sponsor.full_name_fr = request.form.get("full_name_fr", "")
         sponsor.slug = request.form.get("slug") or slugify(sponsor.name)
         sponsor.website = request.form.get("website", "")
         sponsor.priority = int(request.form.get("priority", 100))
         sponsor.has_page = request.form.get("has_page") == "on"
         sponsor.logo_light = request.form.get("logo_light") == "on"
         sponsor.description = request.form.get("description", "")
-        sponsor.description_fr = request.form.get("description_fr", "")
         sponsor.support = request.form.get("support", "")
-        sponsor.support_fr = request.form.get("support_fr", "")
         
         if 'logo' in request.files:
             file = request.files['logo']
@@ -675,7 +651,6 @@ def admin_schools():
 def admin_schools_add():
     if request.method == "POST":
         name = request.form.get("name")
-        name_fr = request.form.get("name_fr", "")
         website = request.form.get("website", "")
         order_index = int(request.form.get("order_index", 0))
         
@@ -689,7 +664,6 @@ def admin_schools_add():
         
         school = PartnerSchool(
             name=name,
-            name_fr=name_fr,
             website=website,
             logo=logo,
             order_index=order_index
@@ -709,7 +683,6 @@ def admin_schools_edit(id):
     
     if request.method == "POST":
         school.name = request.form.get("name")
-        school.name_fr = request.form.get("name_fr", "")
         school.website = request.form.get("website", "")
         school.order_index = int(request.form.get("order_index", 0))
         

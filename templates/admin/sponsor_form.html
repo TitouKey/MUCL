@@ -16,13 +16,8 @@
     </div>
     
     <div class="form-group">
-      <label for="full_name">Full Name (EN)</label>
+      <label for="full_name">Full Name</label>
       <input type="text" id="full_name" name="full_name" value="{{ sponsor.full_name if sponsor else '' }}">
-    </div>
-    
-    <div class="form-group">
-      <label for="full_name_fr">Full Name (FR)</label>
-      <input type="text" id="full_name_fr" name="full_name_fr" value="{{ sponsor.full_name_fr if sponsor else '' }}">
     </div>
     
     <div class="form-group">
@@ -55,23 +50,13 @@
     </div>
     
     <div class="form-group">
-      <label for="description">Description (EN)</label>
+      <label for="description">Description</label>
       <textarea id="description" name="description">{{ sponsor.description if sponsor else '' }}</textarea>
     </div>
     
     <div class="form-group">
-      <label for="description_fr">Description (FR)</label>
-      <textarea id="description_fr" name="description_fr">{{ sponsor.description_fr if sponsor else '' }}</textarea>
-    </div>
-    
-    <div class="form-group">
-      <label for="support">Support Description (EN)</label>
+      <label for="support">Support Description</label>
       <textarea id="support" name="support">{{ sponsor.support if sponsor else '' }}</textarea>
-    </div>
-    
-    <div class="form-group">
-      <label for="support_fr">Support Description (FR)</label>
-      <textarea id="support_fr" name="support_fr">{{ sponsor.support_fr if sponsor else '' }}</textarea>
     </div>
     
     <div class="form-group">

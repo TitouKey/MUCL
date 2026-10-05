@@ -31,23 +31,13 @@
     </div>
     
     <div class="form-group">
-      <label for="role">Role (EN)</label>
+      <label for="role">Role</label>
       <input type="text" id="role" name="role" value="{{ member.role if member else '' }}">
     </div>
     
     <div class="form-group">
-      <label for="role_fr">Role (FR)</label>
-      <input type="text" id="role_fr" name="role_fr" value="{{ member.role_fr if member else '' }}">
-    </div>
-    
-    <div class="form-group">
-      <label for="studies">Studies (EN)</label>
+      <label for="studies">Studies</label>
       <input type="text" id="studies" name="studies" value="{{ member.studies if member else '' }}">
-    </div>
-    
-    <div class="form-group">
-      <label for="studies_fr">Studies (FR)</label>
-      <input type="text" id="studies_fr" name="studies_fr" value="{{ member.studies_fr if member else '' }}">
     </div>
     
     <div class="form-group">
@@ -61,13 +51,8 @@
     </div>
     
     <div class="form-group">
-      <label for="description">Description (EN)</label>
+      <label for="description">Description</label>
       <textarea id="description" name="description">{{ member.description if member else '' }}</textarea>
-    </div>
-    
-    <div class="form-group">
-      <label for="description_fr">Description (FR)</label>
-      <textarea id="description_fr" name="description_fr">{{ member.description_fr if member else '' }}</textarea>
     </div>
     
     <div class="form-group">

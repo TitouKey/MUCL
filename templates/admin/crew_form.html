@@ -38,23 +38,13 @@
     </div>
     
     <div class="form-group">
-      <label for="tagline">Tagline (EN)</label>
+      <label for="tagline">Tagline</label>
       <input type="text" id="tagline" name="tagline" value="{{ crew.tagline if crew else '' }}">
     </div>
     
     <div class="form-group">
-      <label for="tagline_fr">Tagline (FR)</label>
-      <input type="text" id="tagline_fr" name="tagline_fr" value="{{ crew.tagline_fr if crew else '' }}">
-    </div>
-    
-    <div class="form-group">
-      <label for="description">Description (EN)</label>
+      <label for="description">Description</label>
       <textarea id="description" name="description">{{ crew.description if crew else '' }}</textarea>
-    </div>
-    
-    <div class="form-group">
-      <label for="description_fr">Description (FR)</label>
-      <textarea id="description_fr" name="description_fr">{{ crew.description_fr if crew else '' }}</textarea>
     </div>
     
     <div class="form-group">
