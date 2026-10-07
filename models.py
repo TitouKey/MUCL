@@ -30,6 +30,7 @@ SPONSOR_LEVEL_MAIN = "main_partner"
 SPONSOR_LEVEL_OFFICIAL = "official_partner"
 SPONSOR_LEVEL_INSTITUTIONAL = "institutional_partner"
 SPONSOR_LEVEL_TECHNICAL = "technical_partner"
+SPONSOR_LEVEL_OFFICIAL_SUPPORT = "official_support"
 
 SPONSOR_LEVELS = [
     (SPONSOR_LEVEL_TITLE, "Title Partner"),
@@ -37,6 +38,7 @@ SPONSOR_LEVELS = [
     (SPONSOR_LEVEL_OFFICIAL, "Official Partner"),
     (SPONSOR_LEVEL_INSTITUTIONAL, "Institutional Partner"),
     (SPONSOR_LEVEL_TECHNICAL, "Technical Partner"),
+    (SPONSOR_LEVEL_OFFICIAL_SUPPORT, "Official Support"),
 ]
 
 SPONSOR_LEVEL_ORDER = {
@@ -45,6 +47,7 @@ SPONSOR_LEVEL_ORDER = {
     SPONSOR_LEVEL_OFFICIAL: 2,
     SPONSOR_LEVEL_INSTITUTIONAL: 3,
     SPONSOR_LEVEL_TECHNICAL: 4,
+    SPONSOR_LEVEL_OFFICIAL_SUPPORT: 5,
 }
 
 research_members = db.Table(

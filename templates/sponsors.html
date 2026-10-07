@@ -26,7 +26,8 @@
           'main_partner': t('Main Partner'),
           'official_partner': t('Official Partner'),
           'institutional_partner': t('Institutional Partner'),
-          'technical_partner': t('Technical Partner')
+          'technical_partner': t('Technical Partner'),
+          'official_support': t('Official Support')
         } %}
         
         {% for level_id, level_name in [
@@ -34,7 +35,8 @@
           ('main_partner', levels['main_partner']),
           ('official_partner', levels['official_partner']),
           ('institutional_partner', levels['institutional_partner']),
-          ('technical_partner', levels['technical_partner'])
+          ('technical_partner', levels['technical_partner']),
+          ('official_support', levels['official_support'])
         ] %}
           {% set level_sponsors = sponsors | selectattr('level', 'equalto', level_id) | list %}
           {% if level_sponsors %}
@@ -44,12 +46,16 @@
               </div>
               <div class="sponsor-level-logos">
                 {% for s in level_sponsors | sort(attribute='priority') %}
-                  <a class="sponsor-logo-link{% if s.logo_light %} sponsor-logo-link--dark{% endif %}" href="{{ url_for('partner', slug=s.slug) }}">
-                    {% if s.logo %}
-                      <img class="sponsor-logo-img" src="{{ url_for('static', filename=s.logo) }}" alt="{{ s.name }}">
-                    {% else %}
-                      <span class="sponsor-logo-text">{{ s.name }}</span>
-                    {% endif %}
+                  <a class="sponsor-logo-link{% if s.logo_light %} sponsor-logo-link--dark{% endif %}" 
+                     href="{% if s.has_page %}{{ url_for('partner', slug=s.slug) }}{% elif s.website %}{{ s.website }}{% else %}#{% endif %}"
+                     {% if s.website and not s.has_page %}target="_blank" rel="noopener nofollow"{% endif %}>
+                    <div class="sponsor-logo-container">
+                      {% if s.logo %}
+                        <img class="sponsor-logo-img" src="{{ url_for('static', filename=s.logo) }}" alt="{{ s.name }}">
+                      {% else %}
+                        <span class="sponsor-logo-text">{{ s.name }}</span>
+                      {% endif %}
+                    </div>
                   </a>
                 {% endfor %}
               </div>
