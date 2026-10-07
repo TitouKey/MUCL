@@ -145,11 +145,19 @@
         {% for school in schools %}
           {% if school.website %}
             <a class="edu-logo" href="{{ school.website }}" target="_blank" rel="noopener noreferrer" aria-label="{{ tr(school, 'name') }}">
-              {% if school.logo %}<img class="edu-logo-img" src="{{ url_for('uploaded_file', filename=school.logo) }}" alt="{{ tr(school, 'name') }}">{% else %}<span>{{ tr(school, 'name') }}</span>{% endif %}
+              {% if school.logo %}
+                <img class="edu-logo-img" src="{{ url_for('uploaded_file', filename=school.logo) }}" alt="{{ tr(school, 'name') }}">
+              {% else %}
+                <span class="edu-logo-placeholder" style="--school-index: {{ loop.index0 }}">{{ tr(school, 'name') }}</span>
+              {% endif %}
             </a>
           {% else %}
             <div class="edu-logo" role="img" aria-label="{{ tr(school, 'name') }}">
-              {% if school.logo %}<img class="edu-logo-img" src="{{ url_for('uploaded_file', filename=school.logo) }}" alt="{{ tr(school, 'name') }}">{% else %}<span>{{ tr(school, 'name') }}</span>{% endif %}
+              {% if school.logo %}
+                <img class="edu-logo-img" src="{{ url_for('uploaded_file', filename=school.logo) }}" alt="{{ tr(school, 'name') }}">
+              {% else %}
+                <span class="edu-logo-placeholder" style="--school-index: {{ loop.index0 }}">{{ tr(school, 'name') }}</span>
+              {% endif %}
             </div>
           {% endif %}
         {% endfor %}

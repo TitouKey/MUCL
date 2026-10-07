@@ -14,26 +14,52 @@
           {{ t('Every expedition stands on the shoulders of the companies and institutions that believe in it. Our sponsors provide support, hardware, software and expertise.') }}
         </p>
         <p class="rf-block">
-          {{ t('Click on a tile to discover each sponsor — its story, its technology and its role in the mission.') }}
+          {{ t('Click on a tile to discover each sponsor \u2014 its story, its technology and its role in the mission.') }}
         </p>
       </div>
     </div>
 
     {% if sponsors %}
-      <div class="sponsor-grid" aria-label="{{ t('Sponsors') }}">
-        {% for s in sponsors %}
-          <a class="bento-cell bento-link{% if s.logo_light %} bento-cell--dark{% endif %}" href="{{ url_for('partner', slug=s.slug) }}">
-            {% if s.logo %}
-              <img class="bento-tile-img" src="{{ url_for('static', filename=s.logo) }}" alt="{{ s.name }}">
-            {% else %}
-              {{ s.name }}
-            {% endif %}
-          </a>
+      <div class="sponsor-levels" aria-label="{{ t('Sponsors by level') }}">
+        {% set levels = {
+          'title_partner': t('Title Partner'),
+          'main_partner': t('Main Partner'),
+          'official_partner': t('Official Partner'),
+          'institutional_partner': t('Institutional Partner'),
+          'technical_partner': t('Technical Partner')
+        } %}
+        
+        {% for level_id, level_name in [
+          ('title_partner', levels['title_partner']),
+          ('main_partner', levels['main_partner']),
+          ('official_partner', levels['official_partner']),
+          ('institutional_partner', levels['institutional_partner']),
+          ('technical_partner', levels['technical_partner'])
+        ] %}
+          {% set level_sponsors = sponsors | selectattr('level', 'equalto', level_id) | list %}
+          {% if level_sponsors %}
+            <div class="sponsor-level">
+              <div class="sponsor-level-header">
+                <h3 class="sponsor-level-title">{{ level_name }}</h3>
+              </div>
+              <div class="sponsor-level-logos">
+                {% for s in level_sponsors | sort(attribute='priority') %}
+                  <a class="sponsor-logo-link{% if s.logo_light %} sponsor-logo-link--dark{% endif %}" href="{{ url_for('partner', slug=s.slug) }}">
+                    {% if s.logo %}
+                      <img class="sponsor-logo-img" src="{{ url_for('static', filename=s.logo) }}" alt="{{ s.name }}">
+                    {% else %}
+                      <span class="sponsor-logo-text">{{ s.name }}</span>
+                    {% endif %}
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
         {% endfor %}
       </div>
     {% else %}
       <div class="sponsor-empty" role="status">
-        {{ t('No sponsor yet — the companies that will carry the next expedition will be announced here. Want to be one of them?') }}
+        {{ t('No sponsor yet \u2014 the companies that will carry the next expedition will be announced here. Want to be one of them?') }}
         <a class="text-link" href="{{ url_for('contact') }}">{{ t('Contact us') }}</a>.
       </div>
     {% endif %}

@@ -24,6 +24,29 @@ CATEGORY_COLORS = {
     CATEGORY_OTHER: "#d946ef",
 }
 
+# Sponsor levels
+SPONSOR_LEVEL_TITLE = "title_partner"
+SPONSOR_LEVEL_MAIN = "main_partner"
+SPONSOR_LEVEL_OFFICIAL = "official_partner"
+SPONSOR_LEVEL_INSTITUTIONAL = "institutional_partner"
+SPONSOR_LEVEL_TECHNICAL = "technical_partner"
+
+SPONSOR_LEVELS = [
+    (SPONSOR_LEVEL_TITLE, "Title Partner"),
+    (SPONSOR_LEVEL_MAIN, "Main Partner"),
+    (SPONSOR_LEVEL_OFFICIAL, "Official Partner"),
+    (SPONSOR_LEVEL_INSTITUTIONAL, "Institutional Partner"),
+    (SPONSOR_LEVEL_TECHNICAL, "Technical Partner"),
+]
+
+SPONSOR_LEVEL_ORDER = {
+    SPONSOR_LEVEL_TITLE: 0,
+    SPONSOR_LEVEL_MAIN: 1,
+    SPONSOR_LEVEL_OFFICIAL: 2,
+    SPONSOR_LEVEL_INSTITUTIONAL: 3,
+    SPONSOR_LEVEL_TECHNICAL: 4,
+}
+
 research_members = db.Table(
     "research_members",
     db.Column("research_id", db.Integer, db.ForeignKey("research.id"), primary_key=True),
@@ -167,6 +190,7 @@ class Sponsor(db.Model):
     slug = db.Column(db.String(120), unique=True, nullable=False)
     website = db.Column(db.String(255), default="")
     priority = db.Column(db.Integer, default=100)
+    level = db.Column(db.String(40), default=SPONSOR_LEVEL_OFFICIAL)
     logo = db.Column(db.String(255))
     has_page = db.Column(db.Boolean, default=False)
     logo_light = db.Column(db.Boolean, default=False)
@@ -175,6 +199,10 @@ class Sponsor(db.Model):
     description_fr = db.Column(db.Text, default="")
     support = db.Column(db.Text, default="")
     support_fr = db.Column(db.Text, default="")
+
+    @property
+    def level_label(self):
+        return dict(SPONSOR_LEVELS).get(self.level, self.level)
 
     @property
     def support_paragraphs(self):
