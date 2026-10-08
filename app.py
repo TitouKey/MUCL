@@ -872,6 +872,30 @@ if __name__ == "__main__":
                 conn.execute(db.text("UPDATE sponsor SET level = 'official_partner' WHERE level IS NULL"))
                 conn.commit()
                 print("✓ Added 'level' column to sponsor table")
+        
+        # Add example sponsors for each level if no sponsors exist
+        from models import Sponsor, SPONSOR_LEVEL_OFFICIAL
+        if Sponsor.query.count() == 0:
+            # Example sponsors by level
+            examples = [
+                {'name': 'UCLouvain', 'slug': 'uclouvain', 'level': 'title_partner', 'logo': 'img/sponsors/uclouvain.svg', 'priority': 1, 'has_page': True, 'website': 'https://uclouvain.be'},
+                {'name': 'Sopra Steria', 'slug': 'sopra-steria', 'level': 'main_partner', 'logo': 'img/sponsors/sopra-steria.png', 'priority': 10, 'has_page': False, 'website': 'https://soprasteria.com'},
+                {'name': 'Thales', 'slug': 'thales', 'level': 'main_partner', 'logo': 'img/sponsors/thales.png', 'priority': 20, 'has_page': False, 'website': 'https://thalesgroup.com'},
+                {'name': 'Space Applications', 'slug': 'space-applications', 'level': 'official_partner', 'logo': 'img/sponsors/spaceapplications.png', 'priority': 30, 'has_page': False, 'website': 'https://spaceapplications.com'},
+                {'name': 'Aerospacelab', 'slug': 'aerospacelab', 'level': 'official_partner', 'logo': 'img/sponsors/aerospacelab.png', 'priority': 40, 'has_page': False, 'website': 'https://aerospacelab.be'},
+                {'name': 'Belspo', 'slug': 'belspo', 'level': 'institutional_partner', 'logo': 'img/sponsors/belspo.png', 'priority': 60, 'has_page': False, 'website': 'https://belspo.be'},
+                {'name': 'Wallonie', 'slug': 'wallonie', 'level': 'institutional_partner', 'logo': 'img/sponsors/wallonie.png', 'priority': 70, 'has_page': False, 'website': 'https://spw.wallonie.be'},
+                {'name': 'SpaceX', 'slug': 'spacex', 'level': 'technical_partner', 'logo': 'img/sponsors/spacex.png', 'priority': 90, 'has_page': False, 'website': 'https://spacex.com'},
+                {'name': 'ESA', 'slug': 'esa', 'level': 'official_support', 'logo': 'img/sponsors/esa.png', 'priority': 1, 'has_page': False, 'website': 'https://esa.int'},
+                {'name': 'Science Infuse', 'slug': 'science-infuse', 'level': 'official_support', 'logo': 'img/sponsors/science-infuse.png', 'priority': 2, 'has_page': False, 'website': ''},
+                {'name': 'CNES', 'slug': 'cnes', 'level': 'official_support', 'logo': 'img/sponsors/cnes.png', 'priority': 3, 'has_page': False, 'website': 'https://cnes.fr'},
+                {'name': 'NASA', 'slug': 'nasa', 'level': 'official_support', 'logo': 'img/sponsors/nasa.png', 'priority': 4, 'has_page': False, 'website': 'https://nasa.gov'},
+            ]
+            for example in examples:
+                if not Sponsor.query.filter_by(slug=example['slug']).first():
+                    db.session.add(Sponsor(**example))
+            db.session.commit()
+            print("✓ Added example sponsors for all levels")
     import os
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
