@@ -863,6 +863,15 @@ def not_found(e):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+        # Auto-migration: add 'level' column to sponsor table if missing
+        inspector = db.inspect(db.engine)
+        columns = [col['name'] for col in inspector.get_columns('sponsor')]
+        if 'level' not in columns:
+            with db.engine.connect() as conn:
+                conn.execute(db.text("ALTER TABLE sponsor ADD COLUMN level VARCHAR(40) DEFAULT 'official_partner'"))
+                conn.execute(db.text("UPDATE sponsor SET level = 'official_partner' WHERE level IS NULL"))
+                conn.commit()
+                print("✓ Added 'level' column to sponsor table")
     import os
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
