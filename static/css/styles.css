@@ -1221,7 +1221,7 @@ ol {
 .home-sponsor-level-logos {
   grid-column: 2;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: clamp(12px, 1.5vw, 20px);
   align-items: center;
 }
@@ -1293,9 +1293,9 @@ ol {
   filter: grayscale(0%);
 }
 
-/* Sponsors page - force 5 columns grid */
+/* Sponsors page - 3 columns grid */
 .sponsor-level-logos {
-  grid-template-columns: repeat(5, 1fr) !important;
+  grid-template-columns: repeat(3, 1fr) !important;
   gap: clamp(12px, 1.5vw, 20px);
 }
 
