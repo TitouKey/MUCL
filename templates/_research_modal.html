@@ -1,6 +1,6 @@
 <!-- ============================================================
      Pop-up expérience — profil type "LinkedIn"
-     Utilise window.MARS_RESEARCHES (défini par la page appelante)
+     Utilise window.MARS_RESEARCHES (définis par la page appelante)
      ============================================================ -->
 <dialog class="modal" id="exp-modal" aria-labelledby="exp-title">
   <div class="modal-banner" id="exp-banner">
@@ -10,7 +10,7 @@
     </div>
     <div class="modal-banner-actions">
       <span class="modal-category" id="exp-category"></span>
-      <a class="modal-pdf" href="#" download hidden>
+      <a class="modal-pdf" href="#" download id="exp-pdf-link" hidden>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7 10 12 15 17 10"/>
@@ -30,10 +30,11 @@
       <div class="modal-right">
         <p class="modal-authors"></p>
         <p class="modal-year"></p>
-  
       </div>
     </div>
-    <p class="modal-desc"></p>
+    <div class="modal-description-container">
+      <p class="modal-desc"></p>
+    </div>
     <div class="modal-links" id="exp-links">
       <span class="modal-label">{{ t('Links & resources') }}</span>
     </div>
@@ -76,19 +77,23 @@
 
       const members = modal.querySelector(".modal-members");
       members.innerHTML = "";
-      e.members.forEach((m) => {
-        const a = document.createElement("a");
-        a.className = "modal-research-link";
-        a.href = m.href;
-        a.textContent = m.name;
-        members.appendChild(a);
-      });
+      if (e.members && e.members.length > 0) {
+        const membersTitle = document.createElement("span");
+        membersTitle.className = "modal-members-label";
+        membersTitle.textContent = "{{ t('Team:') }}";
+        members.appendChild(membersTitle);
+        e.members.forEach((m, index) => {
+          const separator = index > 0 ? ", " : "";
+          const a = document.createElement("a");
+          a.className = "modal-research-link";
+          a.href = m.href;
+          a.textContent = separator + m.name;
+          members.appendChild(a);
+        });
+      }
 
       modal.querySelector(".modal-authors").textContent = e.authors;
       modal.querySelector(".modal-year").textContent = e.year;
-
-      }
-
       modal.querySelector(".modal-desc").textContent = e.description;
 
       const links = modal.querySelector("#exp-links");
@@ -108,9 +113,13 @@
         });
       }
 
-      const pdf = modal.querySelector(".modal-pdf");
-      pdf.hidden = !e.pdf;
-      if (e.pdf) pdf.href = e.pdf;
+      const pdfLink = modal.querySelector("#exp-pdf-link");
+      if (e.pdf) {
+        pdfLink.href = e.pdf;
+        pdfLink.hidden = false;
+      } else {
+        pdfLink.hidden = true;
+      }
       modal.showModal();
     }
 

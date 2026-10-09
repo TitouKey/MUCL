@@ -1189,6 +1189,120 @@ ol {
   object-fit: contain;
 }
 
+
+/* Homepage sponsor levels */
+.home-sponsor-levels {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 2vw, 32px);
+  width: 100%;
+  margin-top: clamp(16px, 2vw, 24px);
+}
+
+.home-sponsor-level {
+  display: contents;
+}
+
+.home-sponsor-level-header {
+  grid-column: 1;
+  align-self: start;
+}
+
+.home-sponsor-level-title {
+  margin: 0;
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.home-sponsor-level-logos {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(12px, 1.5vw, 20px);
+  align-items: center;
+}
+
+.home-sponsor-logo-link {
+  display: block;
+  background: var(--placeholder);
+  border-radius: var(--radius-lg);
+  aspect-ratio: 16 / 9;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  overflow: hidden;
+}
+
+.home-sponsor-logo-link:hover {
+  background: #DBDBDB;
+}
+
+.home-sponsor-logo-link--dark {
+  background: linear-gradient(135deg, #2A2A2A 0%, #141414 100%);
+}
+
+.home-sponsor-logo-link--dark:hover {
+  background: #2E2E2E;
+}
+
+.home-sponsor-logo-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 12%;
+  box-sizing: border-box;
+}
+
+.home-sponsor-logo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.home-sponsor-logo-text {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9B9B9B;
+  text-align: center;
+}
+
+.home-sponsor-logo-placeholder {
+  background: var(--placeholder);
+  border-radius: var(--radius-lg);
+  aspect-ratio: 16 / 9;
+}
+
+/* Official Support styling for homepage */
+.home-sponsor-level:has(.home-sponsor-level-title:contains("Official Support")) .home-sponsor-logo-link {
+  opacity: 0.7;
+  filter: grayscale(30%);
+}
+
+.home-sponsor-level:has(.home-sponsor-level-title:contains("Official Support")) .home-sponsor-logo-link:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+/* Sponsors page - force 5 columns grid */
+.sponsor-level-logos {
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: clamp(12px, 1.5vw, 20px);
+}
+
+.sponsor-logo-link {
+  aspect-ratio: 16 / 9;
+}
+
 /* ------------------------------------------------------------
    Partner page — présentation entreprise, actualités
    ------------------------------------------------------------ */
